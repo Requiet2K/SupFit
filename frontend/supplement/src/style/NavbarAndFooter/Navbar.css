@@ -1,0 +1,554 @@
+*{
+    font-family: "Montserrat", sans-serif;
+}
+
+.buttons{
+    text-decoration: none;
+    color: black;
+    transition: all .3s ease-out;
+    font-weight: 400;
+    padding: 12px 5px;
+    font-size: 16px;
+}
+
+.nav-color{
+    background-color: #ffffff;
+}
+
+.nav-item{
+    display: flex;
+}
+
+.navbar-nav{
+    flex-direction: row!important;
+    align-items: center;
+}
+
+.login{
+    padding: 8px 30px;
+    clip-path: polygon(100% 0%,100% 100%,100% 100%,15% 100%,0% 65%,0% 0%);
+    background-color: #e5e5e5;
+    border: none;
+}
+
+.searchBar{
+    justify-content: center;
+}
+
+.signup{
+    padding: 8px 30px;
+    clip-path: polygon(85% 0%,100% 35%,100% 100%,0% 100%,0% 0%);
+    background: #282b78;
+    color: white;
+    border: none;
+}
+
+.bi-person-fill{
+    color: #282b78;
+}
+
+.signin{
+    padding: 8px 30px;
+    background: #282b78;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.signin:hover{
+    background-color: rgb(36, 87, 180)
+}
+
+.login:hover{
+    background-color: #d8d8d8;
+}
+
+.signup:hover{
+    background-color: rgb(36, 87, 180)
+}
+
+.buttons:hover{
+    background-color: #e5e5e5;
+}
+
+.buttons-bar{
+    position: relative;
+    width: 100%;
+    flex-basis: auto;
+    display: flex;
+}
+
+.badges{
+    color: #2b1818
+}
+
+.nav-top{
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.search{
+    background-color: #d8d3d3!important;
+}
+
+
+.navbar{
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+}
+
+.logo{
+    width: 200px;
+    padding: 20px;
+    margin-bottom: 5px;
+}
+
+.src{
+    border-radius: 5px 0 0 5px!important;
+    border: 2px solid #d8d3d3!important;
+}
+.search{
+    border-radius: 0 5px 5px 0!important;   
+    background-color: black;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.ourForm{
+    width: 100%;
+    position: relative;
+    background: #eeeeee;
+    border: none;
+    border-radius: 0 !important;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    color: #212529;
+}
+
+.menu{
+    display: flex;
+    background-color: transparent;
+    border: none!important;
+    color: #83563b;
+    font-size: 24px;
+    transition: all .3s ease-in-out;
+    justify-content: flex-start;
+}
+
+.side-bar{
+    position: absolute;
+    top: 86px;
+    left: -100%; 
+    height: 100vh;
+    width: 100%;
+    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: left 0.25s ease, opacity 0.25s ease;
+    z-index: 999;
+    overflow-y: hidden;
+}
+
+.side-bar.d-inline {
+    left: 0; 
+    opacity: 1;
+}
+
+.navbar{
+    z-index: 999!important;
+    position: relative;
+}
+
+.side-button{
+    width: 100%;
+    padding: 0 40px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    min-height: 45px;
+    display: flex;
+    text-decoration: none;
+    color: black;
+    align-items: center;
+}
+
+.side-button:hover{
+    background-color: #282b78;
+    color: white;
+}
+
+.accIcon{
+    color: #83563b;
+}
+
+.back{
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.shop{
+    padding: 10px;
+    background-color: #e5e5e5;
+    width: 50px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(calc(100% - 10px) 0%,100% 10px,100% 100%,10px 100%,0% calc(100% - 10px),0% 0%);
+}
+
+.shop:hover{
+    background-color: #d8d8d8;
+}
+
+.amountBox{
+    position: absolute;
+    top: -9px;
+    right: -8px;
+}
+
+.buttons-bar-right{
+    display: flex;
+    align-items: center;
+}
+
+.side-bar-buttons{
+    width: 100%;
+    background-color: white;
+}
+
+@media only screen and (max-width: 768px) {
+    .logo{
+        width: 180px!important;
+    }
+}
+
+.navShadow{
+    z-index: 3;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.menu{
+    border: 1px solid #d8d8d8;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.menu td{
+    border: 1px solid #d8d8d8;
+    height: 100px;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 14px;
+    color: #fda576;
+    cursor: pointer;
+    width: 100%;
+    padding: 0;
+}
+
+.menu tr{
+    display: flex;
+    justify-content: space-between;
+}
+.menu a{
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-decoration: none;
+    align-items: center;
+}
+
+.menu .icons{
+    font-size: 1.5rem;
+    color: #232a37;
+}
+
+.menu .icon-text{
+    font-size: .8rem;
+    color: #232a37;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+
+.offer{
+    font-size: 1.3rem!important;
+}
+
+.menu td:hover{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.categories{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.menu-categories{
+    border-bottom: 3px solid #282b78;
+    padding-bottom: 3px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.side-button span{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+
+.person{
+    padding: 16px 15px!important;
+}
+
+.css-ai1ye3-MuiBadge-root .MuiBadge-badge{
+    background-color: #282b78!important;
+    border-color: #282b78!important;
+}
+
+.userLogged{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
+
+.myAcc{
+    padding: 8px 0px;
+    width: 150px;
+    clip-path: polygon(100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 0%);
+    background: #e5e5e5;
+    color: black;
+    border: none;
+    transition: all .3s;
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.myAcc:hover{
+    background: #282b78;
+    color: white;
+}
+
+.myAcc:hover .bi{
+    color: white;
+}
+
+.myAcc .bi{
+    transition: all .3s;
+    color: #282b78;
+}
+
+.bi-caret-down-fill{
+    display: flex;
+    align-items: center;
+}
+
+.dropDown-topFake{
+    height: 5px;
+    background-color: white!important;
+}
+
+.account{
+    position: relative;
+}
+
+.dropDown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    top: 35px;
+    z-index: 9999;
+    border-radius: 5px;
+    font-size: 13px;
+    align-items: center;
+}
+
+.dropDown-item{
+    background-color: #e5e5e5;
+    display: flex;
+    justify-content: flex-start;
+    text-decoration: none;
+    color: black;
+    padding: 5px 0px;
+    transition: all .3s;
+    width: 100%;
+    gap: 20px;
+    padding-left: 15px;
+    border: 0;
+}
+
+.dropDown-divider{
+    width: 100%;
+    height: 1px;
+    background-color: rgb(211, 211, 211);
+}
+
+.dropDown-item:hover {
+    background-color: #282b78;
+    color: white;
+}
+
+.rightDrawer.d-flex {
+    right: 0; 
+    opacity: 1;
+}
+
+.rightDrawer{
+    position: absolute;
+    top: 0px;
+    right: -100%;
+    height: 100vh;
+    opacity: 0;
+    transition: right .4s ease, opacity .4s ease;
+    z-index: 9999;
+}
+
+.drawer-right{
+    min-width: 250px;
+    height: 100vh;
+    background-color: #eeeeee;
+    position: absolute;
+    right: 0;
+}
+
+.off-canvas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    opacity: 0;
+}
+
+.off-canvas.d-inline{
+    opacity: .5;
+}
+
+.drawer-close{
+    font-size: 18px;
+    color: #b1b1b1;
+    transition: all .2s;
+    display: flex;
+    align-items: Center;
+    justify-content: center;
+    border: 0;
+    overflow: hidden;
+}
+
+.drawer-close:hover {
+    font-size: 20px;
+    color: black
+}
+
+.drawHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .4rem;
+    height: 62px;
+}
+
+.drawHeader span{
+    font-weight: 500;
+    font-size: 20px;
+    font-family: "PT Sans", sans-serif;
+    margin-left: 8px;
+}
+
+
+.draw-button{
+    width: 100%;
+    border: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 14px;
+    transition: all .3s;
+}
+
+.draw-left i{
+    font-size: 14px;
+}
+
+.bi-chevron-right, .bi-chevron-down{
+    font-size: 10px;
+}
+
+.draw-text{
+    font-size: 13px;
+    line-height: 1;
+    font-family: "PT Sans", sans-serif;
+}
+
+.draw-button:hover{
+    background-color: #282b78;
+    color: white!important;
+}
+
+.draw-button:hover .fa-solid{
+    color: white!important;
+}
+
+.dropElement{
+    width: 90%;
+    box-shadow: -4px 4px 5px 0 rgba(0,0,0,.15);
+    background-color: #eeeeee;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-button{
+    border: 0;
+    background-color: #eeeeee;
+    width: 100%;
+    display: flex;
+    gap: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.dropdown-button:hover{
+    background-color: white;
+    color: #282b78;
+}
+
+.fa-arrow-right{
+    font-size: 12px!important;
+    margin-top: 2px;
+}
+
+.drop-draw-text{
+    font-weight: 300;
+    color: black!important;
+    font-size: 11px;
+    font-family: "Roboto", sans-serif;
+}
+
+.dropdown-button:hover .fa-arrow-right{
+    color: #282b78!important;
+}
+
+.draw-dropdown{
+    background-color: #eeeeee;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+}
+
+.show{
+    visibility: visible;
+    opacity: 1;
+    transition: all 2s;
+    position: relative;
+}

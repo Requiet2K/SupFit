@@ -1,0 +1,148 @@
+.bread-crumb-area{
+    padding: 15px 0;
+}
+
+.bread-name{
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+}
+
+.bread-name:hover{
+    text-decoration: underline;
+}
+
+.accountSideBar-header span{
+    color: #282b78;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.bi-person-square{
+    color: #282b78;
+    font-size: 30px;
+}
+
+.bi-box-arrow-right{
+    color: black;
+    font-size: 11px;
+    font-weight: 500;
+    transition: all .4s;
+}
+
+.logoutBtn{
+    border: 0;
+    color:black;
+    padding: 0;
+    transition: all .4s;
+    margin-left: 0;
+}
+
+.logoutBtn span{
+    color:black;
+    font-size: 11px;
+    font-weight: 400;
+    transition: all .4s;
+}
+
+.logoutBtn:hover{
+    margin-left: 5px;
+}
+
+.logoutBtn:hover span, .logoutBtn:hover .bi-box-arrow-right{
+    color: #282b78;
+}
+
+.accountSideBar{
+    filter: drop-shadow(4px -4px 4px rgba(0, 0, 0, 0.15));
+    height: 100%;
+}
+
+.accountSideBar-header{
+    clip-path: polygon(85% 0%, 100% 35%, 100% 100%, 0% 100%, 0% 0%);
+    border-bottom: 2px solid #e5e5e5;
+    background-color: #eeeeee;
+    padding: 15px 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+}
+
+@media only screen and (max-width: 993px) {
+    .bi-person-square{
+        display: none;
+    }
+}
+
+.accountSideBar-items{
+    background-color: #eeeeee;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.sidebar-item{
+    font-size: 14px;
+    border: 0;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.sidebar-item-left{
+    display: flex;
+    gap: 15px;
+}
+
+.sidebar-item-left span{
+    font-family: "Roboto", sans-serif;
+}
+
+.sidebar-item-left .fa-solid{
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1px;
+    color: #282b78;
+}
+
+.bi-chevron-down{
+    font-size: 8px;
+    margin-top: 4px;
+}
+
+.account-item{
+    width: 100%;
+    background-color: transparent;
+}
+
+.drop-item{
+    border: 0;
+    font-size: 12px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0x;
+    padding: 5px 0 5px 25px;
+    background-color: transparent;
+}
+
+.drop-item .fa-solid{
+    color: #282b78;
+}
+
+.account-area button, .account-area .fa-solid{
+    transition: all .3s ease-in-out;
+}
+
+.account-area button:hover{
+    background-color: #282b78;
+    color: white;
+}
+
+.account-area button:hover .fa-solid{
+    color: white;
+}
