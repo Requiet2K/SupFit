@@ -43,7 +43,7 @@ export const Navbar = () => {
   }
 
   const handleDrawerClick = (path: string, itemNo: number) => {
-    if(path == "account"){
+    if(path == "account" || path == "order"){
       setNumberDrawer(itemNo);
     }
     else{
@@ -257,15 +257,15 @@ export const Navbar = () => {
                 </div>
                 <div className={`draw-dropdown ${numberDrawer == 1 ? "show" : ""}`}>
                   <div className="dropElement">
-                    <button className="dropdown-button" onClick={() => handleDrawerClick('account', -1)}>
+                    <button className="dropdown-button" onClick={() => handleDrawerClick('dashboard', -1)}>
                       <i className="fa-solid fa-arrow-right" style={{color: "black"}}/>
                       <span className="drop-draw-text">Dashboard</span>
                     </button>
-                    <button className="dropdown-button" onClick={() => handleDrawerClick('account', -1)}>
+                    <button className="dropdown-button" onClick={() => handleDrawerClick('information', -1)}>
                       <i className="fa-solid fa-arrow-right" style={{color: "black"}}/>
                       <span className="drop-draw-text">Personal Informations</span>
                     </button>
-                    <button className="dropdown-button" onClick={() => handleDrawerClick('account', -1)}>
+                    <button className="dropdown-button" onClick={() => handleDrawerClick('security', -1)}>
                       <i className="fa-solid fa-arrow-right" style={{color: "black"}}/>
                       <span className="drop-draw-text">Security</span>
                     </button>
@@ -274,7 +274,7 @@ export const Navbar = () => {
               </div>
               <div className="draw-div">
                 <div className="draw-item">
-                  <button className="draw-button" onClick={() => handleDrawerClick('account', (numberDrawer == 2 ? 0 : 2))}>
+                  <button className="draw-button" onClick={() => handleDrawerClick('order', (numberDrawer == 2 ? 0 : 2))}>
                     <div className="draw-left d-flex gap-2 align-items-center">
                       <i className="fa-solid fa-box align-items-center" style={{color: "#282b78"}}/>
                       <span className="draw-text">Orders</span>
@@ -288,11 +288,11 @@ export const Navbar = () => {
                 </div>
                 <div className={`draw-dropdown ${numberDrawer == 2 ? "show" : ""}`}>
                   <div className="dropElement">
-                    <button className="dropdown-button" onClick={() => handleDrawerClick('account', -1)}>
+                    <button className="dropdown-button" onClick={() => handleDrawerClick('current-orders', -1)}>
                       <i className="fa-solid fa-arrow-right" style={{color: "black"}}/>
                       <span className="drop-draw-text">Current Orders</span>
                     </button>
-                    <button className="dropdown-button" onClick={() => handleDrawerClick('account', -1)}>
+                    <button className="dropdown-button" onClick={() => handleDrawerClick('past-orders', -1)}>
                       <i className="fa-solid fa-arrow-right" style={{color: "black"}}/>
                       <span className="drop-draw-text">Past Orders</span>
                     </button>
@@ -301,7 +301,7 @@ export const Navbar = () => {
               </div>
               <div className="draw-div">
                 <div className="draw-item">
-                  <button className="draw-button">
+                  <button className="draw-button"  onClick={() => handleDrawerClick('favorites', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
                       <i className="fa-solid fa-heart align-items-center" style={{color: "#282b78"}}/>
                       <span className="draw-text">Favorites</span>
@@ -311,7 +311,7 @@ export const Navbar = () => {
               </div>
               <div className="draw-div">
                 <div className="draw-item">
-                  <button className="draw-button">
+                  <button className="draw-button"  onClick={() => handleDrawerClick('box', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
                       <i className="fa-solid fa-cart-shopping align-items-center" style={{color: "#282b78"}}/>
                       <span className="draw-text">Box</span>
@@ -321,10 +321,30 @@ export const Navbar = () => {
               </div>
               <div className="draw-div">
                 <div className="draw-item">
-                  <button className="draw-button">
+                  <button className="draw-button"  onClick={() => handleDrawerClick('addresses', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
                       <i className="fa-solid fa-map-location-dot align-items-center" style={{color: "#282b78"}}/>
                       <span className="draw-text">My addresses</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+              <div className="draw-div">
+                <div className="draw-item">
+                  <button className="draw-button"  onClick={() => handleDrawerClick('tickets', -1)}>
+                    <div className="draw-left d-flex gap-2 align-items-center">
+                      <i className="fa-solid fa-circle-question align-items-center" style={{color: "#282b78"}}/>
+                      <span className="draw-text">My Tickets</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+              <div className="draw-div">
+                <div className="draw-item">
+                  <button className="draw-button"  onClick={() => handleDrawerClick('faqs', -1)}>
+                    <div className="draw-left d-flex gap-2 align-items-center">
+                      <i className="fa-solid fa-circle-info align-items-center" style={{color: "#282b78"}}/>
+                      <span className="draw-text">FAQs</span>
                     </div>
                   </button>
                 </div>

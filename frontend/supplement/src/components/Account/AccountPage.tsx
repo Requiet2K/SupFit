@@ -1,34 +1,17 @@
-import { Breadcrumbs } from "@mui/material"
-import { Link } from "react-router-dom"
 import '../../style/AccountPage/AccountPage.css';
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectCurrentUser } from "../../redux/auth/authSlice";
+import { useNavigate } from 'react-router-dom';
 
 export const AccountPage: React.FC<{}> = () => {
 
-  const [breadNames, setBreadNames] = useState<string[]>(["account"]);
   const user = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <div className="accountPage">
-      <div className="container p-1">
-        <div className="bread-crumb-area">
-          <Breadcrumbs separator="›" aria-label="breadcrumb">
-            <Link to="/home" className="bread-name">
-              Home
-            </Link>
-            {breadNames.map((item: string) => (
-              <Link to={`/${item}`} className="bread-name" key={item}>
-                {item.charAt(0).toUpperCase() + item.slice(1)}
-              </Link>
-            ))}
-          </Breadcrumbs>
-        </div>
         <div className="account-area mb-3">
-          <div className="row h-100">
-            <div className="account-area-left col-2  d-none d-xl-inline">
               <div className="accountSideBar">
                 <div className="accountSideBar-header">
                   <div className="d-flex">
@@ -56,16 +39,16 @@ export const AccountPage: React.FC<{}> = () => {
                       <i className="bi  bi-chevron-down"></i>
                     </div>
                     <div className="drop-items">
-                      <button className="drop-item">
-                        <i className="fa-solid fa-heart"/>
+                      <button className="drop-item" onClick={() => navigate("/dashboard")}>
+                        <i className="fa-solid fa-newspaper"/>
                         <span>Dashboard</span>
                       </button>
-                      <button className="drop-item">
-                        <i className="fa-solid fa-heart"/>
+                      <button className="drop-item"  onClick={() => navigate("/information")}>
+                        <i className="fa-solid fa-gears"/>
                         <span>Informations</span>
                       </button>
-                      <button className="drop-item">
-                        <i className="fa-solid fa-heart"/>
+                      <button className="drop-item"  onClick={() => navigate("/security")}>
+                        <i className="fa-solid fa-shield-halved"/>
                         <span>Security</span>
                       </button>
                     </div>
@@ -79,41 +62,41 @@ export const AccountPage: React.FC<{}> = () => {
                       <i className="bi  bi-chevron-down"></i>
                     </div>
                     <div className="drop-items">
-                      <button className="drop-item">
-                        <i className="fa-solid fa-heart"/>
+                      <button className="drop-item" onClick={() => navigate("/current-orders")}>
+                        <i className="fa-solid fa-truck-moving"/>
                         <span>Current Orders</span>
                       </button>
-                      <button className="drop-item">
-                        <i className="fa-solid fa-heart"/>
+                      <button className="drop-item" onClick={() => navigate("/past-orders")}>
+                        <i className="fa-solid fa-truck-ramp-box"/>
                         <span>Past Orders</span>
                       </button>
                     </div>
                   </div>
-                  <button className="sidebar-item">
+                  <button className="sidebar-item"  onClick={() => navigate("/favorites")}>
                     <div className="sidebar-item-left">
                       <i className="fa-solid fa-heart"/>
                       <span>Favorites</span>
                     </div>
                   </button>
-                  <button className="sidebar-item">
+                  <button className="sidebar-item"  onClick={() => navigate("/box")}>
                     <div className="sidebar-item-left">
                       <i className="fa-solid fa-cart-shopping"/>
                       <span>Box</span>
                     </div>
                   </button>
-                  <button className="sidebar-item">
+                  <button className="sidebar-item"  onClick={() => navigate("/addresses")}>
                     <div className="sidebar-item-left">
                       <i className="fa-solid fa-map-location-dot"/>
                       <span>My Addresses</span>
                     </div>
                   </button>
-                  <button className="sidebar-item">
+                  <button className="sidebar-item"  onClick={() => navigate("/tickets")}>
                     <div className="sidebar-item-left">
                       <i className="fa-solid fa-circle-question"/>
                       <span>My Tickets</span>
                     </div>
                   </button>
-                  <button className="sidebar-item">
+                  <button className="sidebar-item"  onClick={() => navigate("/faqs")}>
                     <div className="sidebar-item-left">
                       <i className="fa-solid fa-circle-info"/>
                       <span>FAQs</span>
@@ -122,12 +105,6 @@ export const AccountPage: React.FC<{}> = () => {
                 </div>
               </div>
             </div>
-            <div className="account-area-right col-10">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, dolor perspiciatis? Sed velit quod hic ut expedita cumque culpa error a placeat, reprehenderit porro ullam neque similique, laudantium veniam accusamus ipsam? Odio, ratione? Veniam tenetur, eaque adipisci sint atque quos?
-            </div>
-          </div>
-        </div>          
-      </div>
     </div>
   )
 }

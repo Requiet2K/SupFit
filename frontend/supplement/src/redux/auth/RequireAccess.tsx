@@ -28,6 +28,7 @@ export const RequireAuth = () => {
                     if(parsedExp > currentTimestamp){
                         return true;
                     }else{
+                        showTimeoutModal();
                         dispatch(logout({}));
                         navigate("/login");
                     }
