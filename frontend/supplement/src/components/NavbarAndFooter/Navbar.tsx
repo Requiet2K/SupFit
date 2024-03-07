@@ -1,6 +1,6 @@
 import logo from "../../images/logo.png";
 import '../../style/NavbarAndFooter/Navbar.css'
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Squash as Hamburger } from 'hamburger-react'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge, { BadgeProps } from '@mui/material/Badge';
@@ -35,6 +35,35 @@ export const Navbar = () => {
     },
   }));
 
+  const navbarRef = useRef<HTMLDivElement>(null);
+  const [prevScrollpos, setPrevScrollpos] = useState(window.scrollY);
+  const [hideNav, setHideNav] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+
+      if (navbarRef.current && currentScrollPos > 130) {
+
+        if (prevScrollpos > currentScrollPos) {
+          //navbarRef.current.style.top = "0";
+          setHideNav(false);
+        } else {
+          //navbarRef.current.style.top = "-141px";
+          setHideNav(true); 
+        }
+
+        setPrevScrollpos(currentScrollPos);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollpos]);
+
   const dispatch = useDispatch();
   
   const handleLogout= async () => {
@@ -62,9 +91,10 @@ export const Navbar = () => {
     }, [rightDrawer, sideBar]);
 
   return (
-    <div className="navbar p-0">
+    <div className={`navbar p-0 ${hideNav ? "navbar-hide" : ""}`} ref={navbarRef}>
+      <button className={`show-nav ${hideNav ? "show-true" : ""}`} onClick={() => setHideNav(false)}><i className="fa-solid fa-caret-down"/></button>
       {/* Desktop version */}
-      <nav className="navbar p-0 d-none d-md-inline w-100">
+      <nav className="w-100 p-0 d-none d-md-inline w-100">
         <div className="d-flex flex-column w-100 nav-color">
           <div className="container p-0">
             <div className="d-flex align-items-center w-100 justify-content-between nav-top">

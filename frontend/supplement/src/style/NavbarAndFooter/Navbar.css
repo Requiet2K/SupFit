@@ -158,7 +158,47 @@
 
 .navbar{
     z-index: 999!important;
-    position: relative;
+    position: fixed!important;
+    top: 0;
+    width: 100%;
+    transition: top 0.3s ease-in-out;
+}
+
+.navbar-hide{
+    top: -141px;
+}
+
+.show-nav{
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    visibility: hidden;
+    padding: 5px 13px;
+    background-color: #e5e5e5;
+    border-radius: 20px;
+    border: none;
+    display: flex;
+    align-items: flex-end;
+    transition: background-color .3s;
+}
+
+.show-nav .fa-solid{
+    margin-top: 5px;
+    color: #282b78;
+    transition: color .3s;
+}
+
+.show-nav:hover .fa-solid{
+    color: #e5e5e5;
+}
+
+.show-nav:hover{
+    background-color: #282b78;
+}
+
+.show-true{
+    visibility: visible;
+    top: 130px;
 }
 
 .side-button{
@@ -176,10 +216,6 @@
 .side-button:hover{
     background-color: #282b78;
     color: white;
-}
-
-.accIcon{
-    color: #83563b;
 }
 
 .back{
