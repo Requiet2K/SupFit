@@ -43,13 +43,11 @@ export const Navbar = () => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
 
-      if (navbarRef.current && currentScrollPos > 130) {
+      if (navbarRef.current && currentScrollPos > 125) {
 
         if (prevScrollpos > currentScrollPos) {
-          //navbarRef.current.style.top = "0";
           setHideNav(false);
         } else {
-          //navbarRef.current.style.top = "-141px";
           setHideNav(true); 
         }
 
@@ -98,7 +96,7 @@ export const Navbar = () => {
         <div className="d-flex flex-column w-100 nav-color">
           <div className="container p-0">
             <div className="d-flex align-items-center w-100 justify-content-between nav-top">
-              <NavLink className="navbar-brand p-0" to="/home">
+              <NavLink className="navbar-brand p-0 mt-1" to="/home">
                   <img src={logo} className="logo"/>
               </NavLink>
               <div className="d-flex align-items-center w-50 searchBar">
@@ -202,22 +200,22 @@ export const Navbar = () => {
                 <tbody className="w-100">
                   <tr className="w-100">
                     <td>
-                      <NavLink to="/login" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
+                      <NavLink to="/account" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
                         <PiUserCircleDuotone className="icons"/>
                         <span className="icon-text">My Account</span>
                       </NavLink>
                     </td>
                     <td>
-                      <a href="">
-                        <GiCardboardBoxClosed className="icons"/>
-                        <span className="icon-text">My Box</span>
-                      </a>
+                        <NavLink to="/box" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
+                          <GiCardboardBoxClosed className="icons"/>
+                          <span className="icon-text">My Box</span>
+                        </NavLink>
                     </td>
                     <td>
-                      <a href="">
-                        <GiPriceTag className="icons offer"/>
-                        <span className="icon-text">Offers</span>
-                      </a>
+                        <NavLink to="/offers" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
+                          <GiPriceTag className="icons offer"/>
+                          <span className="icon-text">Offers</span>
+                        </NavLink>
                     </td>
                   </tr>
                 </tbody>

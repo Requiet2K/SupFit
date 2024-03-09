@@ -4,7 +4,7 @@
 
 .buttons{
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
     transition: all .3s ease-out;
     font-weight: 400;
     padding: 12px 5px;
@@ -12,7 +12,7 @@
 }
 
 .nav-color{
-    background-color: #ffffff;
+    background-color: var(--text-color-2);
 }
 
 .nav-item{
@@ -27,7 +27,7 @@
 .login{
     padding: 8px 30px;
     clip-path: polygon(100% 0%,100% 100%,100% 100%,15% 100%,0% 65%,0% 0%);
-    background-color: #e5e5e5;
+    background-color: var(--primary-color);
     border: none;
 }
 
@@ -38,37 +38,37 @@
 .signup{
     padding: 8px 30px;
     clip-path: polygon(85% 0%,100% 35%,100% 100%,0% 100%,0% 0%);
-    background: #282b78;
-    color: white;
+    background: var(--main-color);
+    color: var(--text-color-2);
     border: none;
 }
 
 .bi-person-fill{
-    color: #282b78;
+    color: var(--main-color);
 }
 
 .signin{
     padding: 8px 30px;
-    background: #282b78;
-    color: white;
+    background: var(--main-color);
+    color: var(--text-color-2);
     border: none;
     border-radius: 5px;
 }
 
 .signin:hover{
-    background-color: rgb(36, 87, 180)
+    background-color: var(--main-color-hover);
 }
 
 .login:hover{
-    background-color: #d8d8d8;
+    background-color: var(--primary-color-hover);
 }
 
 .signup:hover{
-    background-color: rgb(36, 87, 180)
+    background-color: var(--main-color-hover);
 }
 
 .buttons:hover{
-    background-color: #e5e5e5;
+    background-color: var(--primary-color);
 }
 
 .buttons-bar{
@@ -79,20 +79,20 @@
 }
 
 .badges{
-    color: #2b1818
+    color: var(--text-color);
 }
 
 .nav-top{
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--primary-color);
 }
 
 .search{
-    background-color: #d8d3d3!important;
+    background-color: var(--primary-color-hover)!important;
 }
 
 
 .navbar{
-    background-color: #ffffff;
+    background-color: var(--main-bg-color);
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
 }
 
@@ -104,20 +104,20 @@
 
 .src{
     border-radius: 5px 0 0 5px!important;
-    border: 2px solid #d8d3d3!important;
+    border: 2px solid var(--primary-color-hover)!important;
 }
 .search{
     border-radius: 0 5px 5px 0!important;   
-    background-color: black;
+    background-color: var(--text-color);
     border: none;
-    color: white;
+    color: var(--text-color-2);
     border-radius: 5px;
 }
 
 .ourForm{
     width: 100%;
     position: relative;
-    background: #eeeeee;
+    background: var(--secondary-color);
     border: none;
     border-radius: 0 !important;
     height: 30px;
@@ -130,7 +130,6 @@
     display: flex;
     background-color: transparent;
     border: none!important;
-    color: #83563b;
     font-size: 24px;
     transition: all .3s ease-in-out;
     justify-content: flex-start;
@@ -138,7 +137,7 @@
 
 .side-bar{
     position: absolute;
-    top: 86px;
+    top: 74px;
     left: -100%; 
     height: 100vh;
     width: 100%;
@@ -161,7 +160,7 @@
     position: fixed!important;
     top: 0;
     width: 100%;
-    transition: top 0.3s ease-in-out;
+    transition: top 0.2s ease-in-out;
 }
 
 .navbar-hide{
@@ -174,7 +173,7 @@
     top: 0px;
     visibility: hidden;
     padding: 5px 13px;
-    background-color: #e5e5e5;
+    background-color: var(--primary-color);
     border-radius: 20px;
     border: none;
     display: flex;
@@ -184,16 +183,20 @@
 
 .show-nav .fa-solid{
     margin-top: 5px;
-    color: #282b78;
+    color: var(--main-color);
     transition: color .3s;
 }
 
 .show-nav:hover .fa-solid{
-    color: #e5e5e5;
+    color: var(--primary-color);
+}
+
+.draw-left .fa-solid{
+    transition: all .5s;
 }
 
 .show-nav:hover{
-    background-color: #282b78;
+    background-color: var(--main-color);
 }
 
 .show-true{
@@ -209,13 +212,13 @@
     min-height: 45px;
     display: flex;
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
     align-items: center;
 }
 
 .side-button:hover{
-    background-color: #282b78;
-    color: white;
+    background-color: var(--main-color);
+    color: var(--text-color-2);
 }
 
 .back{
@@ -225,7 +228,7 @@
 
 .shop{
     padding: 10px;
-    background-color: #e5e5e5;
+    background-color: var(--primary-color);
     width: 50px;
     height: 40px;
     display: flex;
@@ -235,7 +238,7 @@
 }
 
 .shop:hover{
-    background-color: #d8d8d8;
+    background-color: var(--primary-color-hover);
 }
 
 .amountBox{
@@ -251,7 +254,7 @@
 
 .side-bar-buttons{
     width: 100%;
-    background-color: white;
+    background-color: var(--text-color-2);
 }
 
 @media only screen and (max-width: 768px) {
@@ -266,18 +269,17 @@
 }
 
 .menu{
-    border: 1px solid #d8d8d8;
+    border: 1px solid var(--primary-color-hover);
     border-collapse: collapse;
     width: 100%;
 }
 
 .menu td{
-    border: 1px solid #d8d8d8;
+    border: 1px solid var(--primary-color-hover);
     height: 100px;
     text-align: center;
     font-size: 1.2rem;
     line-height: 14px;
-    color: #fda576;
     cursor: pointer;
     width: 100%;
     padding: 0;
@@ -300,12 +302,12 @@
 
 .menu .icons{
     font-size: 1.5rem;
-    color: #232a37;
+    color: var(--text-color);
 }
 
 .menu .icon-text{
     font-size: .8rem;
-    color: #232a37;
+    color: var(--text-color);
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
 }
@@ -325,7 +327,7 @@
 }
 
 .menu-categories{
-    border-bottom: 3px solid #282b78;
+    border-bottom: 3px solid var(--main-color);
     padding-bottom: 3px;
     cursor: pointer;
     font-weight: bold;
@@ -341,8 +343,8 @@
 }
 
 .css-ai1ye3-MuiBadge-root .MuiBadge-badge{
-    background-color: #282b78!important;
-    border-color: #282b78!important;
+    background-color: var(--main-color)!important;
+    border-color: var(--main-color)!important;
 }
 
 .userLogged{
@@ -355,8 +357,8 @@
     padding: 8px 0px;
     width: 150px;
     clip-path: polygon(100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 0%);
-    background: #e5e5e5;
-    color: black;
+    background: var(--primary-color);
+    color: var(--text-color);
     border: none;
     transition: all .3s;
     display: flex;
@@ -365,17 +367,17 @@
 }
 
 .myAcc:hover{
-    background: #282b78;
-    color: white;
+    background: var(--main-color);
+    color: var(--text-color-2);
 }
 
 .myAcc:hover .bi{
-    color: white;
+    color: var(--text-color-2);
 }
 
 .myAcc .bi{
     transition: all .3s;
-    color: #282b78;
+    color: var(--main-color);
 }
 
 .bi-caret-down-fill{
@@ -385,7 +387,7 @@
 
 .dropDown-topFake{
     height: 5px;
-    background-color: white!important;
+    background-color: var(--text-color-2)!important;
 }
 
 .account{
@@ -406,11 +408,11 @@
 }
 
 .dropDown-item{
-    background-color: #e5e5e5;
+    background-color: var(--primary-color);
     display: flex;
     justify-content: flex-start;
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
     padding: 5px 0px;
     transition: all .3s;
     width: 100%;
@@ -426,8 +428,8 @@
 }
 
 .dropDown-item:hover {
-    background-color: #282b78;
-    color: white;
+    background-color: var(--main-color);
+    color: var(--text-color-2);
 }
 
 .rightDrawer.d-flex {
@@ -448,7 +450,7 @@
 .drawer-right{
     min-width: 250px;
     height: 100vh;
-    background-color: #eeeeee;
+    background-color: var(--secondary-color);
     position: absolute;
     right: 0;
 }
@@ -460,7 +462,7 @@
     z-index: 1040;
     width: 100vw;
     height: 100vh;
-    background-color: #000;
+    background-color: var(--text-color);
     opacity: 0;
 }
 
@@ -470,7 +472,7 @@
 
 .drawer-close{
     font-size: 18px;
-    color: #b1b1b1;
+    color: var(--secondary-color-hover);
     transition: all .2s;
     display: flex;
     align-items: Center;
@@ -481,7 +483,7 @@
 
 .drawer-close:hover {
     font-size: 20px;
-    color: black
+    color: var(--text-color);
 }
 
 .drawHeader{
@@ -524,18 +526,18 @@
 }
 
 .draw-button:hover{
-    background-color: #282b78;
-    color: white!important;
+    background-color: var(--main-color);
+    color: var(--text-color-2)!important;
 }
 
 .draw-button:hover .fa-solid{
-    color: white!important;
+    color: var(--text-color-2)!important;
 }
 
 .dropElement{
     width: 90%;
     box-shadow: -4px 4px 5px 0 rgba(0,0,0,.15);
-    background-color: #eeeeee;
+    background-color: var(--secondary-color);
     gap: 5px;
     display: flex;
     flex-direction: column;
@@ -543,7 +545,7 @@
 
 .dropdown-button{
     border: 0;
-    background-color: #eeeeee;
+    background-color: var(--secondary-color);
     width: 100%;
     display: flex;
     gap: 5px;
@@ -552,8 +554,8 @@
 }
 
 .dropdown-button:hover{
-    background-color: white;
-    color: #282b78;
+    background-color: var(--text-color-2);
+    color: var(--main-color);
 }
 
 .fa-arrow-right{
@@ -563,17 +565,17 @@
 
 .drop-draw-text{
     font-weight: 300;
-    color: black!important;
+    color: var(--text-color)!important;
     font-size: 11px;
     font-family: "Roboto", sans-serif;
 }
 
 .dropdown-button:hover .fa-arrow-right{
-    color: #282b78!important;
+    color: var(--main-color)!important;
 }
 
 .draw-dropdown{
-    background-color: #eeeeee;
+    background-color: var(--secondary-color);
     width: 100%;
     display: flex;
     justify-content: center;

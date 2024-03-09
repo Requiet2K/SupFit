@@ -15,8 +15,6 @@ import { Box } from './components/Account/layout/Box'
 import { Addresses } from './components/Account/layout/Addresses'
 import { Ticket } from './components/Account/layout/Ticket'
 import { Faqs } from './components/Account/layout/Faqs'
-import { ThemeProvider } from "styled-components";
-import { darkTheme, lightTheme } from "./style/theme/theme"
 
 function App() {
     return (

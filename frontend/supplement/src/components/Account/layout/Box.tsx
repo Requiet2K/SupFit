@@ -9,7 +9,7 @@ export const Box = () => {
       <div className="container p-1">
         <div className="row h-100">
           <BreadCrumb path={["box"]}/>
-          <div className="col-2">
+          <div className="col-2 d-none d-lg-inline">
             <div className="account-left">
               <AccountPage />
             </div>

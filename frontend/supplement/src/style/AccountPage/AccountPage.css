@@ -4,7 +4,7 @@
 
 .bread-name{
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
     font-size: 12px;
 }
 
@@ -13,18 +13,18 @@
 }
 
 .accountSideBar-header span{
-    color: #282b78;
+    color: var(--main-color);
     font-weight: 700;
     font-size: 12px;
 }
 
 .bi-person-square{
-    color: #282b78;
+    color: var(--main-color);
     font-size: 30px;
 }
 
 .bi-box-arrow-right{
-    color: black;
+    color: var(--text-color);
     font-size: 11px;
     font-weight: 500;
     transition: all .4s;
@@ -32,14 +32,14 @@
 
 .logoutBtn{
     border: 0;
-    color:black;
+    color:var(--text-color);
     padding: 0;
     transition: all .4s;
     margin-left: 0;
 }
 
 .logoutBtn span{
-    color:black;
+    color:var(--text-color);
     font-size: 11px;
     font-weight: 400;
     transition: all .4s;
@@ -50,7 +50,7 @@
 }
 
 .logoutBtn:hover span, .logoutBtn:hover .bi-box-arrow-right{
-    color: #282b78;
+    color: var(--main-color);
 }
 
 .accountSideBar{
@@ -60,8 +60,8 @@
 
 .accountSideBar-header{
     clip-path: polygon(85% 0%, 100% 35%, 100% 100%, 0% 100%, 0% 0%);
-    border-bottom: 2px solid #e5e5e5;
-    background-color: #eeeeee;
+    border-bottom: 2px solid var(--primary-color);
+    background-color: var(--secondary-color);
     padding: 15px 0;
     display: flex;
     width: 100%;
@@ -76,7 +76,7 @@
 }
 
 .accountSideBar-items{
-    background-color: #eeeeee;
+    background-color: var(--secondary-color);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -105,7 +105,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 1px;
-    color: #282b78;
+    color: var(--main-color);
 }
 
 .bi-chevron-down{
@@ -131,7 +131,7 @@
 }
 
 .drop-item .fa-solid{
-    color: #282b78;
+    color: var(--main-color);
 }
 
 .account-area button, .account-area .fa-solid{
@@ -139,10 +139,10 @@
 }
 
 .account-area button:hover{
-    background-color: #282b78;
-    color: white;
+    background-color: var(--main-color);
+    color: var(--text-color-2);
 }
 
 .account-area button:hover .fa-solid{
-    color: white;
+    color: var(--text-color-2);
 }
