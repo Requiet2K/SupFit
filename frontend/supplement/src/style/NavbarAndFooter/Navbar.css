@@ -1,0 +1,597 @@
+*{
+    font-family: "Montserrat", sans-serif;
+}
+
+.buttons{
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all .3s ease-out;
+    font-weight: 400;
+    padding: 12px 5px;
+    font-size: 16px;
+}
+
+.nav-color{
+    background-color: var(--text-color-2);
+}
+
+.nav-item{
+    display: flex;
+}
+
+.navbar-nav{
+    flex-direction: row!important;
+    align-items: center;
+}
+
+.login{
+    padding: 8px 30px;
+    clip-path: polygon(100% 0%,100% 100%,100% 100%,15% 100%,0% 65%,0% 0%);
+    background-color: var(--primary-color);
+    border: none;
+}
+
+.searchBar{
+    justify-content: center;
+}
+
+.signup{
+    padding: 8px 30px;
+    clip-path: polygon(85% 0%,100% 35%,100% 100%,0% 100%,0% 0%);
+    background: var(--main-color);
+    color: var(--text-color-2);
+    border: none;
+}
+
+.bi-person-fill{
+    color: var(--main-color);
+}
+
+.signin{
+    padding: 8px 30px;
+    background: var(--main-color);
+    color: var(--text-color-2);
+    border: none;
+    border-radius: 5px;
+}
+
+.signin:hover{
+    background-color: var(--main-color-hover);
+}
+
+.login:hover{
+    background-color: var(--primary-color-hover);
+}
+
+.signup:hover{
+    background-color: var(--main-color-hover);
+}
+
+.buttons:hover{
+    background-color: var(--primary-color);
+}
+
+.buttons-bar{
+    position: relative;
+    width: 100%;
+    flex-basis: auto;
+    display: flex;
+}
+
+.badges{
+    color: var(--text-color);
+}
+
+.nav-top{
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.search{
+    background-color: var(--primary-color-hover)!important;
+}
+
+
+.navbar{
+    background-color: var(--main-bg-color);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+}
+
+.logo{
+    width: 200px;
+    padding: 20px;
+    margin-bottom: 5px;
+}
+
+.src{
+    border-radius: 5px 0 0 5px!important;
+    border: 2px solid var(--primary-color-hover)!important;
+}
+.search{
+    border-radius: 0 5px 5px 0!important;   
+    background-color: var(--text-color);
+    border: none;
+    color: var(--text-color-2);
+    border-radius: 5px;
+}
+
+.ourForm{
+    width: 100%;
+    position: relative;
+    background: var(--secondary-color);
+    border: none;
+    border-radius: 0 !important;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    color: #212529;
+}
+
+.menu{
+    display: flex;
+    background-color: transparent;
+    border: none!important;
+    font-size: 24px;
+    transition: all .3s ease-in-out;
+    justify-content: flex-start;
+}
+
+.side-bar{
+    position: absolute;
+    top: 74px;
+    left: -100%; 
+    height: 100vh;
+    width: 100%;
+    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: left 0.25s ease, opacity 0.25s ease;
+    z-index: 999;
+    overflow-y: hidden;
+}
+
+.side-bar.d-inline {
+    left: 0; 
+    opacity: 1;
+}
+
+.navbar{
+    z-index: 999!important;
+    position: fixed!important;
+    top: 0;
+    width: 100%;
+    transition: top 0.2s ease-in-out;
+}
+
+.navbar-hide{
+    top: -141px;
+}
+
+.show-nav{
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    visibility: hidden;
+    padding: 5px 13px;
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    border: none;
+    display: flex;
+    align-items: flex-end;
+    transition: background-color .3s;
+}
+
+.show-nav .fa-solid{
+    margin-top: 5px;
+    color: var(--main-color);
+    transition: color .3s;
+}
+
+.show-nav:hover .fa-solid{
+    color: var(--primary-color);
+}
+
+.draw-left .fa-solid{
+    transition: all .5s;
+}
+
+.show-nav:hover{
+    background-color: var(--main-color);
+}
+
+.show-true{
+    visibility: visible;
+    top: 130px;
+}
+
+.side-button{
+    width: 100%;
+    padding: 0 40px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    min-height: 45px;
+    display: flex;
+    text-decoration: none;
+    color: var(--text-color);
+    align-items: center;
+}
+
+.side-button:hover{
+    background-color: var(--main-color);
+    color: var(--text-color-2);
+}
+
+.back{
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.shop{
+    padding: 10px;
+    background-color: var(--primary-color);
+    width: 50px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(calc(100% - 10px) 0%,100% 10px,100% 100%,10px 100%,0% calc(100% - 10px),0% 0%);
+}
+
+.shop:hover{
+    background-color: var(--primary-color-hover);
+}
+
+.amountBox{
+    position: absolute;
+    top: -9px;
+    right: -8px;
+}
+
+.buttons-bar-right{
+    display: flex;
+    align-items: center;
+}
+
+.side-bar-buttons{
+    width: 100%;
+    background-color: var(--text-color-2);
+}
+
+@media only screen and (max-width: 768px) {
+    .logo{
+        width: 180px!important;
+    }
+}
+
+.navShadow{
+    z-index: 3;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.menu{
+    border: 1px solid var(--primary-color-hover);
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.menu td{
+    border: 1px solid var(--primary-color-hover);
+    height: 100px;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 14px;
+    cursor: pointer;
+    width: 100%;
+    padding: 0;
+}
+
+.menu tr{
+    display: flex;
+    justify-content: space-between;
+}
+.menu a{
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-decoration: none;
+    align-items: center;
+}
+
+.menu .icons{
+    font-size: 1.5rem;
+    color: var(--text-color);
+}
+
+.menu .icon-text{
+    font-size: .8rem;
+    color: var(--text-color);
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+
+.offer{
+    font-size: 1.3rem!important;
+}
+
+.menu td:hover{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.categories{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.menu-categories{
+    border-bottom: 3px solid var(--main-color);
+    padding-bottom: 3px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.side-button span{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+
+.person{
+    padding: 16px 15px!important;
+}
+
+.css-ai1ye3-MuiBadge-root .MuiBadge-badge{
+    background-color: var(--main-color)!important;
+    border-color: var(--main-color)!important;
+}
+
+.userLogged{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
+
+.myAcc{
+    padding: 8px 0px;
+    width: 150px;
+    clip-path: polygon(100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 0%);
+    background: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    transition: all .3s;
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.myAcc:hover{
+    background: var(--main-color);
+    color: var(--text-color-2);
+}
+
+.myAcc:hover .bi{
+    color: var(--text-color-2);
+}
+
+.myAcc .bi{
+    transition: all .3s;
+    color: var(--main-color);
+}
+
+.bi-caret-down-fill{
+    display: flex;
+    align-items: center;
+}
+
+.dropDown-topFake{
+    height: 5px;
+    background-color: var(--text-color-2)!important;
+}
+
+.account{
+    position: relative;
+}
+
+.dropDown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    top: 35px;
+    z-index: 9999;
+    border-radius: 5px;
+    font-size: 13px;
+    align-items: center;
+}
+
+.dropDown-item{
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: flex-start;
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 5px 0px;
+    transition: all .3s;
+    width: 100%;
+    gap: 20px;
+    padding-left: 15px;
+    border: 0;
+}
+
+.dropDown-divider{
+    width: 100%;
+    height: 1px;
+    background-color: rgb(211, 211, 211);
+}
+
+.dropDown-item:hover {
+    background-color: var(--main-color);
+    color: var(--text-color-2);
+}
+
+.rightDrawer.d-flex {
+    right: 0; 
+    opacity: 1;
+}
+
+.rightDrawer{
+    position: absolute;
+    top: 0px;
+    right: -100%;
+    height: 100vh;
+    opacity: 0;
+    transition: right .4s ease, opacity .4s ease;
+    z-index: 9999;
+}
+
+.drawer-right{
+    min-width: 250px;
+    height: 100vh;
+    background-color: var(--secondary-color);
+    position: absolute;
+    right: 0;
+}
+
+.off-canvas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--text-color);
+    opacity: 0;
+}
+
+.off-canvas.d-inline{
+    opacity: .5;
+}
+
+.drawer-close{
+    font-size: 18px;
+    color: var(--secondary-color-hover);
+    transition: all .2s;
+    display: flex;
+    align-items: Center;
+    justify-content: center;
+    border: 0;
+    overflow: hidden;
+}
+
+.drawer-close:hover {
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+.drawHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .4rem;
+    height: 62px;
+}
+
+.drawHeader span{
+    font-weight: 500;
+    font-size: 20px;
+    font-family: "PT Sans", sans-serif;
+    margin-left: 8px;
+}
+
+
+.draw-button{
+    width: 100%;
+    border: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 14px;
+    transition: all .3s;
+}
+
+.draw-left i{
+    font-size: 14px;
+}
+
+.bi-chevron-right, .bi-chevron-down{
+    font-size: 10px;
+}
+
+.draw-text{
+    font-size: 13px;
+    line-height: 1;
+    font-family: "PT Sans", sans-serif;
+}
+
+.draw-button:hover{
+    background-color: var(--main-color);
+    color: var(--text-color-2)!important;
+}
+
+.draw-button:hover .fa-solid{
+    color: var(--text-color-2)!important;
+}
+
+.dropElement{
+    width: 90%;
+    box-shadow: -4px 4px 5px 0 rgba(0,0,0,.15);
+    background-color: var(--secondary-color);
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-button{
+    border: 0;
+    background-color: var(--secondary-color);
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.dropdown-button:hover{
+    background-color: var(--text-color-2);
+    color: var(--main-color);
+}
+
+.drop-icon{
+    font-size: 12px!important;
+    margin-top: 1px;
+    color: var(--main-color);
+}
+
+.drop-draw-text{
+    font-weight: 300;
+    color: var(--text-color)!important;
+    font-size: 11px;
+    font-family: "Roboto", sans-serif;
+}
+
+.dropdown-button:hover .fa-arrow-right{
+    color: var(--main-color)!important;
+}
+
+.draw-dropdown{
+    background-color: var(--secondary-color);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+}
+
+.show{
+    visibility: visible;
+    opacity: 1;
+    transition: all 2s;
+    position: relative;
+}
+
+.logoutBtn:hover{
+    background-color: transparent!important;
+}

@@ -1,0 +1,25 @@
+.form-control {
+    &[type="search"] {
+        &::-webkit-search-cancel-button {
+        cursor: pointer; 
+        }
+  }
+}
+
+body {
+  overflow-x: hidden;
+}
+
+#root{
+  overflow: hidden;
+}
+
+.contentItems{
+  margin-top: 132px;
+}
+
+@media only screen and (max-width: 768px) {
+  .contentItems{
+    margin-top: 113px;
+  }
+}

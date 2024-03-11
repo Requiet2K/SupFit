@@ -1,0 +1,134 @@
+footer{
+    box-shadow: 4px 4px 4px 4px rgba(0,0,0,.4);
+    font-family: "Roboto", sans-serif;
+    background-color: var(--main-bg-color);
+}
+
+.footerTop{
+    padding: 30px;
+    border-bottom: 1px solid var(--primary-color-hover);
+}
+
+.icon-text{
+    text-align: center;
+}
+
+.icon{
+    width: 65px;
+    height: 65px;
+    position: relative;
+    border-radius: 50%;
+    background: var(--primary-color-hover);
+    box-shadow: 0 0 0 6px var(--cardBackground);
+    font-size: 45px;
+    color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trustItem{
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.src{
+    border-radius: 5px 0 0 5px!important;
+    border: 2px solid var(--primary-color-hover)!important;
+}
+.search{
+    border-radius: 0 5px 5px 0!important;   
+    background-color: var(--text-color);
+    border: none;
+    color: var(--text-color-2);
+    border-radius: 5px;
+}
+
+.footerText h5{
+    border-bottom: 1px solid var(--text-color);
+    padding-bottom: .5rem;
+}
+
+.footer-list{
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.footer-list li{
+    list-style: none;
+}
+
+.footer-list a{
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--text-color);
+    left: 0;
+    transition: left 0.2s ease;
+    position: relative;
+}
+
+.footer-list a:hover {
+    left: 5px;
+}
+
+.footerMid{
+    border-bottom: 1px solid var(--primary-color-hover);
+}
+
+.footerBottom p{
+    font-size: 12px;
+    margin: 0;
+}
+
+.footerBottom a{
+    text-decoration: none;
+}
+
+.footerBottom{
+    padding: .5rem;
+}
+
+.contact-icon{
+    width: 50px;
+    height: 50px;
+    background: var(--main-color);
+    font-size: 20px;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 4px 4px 0 rgba(0,0,0,.25);
+}
+
+.text{
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.searchBar{
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.contact{
+    background-color: var(--primary-color);
+    clip-path: polygon(calc(100% - 17px) 0%,100% 17px,100% 100%,17px 100%,0% calc(100% - 17px),0% 0%);
+}
+
+.payments{
+    border: 0;
+    width: 200px;
+}
+
+@media only screen and (max-width: 768px) {
+    .footerText h5{
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,13 @@
+:root {
+    --main-bg-color: white;
+    --secondary-bg-color: #bec5d1;
+    --main-color: #282b78;
+    --main-color-hover: #1d4d99;
+    --main-color-dark: #181b61;
+    --primary-color: #e5e5e5;
+    --secondary-color: #eeeeee;
+    --primary-color-hover: #d8d8d8;
+    --secondary-color-hover: #b1b1b1;
+    --text-color: black;
+    --text-color-2: white;
+}
