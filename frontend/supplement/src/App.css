@@ -23,3 +23,11 @@ body {
     margin-top: 113px;
   }
 }
+
+.swal2-height-auto {
+  padding: 0!important;
+}
+
+.swal2-container {
+  z-index: 99999999;
+}

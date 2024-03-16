@@ -55,3 +55,57 @@ export const showTimeoutModal = async () => {
     }
 };
 
+export const showUpdateUserModal = async () => {
+    try {
+        const result = await Swal.fire({
+            title: "Successfully updated.",
+            text: "Your personal information changes has been saved.",
+            icon: 'success',
+            timer: 2000,
+            timerProgressBar: true,
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const showUpdateUserModalWarning = async () => {
+    try {
+        const result = await Swal.fire({
+            title: "No changes detected.",
+            icon: 'warning',
+            timer: 2000,
+            timerProgressBar: true,
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const showInvalidPhoneNumber = async () => {
+    try {
+        const result = await Swal.fire({
+            title: "Invalid phone number!",
+            icon: 'error',
+            timer: 2000,
+            timerProgressBar: true,
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const showSuccessModal = async (title: string, text: string) => {
+    try {
+        const result = await Swal.fire({
+            title,
+            text,
+            icon: 'success',
+            timer: 2000,
+            timerProgressBar: true,
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+

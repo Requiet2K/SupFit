@@ -257,9 +257,9 @@
 
 .errors{
     font-size: 10px;
-    width: 100%;
+    width: 100%!important;
     color: red;
-    margin-left: 1rem;
+    margin-left: 1rem!important;
 }
 
 .buttonDisable{

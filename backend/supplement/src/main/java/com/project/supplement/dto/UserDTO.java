@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Null;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -22,7 +23,7 @@ public class UserDTO {
     @Nullable
     private String address;
     @Nullable
-    private Date birthDay;
+    private LocalDate birthDate;
     @Nullable
     private String gender;
     @Nullable

@@ -1,5 +1,6 @@
 package com.project.supplement.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.supplement.security.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -50,9 +52,9 @@ public class User implements UserDetails {
     @Column(name = "phone_number", length = 12)
     private String phoneNumber;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern="dd-MM-yyyy")
     @Column(name = "birth_date")
-    private Date birthDay;
+    private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")

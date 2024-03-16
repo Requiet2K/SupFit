@@ -3,8 +3,8 @@ import { AuthState } from "../../types/loginTypes"
 import { jwtDecode } from "jwt-decode";
 
 const initialState: AuthState = {
-    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : undefined,
-    token: localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token') as string) : undefined,
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : null,
+    token: localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token') as string) : null,
 };
 
 const authSlice = createSlice({
@@ -12,7 +12,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state: AuthState, action) => {
-            const { user, token } = action.payload
+            const { user, token } = action.payload;
             state.user = user;
             state.token = token;
             localStorage.setItem('user', JSON.stringify(user));
@@ -20,13 +20,13 @@ const authSlice = createSlice({
             localStorage.setItem('exp', JSON.stringify(jwtDecode(token).exp));
         },
         logout: (state, action) => {
-            state.user = undefined
-            state.token = undefined
+            state.user = undefined;
+            state.token = undefined;
             localStorage.removeItem('user');
             localStorage.removeItem('token');
             localStorage.removeItem('exp');
             localStorage.setItem('userLoggedIn', "false");
-        }
+        },
     },
 })
 

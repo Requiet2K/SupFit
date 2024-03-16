@@ -1,0 +1,238 @@
+*{
+    font-family: "Roboto";
+}
+.changeTimeout, .changePass{
+    background: linear-gradient(to right, #22186E, #0E044B);
+    height: 250px;
+    padding: 50px 25px;
+    border-radius: 25px;
+    width: 80%;
+    display: flex;
+    gap: 25px;
+    cursor:pointer;
+    transition: transform 0.3s ease-in-out; 
+}
+
+
+.changeTimeout:hover, .changePass:hover{ 
+    transform: scale(1.04); 
+    background: linear-gradient(to right, #1b105a,  #0a023b);
+} 
+
+.content h4{
+    color: var(--text-color-2);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-family: "Roboto", sans-serif;
+    letter-spacing: 1px;
+    font-size: 20px;
+    width: 100%;
+}
+
+.text-span{
+    display: flex;
+    color: var(--text-color-2);
+    text-align: center;
+    font-size: 12px;
+}
+
+.security-selection{
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalPass{
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to right, #22186E, #0E044B);
+    top: -100%;
+    left: 0;
+    z-index: 9999;
+    transition: top 0.3s ease; 
+    display: flex;
+}
+
+.showPassModal{
+    top:0;
+}
+
+.modal-left{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal-input{
+    padding: 5px;
+}
+
+.modal-right{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-field{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 45px;
+    width: 60%;
+    margin-left: 300px;
+}
+
+.modal-label{
+    color: var(--text-color-2);
+}
+
+.closeModal{
+    position: absolute;
+    top: 50px;
+    right: 100px;
+}
+
+.closeModal .fa-regular{
+    color: var(--text-color-2);
+    font-size: 52px;
+    transition: all .3s;
+    cursor: pointer;
+}
+
+.closeModal .fa-regular:hover{
+    color: rgb(0, 140, 255);
+    font-size: 52px;
+}
+
+.showPassIcon{
+    position: absolute;
+    top: 37%;
+    left: 10%;
+}
+
+.showPassIcon .bi{
+    font-size: 100px;
+    color: var(--text-color-2);
+    transition: all .3s;
+    cursor: pointer;
+}
+
+.showPassIcon .bi:hover{
+    color: rgb(4, 187, 187);
+}
+
+.changeBtn{
+    border: 0;
+    border-radius: 5px;
+    padding: 4px 32px;
+    background-color: rgb(19, 104, 173);
+    color: var(--text-color-2);
+    width: 100%;
+    transition: all .3s;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.changeBtn span{
+    margin-top: 2px;
+    transition: all .3s;
+}
+
+.changeBtn .fa-solid{
+    transition: all .3s;
+}
+
+.changeBtn:hover{
+    background-color: rgb(0, 167, 245);
+    color: var(--text-color-2);
+}
+
+.changeBtn:hover span, .changeBtn:hover .fa-solid{
+    color: var(--main-color-dark);
+    font-weight: 800px;
+}
+
+.tokenImg{
+    margin-right: 200px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .modal-field{
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .modal-input{
+        width: 100%;
+    }
+
+    .modal-left{
+        width: 100%;
+    }
+
+    .showPassIcon{
+        top: 0;
+        left: 5%;
+    }
+
+    .closeModal{
+        right: 50px;
+    }
+
+    .field-token{
+       width: 50%;
+    }
+
+    .modalForm{
+        width: 80%;
+    }
+    .error-security{
+        width: 300px;
+    }
+
+    .changeTimeout, .changePass{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 491px) {
+    .error-security{
+        width: 100%!important;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .content{
+        height: 520px;
+    }
+    .changeTimeout, .changePass{
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .changeTimeout, .changePass{
+        width: 100%;
+    }
+}
+
+.error-security{
+    margin: 0;
+    color: #e02020;
+    width: 400px;
+    font-size: 12px;
+    height: 10px;
+}
+
+.securityLoading{
+    font-size: 10px!important;
+}

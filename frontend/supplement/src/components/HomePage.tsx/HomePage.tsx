@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
-import { selectCurrentToken } from "../../redux/auth/authSlice";
+import { selectCurrentToken, selectCurrentUser } from "../../redux/auth/authSlice";
 import '../../style/HomePage/HomePage.css';
 
 export default function HomePage() {
   const token = useSelector(selectCurrentToken);
-  console.log(token)
-  console.log(localStorage.getItem("exp"));
+  const user = useSelector(selectCurrentUser);
+  console.log(user);
   return (
     <div className="sa">HomePage</div>
   )

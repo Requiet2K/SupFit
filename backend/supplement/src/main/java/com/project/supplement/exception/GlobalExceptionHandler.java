@@ -1,5 +1,6 @@
 package com.project.supplement.exception;
 
+import com.project.supplement.exception.custom_exceptions.PasswordIncorrectException;
 import com.project.supplement.exception.custom_exceptions.UserAlreadyExistsException;
 import com.project.supplement.exception.custom_exceptions.UserNotExistsException;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,18 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserNotExistsException.class)
-    public ResponseEntity<ErrorResponse> handleAlreadyExists(UserNotExistsException exc) {
+    public ResponseEntity<ErrorResponse> handleNotExists(UserNotExistsException exc) {
+        ErrorResponse errorResponse = new ErrorResponse();
+
+        errorResponse.setStatus(HttpStatus.CONFLICT.value());
+        errorResponse.setMessage(exc.getMessage());
+        errorResponse.setTimeStamp(System.currentTimeMillis());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(PasswordIncorrectException.class)
+    public ResponseEntity<ErrorResponse> handlePasswordIncorrect(PasswordIncorrectException exc) {
         ErrorResponse errorResponse = new ErrorResponse();
 
         errorResponse.setStatus(HttpStatus.CONFLICT.value());

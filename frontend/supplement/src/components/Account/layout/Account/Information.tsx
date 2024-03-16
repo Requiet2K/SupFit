@@ -1,37 +1,83 @@
-import '../../../style/AccountPage/AccountBase.css'
-import { AccountPage } from '../AccountPage'
-import { BreadCrumb } from '../BreadCrumb'
-import '../../../style/AccountPage/components/Information.css'
-import { useSelector } from 'react-redux'
-import { AuthState } from '../../../types/loginTypes'
+import '../../../../style/AccountPage/AccountBase.css'
+import { AccountPage } from '../../AccountPage'
+import { BreadCrumb } from '../../BreadCrumb'
+import '../../../../style/AccountPage/components/Information.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { AuthState } from '../../../../types/loginTypes'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import dayjs from 'dayjs';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { FormControl, MenuItem, Select } from '@mui/material'
 import ContactPageIcon from '@mui/icons-material/ContactPage';
+import { useLazyGetUserQuery, useUpdateUserMutation } from '../../../../redux/user/userApiSlice'
+import { login } from '../../../../redux/auth/authSlice'
+import { showInvalidPhoneNumber, showUpdateUserModal, showUpdateUserModalWarning } from '../../../swalInfo/swalInfo'
+import ClockLoader from 'react-spinners/ClockLoader'
+
 
 export const Information = () => {
 
-  const [selectedGender, setSelectedGender] = useState('');
-  const [selectedPhone, setSelectedPhone] = useState('');
-  const [selectedBirthDate, setBirthDate] = useState<Date | null>(null);
+  const user = useSelector((state: {auth: AuthState}) => state.auth.user);
 
-  const handleDateChange = (date: Date | null) => {
+  const [selectedGender, setSelectedGender] = useState(user?.gender ? user.gender : "");
+  const [selectedPhone, setSelectedPhone] = useState(user?.phoneNumber ? user.phoneNumber : "");
+  const [selectedBirthDate, setBirthDate] = useState<Date | null>(user?.birthDate ? user.birthDate : null);
+  const [convertedDate, setConvertedDate] = useState<Date | null>(selectedBirthDate);
+  const [checkPrevDate, setCheckPrevDate] = useState<Date | null | undefined>(null);
+  const [isUpdated, setIsUpdated] = useState(false);
+  const handleDateChange = (date: any) => {
     setBirthDate(date);
+    const modifiedDate = date ? dayjs(date).add(1, 'day').toDate() : null;
+    setConvertedDate(modifiedDate);
   };
 
-  useEffect(() => {
-    console.log(selectedGender);
-    console.log(selectedPhone);
-    console.log(selectedBirthDate);
-  }, [selectedPhone, selectedGender, selectedBirthDate])
+  const [updateUser, {isLoading}] = useUpdateUserMutation();
+  const [getUpdatedUser] = useLazyGetUserQuery();
+  const dispatch = useDispatch();
 
-  const user = useSelector((state: {auth: AuthState}) => state.auth.user);
-  const today = dayjs();
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if(selectedPhone == "" || selectedPhone.length == 12){
+      if(user && 
+        ((selectedGender != '' && selectedGender != user.gender) || 
+        (selectedPhone != '' && selectedPhone != user.phoneNumber) || 
+        (selectedBirthDate != null && convertedDate != user.birthDate && checkPrevDate != user.birthDate)))
+        {
+        try{
+          const updatedUser = await updateUser({
+            id: user.id,
+            credentials: {
+              gender: selectedGender ?? user.gender,
+              birthDate: selectedBirthDate ? convertedDate : user.birthDate,
+              phoneNumber: selectedPhone ?? user.phoneNumber
+            }
+            })
+            .unwrap();
+            const userUpdated = await getUpdatedUser(user.id).unwrap();
+            const token = localStorage.getItem('token');
+            dispatch(login({token, user: userUpdated}));
+            showUpdateUserModal();
+            setIsUpdated(true);
+        } catch(err: any){
+          console.log(err);
+        }
+      }else{
+        showUpdateUserModalWarning();
+      }
+    }else{
+      showInvalidPhoneNumber();
+    }
+  }
+
+  useEffect(() => {
+    if(isUpdated){
+      setCheckPrevDate(user?.birthDate);
+    }
+  }, [isUpdated])
 
   const openGenderSelection = () =>{
     const navDesktopElements = document.querySelectorAll('.nav-desktop');
@@ -65,7 +111,7 @@ export const Information = () => {
               </div>
             </div>
             <div className="content">
-              <form action="" method='post'>
+              <form onSubmit={(e: FormEvent) => handleSubmit(e)}>
                 <div className="row mt-4 d-flex justify-content-center">
                   <div className="d-none d-lg-flex col-md-2 justify-content-center align-items-center">
                       <ContactPageIcon className="userIcon"/>
@@ -95,7 +141,7 @@ export const Information = () => {
                         <div className="formGroup">
                           <label className="formLabel">Phone Number</label>
                           <PhoneInput
-                            onlyCountries={['fr', 'us', "br", "ca", "gb", "de", "tr", "se", "pl", "jp"]}
+                            onlyCountries={["gb","tr", "jp"]}
                             country={'tr'}
                             value={selectedPhone}
                             onChange={(e) => setSelectedPhone(e)}
@@ -110,7 +156,7 @@ export const Information = () => {
                               format="DD/MM/YYYY"
                               disableFuture 
                               slotProps={{ textField: { size: 'small' } }}
-                              value={selectedBirthDate}
+                              value={dayjs(selectedBirthDate)}                              
                               onChange={handleDateChange}
                             />
                           </LocalizationProvider>
@@ -142,13 +188,21 @@ export const Information = () => {
                   <div className="row p-0 mt-3 d-flex justify-content-center">
                       <div className="col-12 col-md-10 col-lg-12 d-flex justify-content-end">
                         <button className='buttonRightSingle rightBottom' type='submit'>
-                          <span>
-                            <i className="fa-solid fa-floppy-disk"/>
-                            Save
-                          </span>
+                          {isLoading ? 
+                            <span className='loadingUpdate'>
+                              <ClockLoader color="#ffffff" size={14}/>
+                            </span> 
+                            : 
+                            <>
+                            <span>
+                              <i className="fa-solid fa-floppy-disk"/>
+                              Save
+                            </span>
+                            </>
+                            }
                         </button>
                       </div>
-                    </div>     
+                  </div>  
                 </div>
               </form>
             </div>

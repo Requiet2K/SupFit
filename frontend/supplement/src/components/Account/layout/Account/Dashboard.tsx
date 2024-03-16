@@ -1,8 +1,8 @@
-import { AccountPage } from '../AccountPage'
-import { BreadCrumb } from '../BreadCrumb'
-import '../../../style/AccountPage/AccountBase.css'
-import '../../../style/AccountPage/components/Dashboard.css'
-import payment from "../../../images/paymentMethods.jpg";
+import { AccountPage } from '../../AccountPage'
+import { BreadCrumb } from '../../BreadCrumb'
+import '../../../../style/AccountPage/AccountBase.css'
+import '../../../../style/AccountPage/components/Dashboard.css'
+import payment from "../../../../images/paymentMethods.jpg";
 
 export const Dashboard = () => {
 

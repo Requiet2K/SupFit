@@ -113,3 +113,28 @@
 .formEmail{
     padding: 0 12px!important;
 }
+
+.loadingUpdate{
+    width: 40px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.css-1q04gal-MuiDateCalendar-root {
+    background-color: var(--main-color-dark);
+    color: var(--text-color-2)!important;
+}
+
+.css-1tkx1wf-MuiSvgIcon-root-MuiPickersCalendarHeader-switchViewIcon,
+.css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel,
+.css-1vooibu-MuiSvgIcon-root,
+.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root {
+    color: var(--text-color-2)!important;
+}
+
+.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root:hover {
+    background-color: var(--text-color-2)!important;
+    color: var(--main-color)!important;
+    font-weight: 700!important;
+}
