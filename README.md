@@ -13,6 +13,7 @@ Full-stack e-commerce site with AI chatbot using Spring, JWT, React.js, Redux, T
 - Redux Toolkit Query
 - TypeScript
 - MySQL
+- Bootstrap / Material UI
 
 ## Features
 
