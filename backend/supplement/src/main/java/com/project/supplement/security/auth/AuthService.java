@@ -6,6 +6,7 @@ import com.project.supplement.repository.UserRepository;
 import com.project.supplement.security.Role;
 import com.project.supplement.security.config.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,10 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final NameConverter nameConverter;
+
+    @Value("${jwt.expiration-time}")
+    private long defaultExpirationTime;
+
     public AuthResponse register(RegisterRequest request) {
         request.setFirstName(nameConverter.nameConverter(request.getFirstName().toLowerCase()));
         request.setLastName(nameConverter.nameConverter(request.getLastName().toLowerCase()));
@@ -28,6 +33,7 @@ public class AuthService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .tokenValidation(defaultExpirationTime)
                 .role(Role.USER)
                 .build();
         userRepository.save(user);

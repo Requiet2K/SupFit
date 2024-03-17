@@ -60,6 +60,9 @@ public class User implements UserDetails {
     @Column(name = "role")
     private Role role;
 
+    @Column(name = "token_validation", columnDefinition = "bigint default 30")
+    private Long tokenValidation = 30L;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

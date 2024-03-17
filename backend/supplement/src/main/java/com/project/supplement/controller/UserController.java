@@ -36,4 +36,9 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUserPassword(id, changePasswordRequest));
     }
 
+    @PutMapping("/updateTokenValidation/{id}")
+    public ResponseEntity<AuthResponse> updateTokenValidation(@PathVariable Long id, @RequestBody Long tokenValidation){
+        return ResponseEntity.ok(userService.updateTokenValidation(id, tokenValidation));
+    }
+
 }

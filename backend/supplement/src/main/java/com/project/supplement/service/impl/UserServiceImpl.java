@@ -12,11 +12,12 @@ import com.project.supplement.security.config.JwtService;
 import com.project.supplement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -24,11 +25,24 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    @Autowired
+    public UserServiceImpl(@Lazy JwtService jwtService, UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+        this.jwtService = jwtService;
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserDTO getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(user -> modelMapper.map(user, UserDTO.class))
+                .orElseThrow(UserNotExistsException::new);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(UserNotExistsException::new);
     }
 
@@ -71,5 +85,20 @@ public class UserServiceImpl implements UserService {
                 .token(jwtToken)
                 .build();
     }
+
+    @Override
+    public AuthResponse updateTokenValidation(Long userId, Long tokenValidation) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExistsException::new);
+        user.setTokenValidation(tokenValidation);
+        userRepository.save(user);
+
+        var jwtToken = jwtService.generateToken(user);
+        return AuthResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
+
 
 }
