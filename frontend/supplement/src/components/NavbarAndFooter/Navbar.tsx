@@ -85,7 +85,7 @@ export const Navbar = () => {
         document.body.style.paddingRight = '17px';
         const navDesktopElements = document.querySelectorAll('.nav-desktop');
         navDesktopElements.forEach((navDesktopElement) => {
-          (navDesktopElement as HTMLElement).style.paddingRight = '17px';
+          (navDesktopElement as HTMLElement).style.paddingRight = rightDrawer ? "17px" : "0px";
         });
         window.scrollTo(0,0);
       }else{

@@ -83,6 +83,10 @@
     .payment-text-info{
         font-size: 12px!important; 
     }
+
+    .dashboard{
+        height: 950px;
+    }
 }
 
 .dash-info:hover { 

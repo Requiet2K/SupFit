@@ -27,10 +27,20 @@ const authSlice = createSlice({
             localStorage.removeItem('exp');
             localStorage.setItem('userLoggedIn', "false");
         },
+        updateToken: (state, action) => {
+            console.log("Action payload:", action.payload);
+            state.token = action.payload.token;
+            localStorage.setItem('token', JSON.stringify(action.payload));
+            localStorage.setItem('exp', JSON.stringify(jwtDecode(action.payload.token).exp));
+        },
+        updateUser: (state, action) => {
+            state.user = action.payload;
+            localStorage.setItem('user', JSON.stringify(action.payload));
+        }
     },
 })
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, updateToken, updateUser } = authSlice.actions;
 
 export default authSlice.reducer;
 

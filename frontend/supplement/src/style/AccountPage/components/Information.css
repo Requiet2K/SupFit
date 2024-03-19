@@ -138,3 +138,9 @@
     color: var(--main-color)!important;
     font-weight: 700!important;
 }
+
+@media only screen and (max-width: 992px) {
+    .content{
+        margin-bottom: 25px;
+    }
+}

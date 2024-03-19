@@ -14,7 +14,7 @@ import 'react-phone-input-2/lib/style.css'
 import { FormControl, MenuItem, Select } from '@mui/material'
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { useLazyGetUserQuery, useUpdateUserMutation } from '../../../../redux/user/userApiSlice'
-import { login } from '../../../../redux/auth/authSlice'
+import { updateUser } from '../../../../redux/auth/authSlice'
 import { showInvalidPhoneNumber, showUpdateUserModal, showUpdateUserModalWarning } from '../../../swalInfo/swalInfo'
 import ClockLoader from 'react-spinners/ClockLoader'
 
@@ -25,17 +25,20 @@ export const Information = () => {
 
   const [selectedGender, setSelectedGender] = useState(user?.gender ? user.gender : "");
   const [selectedPhone, setSelectedPhone] = useState(user?.phoneNumber ? user.phoneNumber : "");
+
   const [selectedBirthDate, setBirthDate] = useState<Date | null>(user?.birthDate ? user.birthDate : null);
   const [convertedDate, setConvertedDate] = useState<Date | null>(selectedBirthDate);
-  const [checkPrevDate, setCheckPrevDate] = useState<Date | null | undefined>(null);
+  const [checkPrevDate, setCheckPrevDate] = useState<Date | null | undefined>(selectedBirthDate);
+
   const [isUpdated, setIsUpdated] = useState(false);
+
   const handleDateChange = (date: any) => {
     setBirthDate(date);
     const modifiedDate = date ? dayjs(date).add(1, 'day').toDate() : null;
     setConvertedDate(modifiedDate);
   };
 
-  const [updateUser, {isLoading}] = useUpdateUserMutation();
+  const [sendUpdateUser, {isLoading}] = useUpdateUserMutation();
   const [getUpdatedUser] = useLazyGetUserQuery();
   const dispatch = useDispatch();
 
@@ -45,10 +48,10 @@ export const Information = () => {
       if(user && 
         ((selectedGender != '' && selectedGender != user.gender) || 
         (selectedPhone != '' && selectedPhone != user.phoneNumber) || 
-        (selectedBirthDate != null && convertedDate != user.birthDate && checkPrevDate != user.birthDate)))
+        (selectedBirthDate != null && convertedDate != user.birthDate && (user?.birthDate ? checkPrevDate != user?.birthDate : true))))
         {
         try{
-          const updatedUser = await updateUser({
+            await sendUpdateUser({
             id: user.id,
             credentials: {
               gender: selectedGender ?? user.gender,
@@ -58,8 +61,7 @@ export const Information = () => {
             })
             .unwrap();
             const userUpdated = await getUpdatedUser(user.id).unwrap();
-            const token = localStorage.getItem('token');
-            dispatch(login({token, user: userUpdated}));
+            dispatch(updateUser(userUpdated));
             showUpdateUserModal();
             setIsUpdated(true);
         } catch(err: any){

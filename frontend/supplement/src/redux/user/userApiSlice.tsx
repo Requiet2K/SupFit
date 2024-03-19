@@ -22,6 +22,21 @@ export const userApiSlice = apiSlice.injectEndpoints({
             query: id => {
                 return `/user/getUserById/${id}`;
             }
+        }),
+        getTokenValidation: builder.query({
+            query: id => {
+                return `/user/tokenValidation/${id}`;
+            }
+        }),
+        updateTokenValidation: builder.mutation({
+            query: ({ id, credentials }: { id: number, credentials: number }) => ({
+                url: `/user/updateTokenValidation/${id}`,
+                method: 'PUT',
+                body: JSON.stringify(credentials), 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
         })
     })
 })
@@ -29,5 +44,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
 export const {
     useUpdateUserMutation,
     useUpdatePasswordMutation,
-    useLazyGetUserQuery
+    useLazyGetUserQuery,
+    useLazyGetTokenValidationQuery,
+    useUpdateTokenValidationMutation
 } = userApiSlice;

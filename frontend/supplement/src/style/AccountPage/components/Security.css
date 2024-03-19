@@ -236,3 +236,69 @@
 .securityLoading{
     font-size: 10px!important;
 }
+
+.tokenForm{
+    width: 75%;
+}
+
+@media only screen and (max-width: 1500px) {
+    .field-token{
+        margin-left: 150px;
+    }
+    .tokenForm{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .field-token{
+        margin-left: 0;
+    }
+    .modal-field{
+        width: 100%;
+        padding: 0 50px;
+    }
+}
+
+.tokenItem{
+    margin-top: 175px;
+}
+
+.tokenTimer {
+    color: var(--text-color-2);
+    position: absolute;
+    top: 10%;
+    left: 50%; 
+    transform: translateX(-50%); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.timerTitle {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 40px;
+    margin-bottom: 5px; 
+}
+
+.timerValue {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 24px;
+}
+
+@media only screen and (max-width: 700px) {
+
+    .timerTitle {
+        font-size: 30px;
+    }
+
+    .timerValue {
+        font-size: 18px; 
+    }
+}
+
+.sec-picture{
+    pointer-events: none;
+    user-select: none;
+}
