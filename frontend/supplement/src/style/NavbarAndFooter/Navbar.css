@@ -7,7 +7,7 @@
     color: var(--text-color);
     transition: all .3s ease-out;
     font-weight: 400;
-    padding: 12px 5px;
+    padding: 12px 25px;
     font-size: 16px;
 }
 
@@ -76,6 +76,7 @@
     width: 100%;
     flex-basis: auto;
     display: flex;
+    height: 47px;
 }
 
 .badges{
@@ -261,6 +262,13 @@
     .logo{
         width: 180px!important;
     }
+}
+
+@media only screen and (max-width: 991px) {
+    .buttons{
+        padding: 12px 5px;
+    }
+    
 }
 
 .navShadow{

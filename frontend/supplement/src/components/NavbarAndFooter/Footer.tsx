@@ -2,8 +2,24 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import '../../style/NavbarAndFooter/Footer.css';
 import SearchIcon from '@mui/icons-material/Search';
 import payments from "../../images/payments.png";
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { PiX } from 'react-icons/pi';
+import { overflowHidden, overflowShow } from '../../utils/handleOverflow';
 
 export const Footer = () => {
+  const navigate = useNavigate();
+
+  const [contactModal, setContactModal] = useState(false);
+
+  useEffect(() => {
+    if(contactModal){
+      overflowHidden(true);
+    }else{
+      overflowShow();
+    }
+  }, [contactModal])
+  
   return (
     <footer>
       <div className="footerTop">
@@ -75,13 +91,22 @@ export const Footer = () => {
                     <h5>Management</h5>
                     <ul className="footer-list">
                       <li>
-                        <a href="">Your Account</a>
+                        <a href="" onClick={() => navigate('/dashboard')}>Account</a>
                       </li>
                       <li>
-                        <a href="">Your Orders</a>
+                        <a href="" onClick={() => navigate('/past-orders')}>Orders</a>
                       </li>
                       <li>
-                        <a href="">Your Box</a>
+                        <a href="" onClick={() => navigate('/favorites')}>Favorites</a>
+                      </li>
+                      <li>
+                        <a href="" onClick={() => navigate('/box')}>Box</a>
+                      </li>
+                      <li>
+                        <a href="" onClick={() => navigate('/addresses')}>Addresses</a>
+                      </li>
+                      <li>
+                        <a href="" onClick={() => navigate('/comments')}>Comments</a>
                       </li>
                     </ul>
                   </div>
@@ -89,10 +114,10 @@ export const Footer = () => {
                     <h5>Need Help?</h5>
                     <ul className="footer-list">
                       <li>
-                        <a href="">Contact Us</a>
+                        <button onClick={() => setContactModal(true)}>Contact Us</button>
                       </li>
                       <li>
-                        <a href="">FAQs</a>
+                        <a href="" onClick={() => navigate('/faqs')}>FAQs</a>
                       </li>
                     </ul>
                   </div>
@@ -136,6 +161,24 @@ export const Footer = () => {
           <div className="footer-bottom-right">
             <img src={payments} className="payments"/>
           </div>
+        </div>
+      </div>
+      <div className={`${contactModal ? `contactModal` : "d-none"}`}>
+        <div className="modalCenter">
+          <h5>You can reach us using the contact information below.</h5>
+          <div className="contactModalItem d-flex gap-3">
+            <div className="contact-icon">
+              <i className="bi bi-telephone-fill"/>
+            </div>
+            <h6 className="text">0 850 999 99 99</h6>
+          </div>
+          <div className="contactModalItem d-flex gap-3">
+            <div className="contact-icon">
+              <i className="bi bi-at"/>
+            </div>
+            <h6 className="text">info@supfit.com</h6>
+          </div>
+          <i className="fa-regular fa-circle-xmark" onClick={() => setContactModal(false)}/>
         </div>
       </div>
     </footer>

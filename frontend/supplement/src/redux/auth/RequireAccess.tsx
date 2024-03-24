@@ -1,7 +1,9 @@
 import { Navigate, Outlet, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { logout, selectCurrentToken } from "./authSlice"
-import { showTimeoutModal } from "../../components/swalInfo/swalInfo";
+import { showErrorModal, showTimeoutModal } from "../../components/swalInfo/swalInfo";
+import { useLazyGetLoggedUserQuery } from "./authApiSlice";
+import { useEffect } from "react";
 
 export const RequireNonAuth = () => {
     const token = useSelector(selectCurrentToken);
@@ -17,7 +19,29 @@ export const RequireAuth = () => {
     const token = useSelector(selectCurrentToken);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
+    const [getLoggedUser] = useLazyGetLoggedUserQuery();
+
+    useEffect(() => {
+        const checkUser = async () => {
+            try {
+                if (typeof token !== 'string') {
+                    throw new Error('Invalid token type');
+                }
+                await getLoggedUser(token).unwrap();
+            } catch (err: any) {
+                if (err.status === "FETCH_ERROR") {
+                    showErrorModal("No server response!", "Server is under maintenance, please try again later.");
+                }else {
+                    dispatch(logout({}));
+                    navigate("/login", { state: { signBoolean: true } });
+                    showErrorModal("Your account does not exist!", "Please create a new account.");
+                }
+            }
+        };
+
+        checkUser();
+    }, [token, navigate, dispatch, getLoggedUser]);
+
     const isTokenValid = () => {
         if (token) {
             try {

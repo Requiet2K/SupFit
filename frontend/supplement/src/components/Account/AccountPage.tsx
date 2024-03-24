@@ -9,6 +9,11 @@ export const AccountPage: React.FC<{}> = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    navigate("/login");
+    dispatch(logout({}))
+  }
+
   return (
     <div className="accountPage">
         <div className="account-area">
@@ -22,7 +27,7 @@ export const AccountPage: React.FC<{}> = () => {
                       <span>{user?.firstName + " " + user?.lastName}</span>
                     </div>
                     <div className="log">
-                      <button className="logoutBtn d-flex align-items-center gap-1" onClick={() => dispatch(logout({}))}>
+                      <button className="logoutBtn d-flex align-items-center gap-1" onClick={handleLogout}>
                         <i className="bi bi-box-arrow-right"></i>
                         <span>Logout</span>
                       </button>
@@ -90,10 +95,10 @@ export const AccountPage: React.FC<{}> = () => {
                       <span>My Addresses</span>
                     </div>
                   </button>
-                  <button className="sidebar-item"  onClick={() => navigate("/tickets")}>
+                  <button className="sidebar-item"  onClick={() => navigate("/comments")}>
                     <div className="sidebar-item-left">
-                      <i className="fa-solid fa-circle-question"/>
-                      <span>My Tickets</span>
+                      <i className="fa-solid fa-comment"/>
+                      <span>My Comments</span>
                     </div>
                   </button>
                   <button className="sidebar-item"  onClick={() => navigate("/faqs")}>

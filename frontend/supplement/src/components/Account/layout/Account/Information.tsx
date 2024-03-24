@@ -94,6 +94,7 @@ export const Information = () => {
         (navDesktopElement as HTMLElement).style.paddingRight = '0px';
       });
   }
+  
   return (
     <div className='information mb-3'>
       <div className="container p-1">

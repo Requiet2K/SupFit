@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/getUserById/{id}")
-    public UserDTO getUser(@PathVariable Long id){
+    public UserDTO getUserId(@PathVariable Long id){
         return userService.getUserById(id);
     }
 
@@ -41,4 +41,18 @@ public class UserController {
         return ResponseEntity.ok(userService.updateTokenValidation(id, tokenValidation));
     }
 
+    @GetMapping("/tokenValidation/{id}")
+    public Long getTokenValidation(@PathVariable Long id){
+        return userService.getUserTokenValidation(id);
+    }
+
+    @GetMapping("/findUserIdByEmail/{email}")
+    public Long getUserIdByEmail(@PathVariable String email){
+        return userService.findUserIdByEmail(email);
+    }
+
+    @PutMapping("/changeUserPassword/{id}")
+    public void changeUserPassword(@PathVariable Long id, @RequestBody String newPassword){
+        userService.changeUserPassword(id,newPassword);
+    }
 }

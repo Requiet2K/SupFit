@@ -100,5 +100,33 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    @Override
+    public Long getUserTokenValidation(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExistsException::new);
+        return user.getTokenValidation();
+    }
+
+    @Override
+    public Long findUserIdByEmail(String email) {
+        User user = userRepository.findUserByEmail(email)
+                .orElseThrow(UserNotExistsException::new);
+        return user.getId();
+    }
+
+    @Override
+    public void changeUserPassword(Long userId, String newPasswordRequest) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExistsException::new);
+        // for delete the quotes
+        String convertedPass = newPasswordRequest.substring(1, newPasswordRequest.length() - 1);
+
+        String newPassword = passwordEncoder.encode(convertedPass);
+        user.setPassword(newPassword);
+        System.out.println(convertedPass);
+        userRepository.save(user);
+    }
+
 
 }

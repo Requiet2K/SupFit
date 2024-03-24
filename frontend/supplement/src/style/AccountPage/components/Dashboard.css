@@ -76,6 +76,10 @@
         border-radius: 10px 10px 0 0!important;
     }
 
+    .layer-right{
+        border-radius: 0 0 10px 10px!important;
+    }
+
     .payment-text-header{
         font-size: 28px!important; 
     }
@@ -124,16 +128,16 @@
 
 .layer-left{
     height: 258px;
-    background: linear-gradient(90deg, var(--main-color) 0%, var(--main-color) 35%, var(--main-color-dark) 100%);
+    background: linear-gradient(90deg, #231885 0%, #22739e 100%);
     transition: transform 0.3s ease-in-out; 
-    cursor: pointer;
     border-radius: 10px 0 0 10px;
+    position: relative;
 }
 
 .layer-right{
     height: 258px;
+    background: linear-gradient(90deg, #22739e 0%, #231885 100%);
     transition: transform 0.3s ease-in-out; 
-    cursor: pointer;
     border-radius: 0 10px 10px 0;
 }
 
@@ -170,4 +174,35 @@
     font-size: 12px; 
     font-weight: 400; 
     letter-spacing: 1px; 
+}
+
+.secureShopping{
+    width: 100px;
+    position: absolute;
+    top: 13px;
+    right: 20px;
+}
+
+@media only screen and (max-width: 478px) {
+    .secureShopping {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 479px) and (max-width: 767px) {
+    .secureShopping {
+        display: inline;
+    }
+}
+
+@media only screen and (min-width: 767px) and (max-width: 1400px) {
+    .secureShopping {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 1401px) {
+    .secureShopping {
+        display: inline;
+    }
 }

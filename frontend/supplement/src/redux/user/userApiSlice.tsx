@@ -1,4 +1,3 @@
-
 import { changePasswordState, updateUserState } from "../../types/loginTypes";
 import { apiSlice } from "../api/apiSlice"
 
@@ -37,6 +36,18 @@ export const userApiSlice = apiSlice.injectEndpoints({
                     'Content-Type': 'application/json',
                 },
             })
+        }),
+        getUserId: builder.query({
+            query: email => {
+                return `/user/findUserIdByEmail/${email}`;
+            }
+        }),
+        changeUserPassword: builder.mutation({
+            query: ({ id, newPass } : { id: number, newPass: string }) => ({
+                url: `user/changeUserPassword/${id}`,
+                method: 'PUT',
+                body: {newPass}
+            })
         })
     })
 })
@@ -46,5 +57,7 @@ export const {
     useUpdatePasswordMutation,
     useLazyGetUserQuery,
     useLazyGetTokenValidationQuery,
-    useUpdateTokenValidationMutation
+    useUpdateTokenValidationMutation,
+    useLazyGetUserIdQuery,
+    useChangeUserPasswordMutation
 } = userApiSlice;

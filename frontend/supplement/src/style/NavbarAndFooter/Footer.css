@@ -63,16 +63,19 @@ footer{
     list-style: none;
 }
 
-.footer-list a{
+.footer-list a, .footer-list button{
     font-size: 12px;
     text-decoration: none;
     color: var(--text-color);
     left: 0;
     transition: left 0.2s ease;
     position: relative;
+    border: 0;
+    background-color: transparent;
+    padding: 0;
 }
 
-.footer-list a:hover {
+.footer-list a:hover, .footer-list button:hover {
     left: 5px;
 }
 
@@ -125,10 +128,74 @@ footer{
 .payments{
     border: 0;
     width: 200px;
+    pointer-events: none;
 }
 
 @media only screen and (max-width: 768px) {
     .footerText h5{
         font-size: 16px;
+    }
+}
+
+.contactModal{
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0,0,0,.75);
+    top: 0;
+    overflow-y: hidden;
+    z-index: 99999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalCenter{
+    position: relative;
+    height: 30vh;
+    width: 25%;
+    background-color: var(--main-color);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 32px 0 0 0;
+}
+
+.contactModalItem{
+    background-color: var(--text-color-2);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 5px;
+    padding: 5px;
+    width: 85%;
+}
+
+.modalCenter h5{
+    color: var(--text-color-2);
+    font-size: 17px;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.modalCenter .fa-regular{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: var(--text-color-2)!important;
+    font-size: 20px;
+    transition: all .3s;
+    cursor: pointer;
+}
+
+.modalCenter .fa-regular:hover{
+    color: #8a8a8a!important;
+}
+
+@media only screen and (max-width: 1100px) {
+    .modalCenter{
+        width: 70%
     }
 }

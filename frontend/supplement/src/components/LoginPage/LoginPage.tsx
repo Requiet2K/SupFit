@@ -11,16 +11,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/auth/authSlice';
 import { useNavigate } from 'react-router-dom'
 import { AuthState } from '../../types/loginTypes';
-import { jwtDecode } from "jwt-decode";
+import { ForgetPassword } from './ForgetPassword';
 
 export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
+
+    const [forgotPassword, setForgotPassword] = useState(false);
+
+    const handleCancelForgetPassword = () => {
+        setForgotPassword(false);
+      };
 
     const { signBoolean = false } = props;
 
     const [signUpPage, setSignUpPage] = useState<boolean>();
 
     const location = useLocation();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [signIn, { isLoading: isLoadingSignIn }] = useLoginMutation();
@@ -50,7 +56,7 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
 
     const handleRegisterSubmit = async () => {
         try{
-            const userDatas = await signUp({
+            await signUp({
                 email: formikSignUp.values.email,
                 firstName: formikSignUp.values.firstName,
                 lastName: formikSignUp.values.lastName,
@@ -145,7 +151,7 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
                 {formikSignUp.touched.confirmPassword && formikSignUp.errors.confirmPassword ? (
                     <div className='errors'>{formikSignUp.errors.confirmPassword}</div>
                 ) : null}
-                <button className={`signButton ${((!formikSignUp.dirty) || Object.keys(formikSignUp.errors).length > 0) ? 'buttonDisable' : ""} ${isLoadingSignUp ? 'buttonSubmitting' : ''}`} disabled={(!formikSignUp.dirty) || Object.keys(formikSignUp.errors).length > 0 || isLoadingSignUp} type='submit'>
+                <button className={`loginB signButton ${((!formikSignUp.dirty) || Object.keys(formikSignUp.errors).length > 0) ? 'buttonDisable' : ""} ${isLoadingSignUp ? 'buttonSubmitting' : ''}`} disabled={(!formikSignUp.dirty) || Object.keys(formikSignUp.errors).length > 0 || isLoadingSignUp} type='submit'>
                     {isLoadingSignUp ? <ClockLoader color="#ffffff" size={18}/> : <>Register</>}
                 </button>
             </form>
@@ -166,8 +172,8 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
                 {formikSignIn.touched.signPassword && formikSignIn.errors.signPassword ? (
                     <div className='errors'>{formikSignIn.errors.signPassword}</div>
                 ) : null}
-                <a href="#">Forget Your Password?</a>
-                <button className={`signButton ${((!formikSignIn.dirty) || Object.keys(formikSignIn.errors).length > 0) ? 'buttonDisable' : ""} ${isLoadingSignIn ? 'buttonSubmitting' : ''}`} disabled={(!formikSignIn.dirty) || Object.keys(formikSignIn.errors).length > 0 || isLoadingSignIn} type='submit'>
+                <button className='fpass' onClick={() => setForgotPassword(true)}>Forget Your Password?</button>
+                <button className={`loginB signButton ${((!formikSignIn.dirty) || Object.keys(formikSignIn.errors).length > 0) ? 'buttonDisable' : ""} ${isLoadingSignIn ? 'buttonSubmitting' : ''}`} disabled={(!formikSignIn.dirty) || Object.keys(formikSignIn.errors).length > 0 || isLoadingSignIn} type='submit'>
                     {isLoadingSignIn ? <ClockLoader color="#ffffff" size={18}/> : <>Login</> }
                 </button>
             </form>
@@ -177,16 +183,17 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
                 <div className="toggle-panel toggle-left">
                     <h1>Hello, Friend!</h1>
                     <p>Register with your personal details to use all of site features</p>
-                    <button className="hidden switchButtons" onClick={() => setSignUpPage(false)}>Sign In</button>
+                    <button className="loginB hidden switchButtons" onClick={() => setSignUpPage(false)}>Sign In</button>
                 </div>
                 <div className="toggle-panel toggle-right">
                     <h1>Welcome Back!</h1>
                     <p>Enter your personal details to use all of site features</p>
-                    <button className="hidden switchButtons" onClick={() => setSignUpPage(true)}>Sign Up</button>
+                    <button className="loginB hidden switchButtons" onClick={() => setSignUpPage(true)}>Sign Up</button>
                 </div>
             </div>
         </div>
         </div>
+        {forgotPassword && <ForgetPassword onCancel={handleCancelForgetPassword} />}
     </div>
   )
 }

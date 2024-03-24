@@ -5,7 +5,7 @@ import '../../../style/AccountPage/AccountBase.css'
 export const Addresses = () => {
 
   return (
-    <div className='addresses'>
+    <div className='addresses mb-3'>
       <div className="container p-1">
         <div className="row h-100">
           <BreadCrumb path={["addresses"]}/>

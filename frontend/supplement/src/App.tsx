@@ -13,7 +13,7 @@ import { PastOrder } from './components/Account/layout/PastOrder'
 import { Favorites } from './components/Account/layout/Favorites'
 import { Box } from './components/Account/layout/Box'
 import { Addresses } from './components/Account/layout/Addresses'
-import { Ticket } from './components/Account/layout/Ticket'
+import { Comments } from './components/Account/layout/Comments'
 import { Faqs } from './components/Account/layout/Faqs'
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/box" element={<Box />} />
               <Route path="/addresses" element={<Addresses />} />
-              <Route path="/tickets" element={<Ticket />} />
+              <Route path="/comments" element={<Comments />} />
               <Route path="/faqs" element={<Faqs />} />
             </Route>
           </Routes>

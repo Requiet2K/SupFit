@@ -27,7 +27,6 @@ export type changePasswordState = {
     newPassword: string,
 }
 
-
 enum Role {
     ADMIN = "ADMIN",
     USER = "USER",

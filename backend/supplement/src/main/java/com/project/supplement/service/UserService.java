@@ -13,4 +13,7 @@ public interface UserService {
     UserDTO updateUser(Long userId, updateUserDTO updatedUserRequest);
     AuthResponse updateUserPassword(Long userId, changePasswordDTO changePasswordRequest);
     AuthResponse updateTokenValidation(Long userId, Long tokenValidation);
+    Long getUserTokenValidation(Long userId);
+    Long findUserIdByEmail(String email);
+    void changeUserPassword(Long userId, String newPasswordRequest);
 }

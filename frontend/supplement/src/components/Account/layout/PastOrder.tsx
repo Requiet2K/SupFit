@@ -5,7 +5,7 @@ import '../../../style/AccountPage/AccountBase.css'
 export const PastOrder = () => {
 
   return (
-    <div className='dashboard'>
+    <div className='pastOrder mb-3'>
       <div className="container p-1">
         <div className="row h-100">
           <BreadCrumb path={["order","past-orders"]}/>

@@ -14,6 +14,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthState } from "../../types/loginTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
+import { overflowHidden, overflowShow } from "../../utils/handleOverflow";
 
 export const Navbar = () => {
 
@@ -65,6 +66,7 @@ export const Navbar = () => {
   const dispatch = useDispatch();
   
   const handleLogout= async () => {
+    navigate("/login");
     dispatch(logout({}));
     setRightDrawer(false);
   }
@@ -81,20 +83,10 @@ export const Navbar = () => {
 
     useEffect(() => {
       if(rightDrawer == true || sideBar == true){
-        document.body.style.overflow = 'hidden';
-        document.body.style.paddingRight = '17px';
-        const navDesktopElements = document.querySelectorAll('.nav-desktop');
-        navDesktopElements.forEach((navDesktopElement) => {
-          (navDesktopElement as HTMLElement).style.paddingRight = rightDrawer ? "17px" : "0px";
-        });
+        overflowHidden(rightDrawer);
         window.scrollTo(0,0);
       }else{
-        document.body.style.overflow = 'visible';
-        document.body.style.paddingRight = '0px';
-        const navDesktopElements = document.querySelectorAll('.nav-desktop');
-        navDesktopElements.forEach((navDesktopElement) => {
-          (navDesktopElement as HTMLElement).style.paddingRight = '0px';
-        });
+        overflowShow();
       }
     }, [rightDrawer, sideBar]);
 
@@ -369,10 +361,10 @@ export const Navbar = () => {
               </div>
               <div className="draw-div">
                 <div className="draw-item">
-                  <button className="draw-button"  onClick={() => handleDrawerClick('tickets', -1)}>
+                  <button className="draw-button"  onClick={() => handleDrawerClick('comments', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-circle-question align-items-center" style={{color: "#282b78"}}/>
-                      <span className="draw-text">My Tickets</span>
+                      <i className="fa-solid fa-comment align-items-center" style={{color: "#282b78"}}/>
+                      <span className="draw-text">My Comments</span>
                     </div>
                   </button>
                 </div>

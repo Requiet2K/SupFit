@@ -5,7 +5,7 @@ import '../../../style/AccountPage/AccountBase.css'
 export const CurrentOrder = () => {
 
   return (
-    <div className='dashboard'>
+    <div className='currentOrder mb-3'>
       <div className="container p-1">
         <div className="row h-100">
           <BreadCrumb path={["order","current-orders"]}/>

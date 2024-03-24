@@ -34,7 +34,7 @@
     margin: 15px 0 10px;
 }
 
-.containerLogin button{
+.loginB{
     background-color: var(--main-color);
     color: var(--text-color-2);
     font-size: 12px;
@@ -305,4 +305,11 @@
 .switchButtons:hover{
     background-color: var(--text-color-2)!important;
     color: var(--text-color);
+}
+
+.fpass{
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    font-size: 12px;
 }

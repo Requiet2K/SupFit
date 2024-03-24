@@ -2,10 +2,12 @@ import { AccountPage } from '../../AccountPage'
 import { BreadCrumb } from '../../BreadCrumb'
 import '../../../../style/AccountPage/AccountBase.css'
 import '../../../../style/AccountPage/components/Dashboard.css'
-import payment from "../../../../images/paymentMethods.jpg";
+import payment from '../../../../images/paymentMethods.png'
+import secureShopping from '../../../../images/secureShopping.png'
+import { useNavigate } from 'react-router-dom'
 
 export const Dashboard = () => {
-
+  const navigate = useNavigate();
   return (
     <div className='dashboard mb-3'>
       <div className="container p-1">
@@ -27,7 +29,7 @@ export const Dashboard = () => {
             <div className="content">
               <div className="row mb-3">
                 <div className="col-6 col-lg-3">
-                  <div className="dash-info">
+                  <div className="dash-info" onClick={() => navigate("/favorites")}>
                     <div className="dash-info-text">
                       <span className='info-size'>10</span>
                       <span className='info-text'>Favorites</span>
@@ -36,7 +38,7 @@ export const Dashboard = () => {
                   </div>
                 </div>
                 <div className="col-6 col-lg-3">
-                  <div className="dash-info">
+                  <div className="dash-info" onClick={() => navigate("/comments")}>
                       <div className="dash-info-text">
                         <span className='info-size'>7</span>
                         <span className='info-text'>Comments</span>
@@ -45,7 +47,7 @@ export const Dashboard = () => {
                     </div>
                   </div>
                 <div className="col-6 col-lg-3">
-                  <div className="dash-info">
+                  <div className="dash-info" onClick={() => navigate("/past-orders")}>
                     <div className="dash-info-text">
                       <span className='info-size'>73</span>
                       <span className='info-text'>Total Orders</span>
@@ -54,7 +56,7 @@ export const Dashboard = () => {
                   </div>
                 </div>
                 <div className="col-6 col-lg-3">
-                  <div className="dash-info">
+                  <div className="dash-info" onClick={() => navigate("/box")}>
                     <div className="dash-info-text">
                       <span className='info-size'>4</span>
                       <span className='info-text'>Boxed Items</span>
@@ -73,6 +75,7 @@ export const Dashboard = () => {
                       </div>
                       <span className='payment-text-info mt-2'>Your peace of mind is our priority. Experience 100% reliability with our secure payment methods. Shop confidently on our e-commerce platform, where your transactions are safeguarded for a worry-free online shopping journey.</span>
                     </div>
+                    <img src={secureShopping} className="secureShopping"/>
                   </div>
                 </div>
                 <div className="col-12 col-md-6 p-0 pe-md-3">
