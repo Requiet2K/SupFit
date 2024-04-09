@@ -10,7 +10,6 @@ import com.project.supplement.repository.UserRepository;
 import com.project.supplement.security.auth.AuthResponse;
 import com.project.supplement.security.config.JwtService;
 import com.project.supplement.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

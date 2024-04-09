@@ -1,5 +1,6 @@
 package com.project.supplement.exception;
 
+import com.project.supplement.exception.custom_exceptions.AddressNotExistsException;
 import com.project.supplement.exception.custom_exceptions.PasswordIncorrectException;
 import com.project.supplement.exception.custom_exceptions.UserAlreadyExistsException;
 import com.project.supplement.exception.custom_exceptions.UserNotExistsException;
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserNotExistsException.class)
-    public ResponseEntity<ErrorResponse> handleNotExists(UserNotExistsException exc) {
+    public ResponseEntity<ErrorResponse> handleUserNotExists(UserNotExistsException exc) {
         ErrorResponse errorResponse = new ErrorResponse();
 
         errorResponse.setStatus(HttpStatus.CONFLICT.value());
@@ -34,6 +35,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PasswordIncorrectException.class)
     public ResponseEntity<ErrorResponse> handlePasswordIncorrect(PasswordIncorrectException exc) {
+        ErrorResponse errorResponse = new ErrorResponse();
+
+        errorResponse.setStatus(HttpStatus.CONFLICT.value());
+        errorResponse.setMessage(exc.getMessage());
+        errorResponse.setTimeStamp(System.currentTimeMillis());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AddressNotExistsException.class)
+    public ResponseEntity<ErrorResponse> handleAddressNotExists(AddressNotExistsException exc) {
         ErrorResponse errorResponse = new ErrorResponse();
 
         errorResponse.setStatus(HttpStatus.CONFLICT.value());
