@@ -1,0 +1,208 @@
+.faqs .content{
+    height: 410px;
+    display: flex;
+    justify-content: center;
+}
+
+.faqsImg{
+    width: 92%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.faqsLeft{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    align-items: center;
+}
+
+.faqsLeftTitle{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.faqsLeftTitle h4{
+    font-size: 48px;
+    line-height: 54px;
+    color: #292929;
+}
+
+.faqsLeftSpan{
+    font-size: 18px;
+    line-height: 30px;
+    color: #292929;
+}
+
+
+@media only screen and (max-width: 1399px) {
+    .faqsImg{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .faqs .content{
+        height: auto;
+        padding: 10px;
+    }
+
+    .faqsLeftTitle{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .faqsLeftSpan{
+        text-align: center;
+    }
+}
+
+.faqsButton{
+    margin-top: 35px;
+}
+
+.faqsModal{
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to right, #FAF7F2, #dfdcd7);
+    top: 0;
+    left: -150%;
+    z-index: 9999;
+    transition: left 0.3s ease; 
+    padding: 40px 250px;
+    overflow-y: auto;
+}
+
+.showFaqsModal{
+    left:0;
+}
+
+.faqsModal .fa-circle-xmark{
+    color: #0f0707!important;
+}
+
+.faqsModal .fa-circle-xmark:hover{
+    color: #D04F53!important;
+}
+
+.faqsModal h5{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    font-size: 62px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.faqsModalContent{
+    display: flex;
+    flex-direction: column;
+    gap: 75px;
+}
+
+.faqsButtonActive{
+    color: #D04F53;
+}
+
+.faqsButtons button{
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+    font-weight: 600;
+    font-size: 24px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    transition: color .15s ease-in-out;
+}
+
+.faqsButtons button:hover{
+    color: #D04F53;
+}
+
+.faqsModal .col-3{
+    display: flex;
+    justify-content: center;
+}
+
+.faqsButtons{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 175px;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 1700px) {
+    .faqsModal{
+        padding: 40px 100px;
+    }
+}
+
+@media only screen and (max-width: 1365px) {
+    .faqsModal{
+        padding: 40px;
+    }
+}
+
+@media only screen and (max-width: 1250px) {
+    .faqsButtons{
+        gap: 100px;
+    }
+}
+
+@media only screen and (max-width: 952px) {
+    .faqsButtons{
+        gap: 70px;
+    }
+}
+
+@media only screen and (max-width: 552px) {
+    .faqsButtons{
+        gap: 40px;
+    }
+}
+
+.faqsItemTitle{
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.faqsItemContent{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #5e5e5e;
+}
+
+.faqsModalBottom{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.faqsModalBottom h5{
+    font-size: 28px;
+}
+
+.faqsModalBottom button{
+    font-size: 14px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border: 0;
+    border-radius: 5px;
+    background: #D04F53;
+    padding: 10px 35px;
+    color: #FAF7F2;
+}
+
+.faqsModalBottom button:hover{
+    background: #d33f44;
+    color: #FAF7F2;
+}
+
+.faqsModalBottomDiv{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

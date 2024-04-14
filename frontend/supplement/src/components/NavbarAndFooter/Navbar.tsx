@@ -8,7 +8,6 @@ import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import { PiUserCircleDuotone } from "react-icons/pi";
 import { GiCardboardBoxClosed } from "react-icons/gi";
-import { GiPriceTag } from "react-icons/gi";
 import { GrFormNext } from "react-icons/gr";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthState } from "../../types/loginTypes";
@@ -43,8 +42,8 @@ export const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-
-      if (navbarRef.current && currentScrollPos > 125) {
+      const currentWidth = window.innerWidth;
+      if ((navbarRef.current && currentScrollPos > 125) && currentWidth > 767) {
 
         if (prevScrollpos > currentScrollPos) {
           setHideNav(false);
@@ -140,41 +139,48 @@ export const Navbar = () => {
               </div>
             </div>
           </div>
-          <div className="container d-flex justify-content-between p-0">
-            <div className="buttons-bar">
-              <ul className="navbar-nav me-auto">
-                <li className="nav-item">
-                  <a href="#" className="buttons">Protein</a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="buttons">Nutrition</a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="buttons">Snacks</a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="buttons">Vitamin</a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="buttons">Accessory</a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="buttons">All Products</a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="buttons">Packets</a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="buttons">On Sale</a>
-                </li>
-              </ul>
-            </div>
-            <div className="buttons-bar-right">
-              <StyledBadge badgeContent={0} showZero className="badges amountBox" />
-              <a href="#" className="shop">
-                  <ShoppingCartIcon style={{color: "#343891"}}/>
-              </a>
+          <div className="navMiddle">
+            <div className="container">
+              <div className="row">
+                <div className="col-10 buttons-bar-left">
+                    <a href="#" className="buttons">PROTEIN</a>
+                    <a href="#" className="buttons">NUTRITION</a>
+                    <a href="#" className="buttons">SNACKS</a>
+                    <a href="#" className="buttons">VITAMIN</a>
+                    <a href="#" className="buttons">ACCESSORY</a>
+                    <a href="#" className="buttons">ALL PRODUCTS</a>
+                    <a href="#" className="buttons packets">PACKETS</a>
+                    <a href="#" className="buttons onsale">ON SALE</a>
+                </div>
+                <div className="col-2 col-md-2 buttons-bar-right">
+                  <a href="#" className="shop">
+                    <StyledBadge badgeContent={0} showZero className="badges amountBox" />
+                    <ShoppingCartIcon className="shoppingCart"/>
+                  </a>
+                </div>
               </div>
+            </div>
+          </div>
+          <div className="navBottom">
+            <div className="container">
+              <div className="row d-flex">
+                <div className="col-4 navInfo">
+                  <img className="mr-1 overflow-hidden me-1" width="16" height="16" src="https://cdn.myikas.com/images/theme-images/3df84b2b-f6d4-4bca-b7d0-6078197d2cff/image_180.webp"/>
+                  <strong>SAME DAY SHIPPING</strong>
+                  <span>&nbsp;- 4:00 PM BEFORE ORDERS</span>
+                </div>
+                <div className="col-4 navInfo">
+                <img className="mr-1 overflow-hidden me-1" width="16" height="16" src="https://cdn.myikas.com/images/theme-images/afbc751e-179d-4e69-b2bc-c9eebb97a2af/image_180.webp"/>
+                  <strong>FREE SHIPPING</strong>
+                  <span>&nbsp;- 50 USD AND ABOVE ORDERS</span>
+                </div>
+                <div className="col-4 navInfo">
+                  <img className="mr-1 overflow-hidden me-1" width="16" height="16" src="https://cdn.myikas.com/images/theme-images/027c72b8-a0ed-470e-ba40-4f1c06244604/image_180.webp"/>
+                  <strong>SAFE SHOPPING</strong>
+                  <span>&nbsp;- 750,000+ HAPPY CUSTOMERS</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
@@ -204,19 +210,39 @@ export const Navbar = () => {
                     <td>
                       <NavLink to="/account" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
                         <PiUserCircleDuotone className="icons"/>
-                        <span className="icon-text">My Account</span>
+                        <span className="icon-text">Account</span>
                       </NavLink>
                     </td>
                     <td>
+                        <NavLink to="/current-orders" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
+                          <i className="fa-solid fa-truck-fast fa-icons"/>
+                          <span className="icon-text">Orders</span>
+                        </NavLink>                
+                    </td>
+                    <td>
+                        <NavLink to="/favorites" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
+                          <i className="fa-solid fa-heart fa-icons"/>
+                          <span className="icon-text">Favorites</span>
+                        </NavLink>
+                    </td>
+                  </tr>
+                  <tr className="w-100">
+                    <td>
                         <NavLink to="/box" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
                           <GiCardboardBoxClosed className="icons"/>
-                          <span className="icon-text">My Box</span>
+                          <span className="icon-text">Box</span>
                         </NavLink>
                     </td>
                     <td>
-                        <NavLink to="/offers" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
-                          <GiPriceTag className="icons offer"/>
-                          <span className="icon-text">Offers</span>
+                        <NavLink to="/addresses" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
+                          <i className="fa-solid fa-map-location-dot fa-icons"/>
+                          <span className="icon-text">Addresses</span>
+                        </NavLink>
+                    </td>
+                    <td>
+                        <NavLink to="/comments" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
+                          <i className="fa-solid fa-comments fa-icons"/>
+                          <span className="icon-text">Comments</span>
                         </NavLink>
                     </td>
                   </tr>
@@ -267,15 +293,16 @@ export const Navbar = () => {
             <div className="drawHeader d-flex w-100 justify-content-between">
               <span>{user?.firstName + " " +user?.lastName}</span>
               <button className="drawer-close" onClick={() => setRightDrawer(false)}>
-                <i className="bi bi-x-lg"/>
+                <i className="fa-solid fa-xmark"/>
               </button>
             </div>
+            <div className="drawHeader-divider"/>
             <div className="drawBody">
               <div className="draw-div">
                 <div className="draw-item mt-2">
                   <button className="draw-button" onClick={() => handleDrawerClick('account', (numberDrawer == 1 ? 0 : 1))}>
                     <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-circle-user align-items-center" style={{color: "#282b78"}}/>
+                      <i className="fa-solid fa-circle-user align-items-center"/>
                       <span className="draw-text">Account</span>
                     </div>
                     <i className="bi bi-chevron-right align-items-center" style={{
@@ -306,7 +333,7 @@ export const Navbar = () => {
                 <div className="draw-item">
                   <button className="draw-button" onClick={() => handleDrawerClick('order', (numberDrawer == 2 ? 0 : 2))}>
                     <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-box align-items-center" style={{color: "#282b78"}}/>
+                      <i className="fa-solid fa-box align-items-center"/>
                       <span className="draw-text">Orders</span>
                     </div>
                     <i className="bi bi-chevron-right align-items-center" style={{
@@ -333,7 +360,7 @@ export const Navbar = () => {
                 <div className="draw-item">
                   <button className="draw-button"  onClick={() => handleDrawerClick('favorites', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-heart align-items-center" style={{color: "#282b78"}}/>
+                      <i className="fa-solid fa-heart align-items-center"/>
                       <span className="draw-text">Favorites</span>
                     </div>
                   </button>
@@ -343,7 +370,7 @@ export const Navbar = () => {
                 <div className="draw-item">
                   <button className="draw-button"  onClick={() => handleDrawerClick('box', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-cart-shopping align-items-center" style={{color: "#282b78"}}/>
+                      <i className="fa-solid fa-cart-shopping align-items-center"/>
                       <span className="draw-text">Box</span>
                     </div>
                   </button>
@@ -353,7 +380,7 @@ export const Navbar = () => {
                 <div className="draw-item">
                   <button className="draw-button"  onClick={() => handleDrawerClick('addresses', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-map-location-dot align-items-center" style={{color: "#282b78"}}/>
+                      <i className="fa-solid fa-map-location-dot align-items-center"/>
                       <span className="draw-text">My addresses</span>
                     </div>
                   </button>
@@ -363,7 +390,7 @@ export const Navbar = () => {
                 <div className="draw-item">
                   <button className="draw-button"  onClick={() => handleDrawerClick('comments', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-comment align-items-center" style={{color: "#282b78"}}/>
+                      <i className="fa-solid fa-comment align-items-center"/>
                       <span className="draw-text">My Comments</span>
                     </div>
                   </button>
@@ -373,7 +400,7 @@ export const Navbar = () => {
                 <div className="draw-item">
                   <button className="draw-button"  onClick={() => handleDrawerClick('faqs', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-circle-info align-items-center" style={{color: "#282b78"}}/>
+                      <i className="fa-solid fa-circle-info align-items-center"/>
                       <span className="draw-text">FAQs</span>
                     </div>
                   </button>
@@ -383,7 +410,7 @@ export const Navbar = () => {
                 <div className="draw-item">
                   <button className="draw-button" onClick={handleLogout}>
                     <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-right-from-bracket align-items-center" style={{color: "#282b78"}}/>
+                      <i className="fa-solid fa-right-from-bracket align-items-center"/>
                       <span className="draw-text">Logout</span>
                     </div>
                   </button>

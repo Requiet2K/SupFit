@@ -90,9 +90,9 @@ export const Information = () => {
 
   const closeGenderSelection = () =>{
     const navDesktopElements = document.querySelectorAll('.nav-desktop');
-      navDesktopElements.forEach((navDesktopElement) => {
-        (navDesktopElement as HTMLElement).style.paddingRight = '0px';
-      });
+    navDesktopElements.forEach((navDesktopElement) => {
+      (navDesktopElement as HTMLElement).style.paddingRight = '0px';
+    });
   }
   
   return (
@@ -113,7 +113,7 @@ export const Information = () => {
                 </div>
               </div>
             </div>
-            <div className="content">
+            <div className="content infoContent">
               <form onSubmit={(e: FormEvent) => handleSubmit(e)}>
                 <div className="row mt-4 d-flex justify-content-center">
                   <div className="d-none d-lg-flex col-md-2 justify-content-center align-items-center">

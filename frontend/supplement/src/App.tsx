@@ -15,8 +15,20 @@ import { Box } from './components/Account/layout/Box'
 import { Addresses } from './components/Account/layout/Addresses'
 import { Comments } from './components/Account/layout/Comments'
 import { Faqs } from './components/Account/layout/Faqs'
+import { useState } from 'react'
 
 function App() {
+
+    const [showContactModal, setShowContactModal] = useState(false);
+
+    const handleContactModal = () => {
+      setShowContactModal(true);
+    }
+
+    const handleCloseContactModal = () => {
+      setShowContactModal(false);
+    }
+
     return (
         <div className='d-flex flex-column min-vh-100'>
           <Navbar />
@@ -39,11 +51,11 @@ function App() {
               <Route path="/box" element={<Box />} />
               <Route path="/addresses" element={<Addresses />} />
               <Route path="/comments" element={<Comments />} />
-              <Route path="/faqs" element={<Faqs />} />
+              <Route path="/faqs" element={<Faqs handleContactModal={handleContactModal}/>} />
             </Route>
           </Routes>
           </div>
-          <Footer />
+          <Footer handleContactModal={showContactModal} handleCloseContactModal={handleCloseContactModal}/>
         </div>
     )
   }

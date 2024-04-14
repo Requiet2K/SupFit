@@ -19,7 +19,7 @@
     background: linear-gradient(to right, #1b105a,  #0a023b);
 } 
 
-.content h4{
+.secTitle{
     color: var(--text-color-2);
     text-align: center;
     display: flex;

@@ -1,4 +1,4 @@
-.content{
+.dashContent{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -42,7 +42,7 @@
 }
 
 @media only screen and (max-width: 991px) {
-    .row{
+    .dashboard .row{
         row-gap: 20px;
     }
 

@@ -4,10 +4,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import payments from "../../images/payments.png";
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { PiX } from 'react-icons/pi';
 import { overflowHidden, overflowShow } from '../../utils/handleOverflow';
 
-export const Footer = () => {
+export const Footer = ({ handleContactModal, handleCloseContactModal } : { handleContactModal: boolean, handleCloseContactModal: () => void}) => {
   const navigate = useNavigate();
 
   const [contactModal, setContactModal] = useState(false);
@@ -18,7 +17,13 @@ export const Footer = () => {
     }else{
       overflowShow();
     }
-  }, [contactModal])
+  }, [contactModal]);
+
+  useEffect(() => {
+    if(handleContactModal){
+      setContactModal(true);
+    }
+  }, [handleContactModal]);
   
   return (
     <footer>
@@ -114,7 +119,7 @@ export const Footer = () => {
                     <h5>Need Help?</h5>
                     <ul className="footer-list">
                       <li>
-                        <button onClick={() => setContactModal(true)}>Contact Us</button>
+                        <button onClick={() => { setContactModal(true); }}>Contact Us</button>
                       </li>
                       <li>
                         <a href="" onClick={() => navigate('/faqs')}>FAQs</a>
@@ -163,8 +168,8 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-      <div className={`${contactModal ? `contactModal` : "d-none"}`}>
-        <div className="modalCenter">
+      <div className={`contactModal ${contactModal ? `showContactModal` : ""}`}>
+        <div className={`footerModalCenter ${contactModal ? `showContactModalCenter` : ""}`}>
           <h5>You can reach us using the contact information below.</h5>
           <div className="contactModalItem d-flex gap-3">
             <div className="contact-icon">
@@ -178,7 +183,7 @@ export const Footer = () => {
             </div>
             <h6 className="text">info@supfit.com</h6>
           </div>
-          <i className="fa-regular fa-circle-xmark" onClick={() => setContactModal(false)}/>
+          <i className="fa-regular fa-circle-xmark" onClick={() => {handleCloseContactModal(); setContactModal(false)}}/>
         </div>
       </div>
     </footer>

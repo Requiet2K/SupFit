@@ -1,27 +1,9 @@
 *{
-    font-family: "Montserrat", sans-serif;
-}
-
-.buttons{
-    text-decoration: none;
-    color: var(--text-color);
-    transition: all .3s ease-out;
-    font-weight: 400;
-    padding: 12px 25px;
-    font-size: 16px;
+    font-family: 'Futura PT', sans-serif;
 }
 
 .nav-color{
     background-color: var(--text-color-2);
-}
-
-.nav-item{
-    display: flex;
-}
-
-.navbar-nav{
-    flex-direction: row!important;
-    align-items: center;
 }
 
 .login{
@@ -65,26 +47,6 @@
 
 .signup:hover{
     background-color: var(--main-color-hover);
-}
-
-.buttons:hover{
-    background-color: var(--primary-color);
-}
-
-.buttons-bar{
-    position: relative;
-    width: 100%;
-    flex-basis: auto;
-    display: flex;
-    height: 47px;
-}
-
-.badges{
-    color: var(--text-color);
-}
-
-.nav-top{
-    border-bottom: 1px solid var(--primary-color);
 }
 
 .search{
@@ -138,7 +100,7 @@
 
 .side-bar{
     position: absolute;
-    top: 74px;
+    top: 65px;
     left: -100%; 
     height: 100vh;
     width: 100%;
@@ -161,11 +123,20 @@
     position: fixed!important;
     top: 0;
     width: 100%;
-    transition: top 0.2s ease-in-out;
+    transition: top 100ms;
 }
 
 .navbar-hide{
-    top: -141px;
+    top: -151px;
+}
+
+@media only screen and (max-width: 992px) {
+    .navbar-hide{
+        top: -165px;
+    }
+    .show-true{
+        top: 153px!important;
+    }
 }
 
 .show-nav{
@@ -179,7 +150,7 @@
     border: none;
     display: flex;
     align-items: flex-end;
-    transition: background-color .3s;
+    transition: background-color 200ms;
 }
 
 .show-nav .fa-solid{
@@ -202,7 +173,7 @@
 
 .show-true{
     visibility: visible;
-    top: 130px;
+    top: 139px;
 }
 
 .side-button{
@@ -227,32 +198,6 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.shop{
-    padding: 10px;
-    background-color: var(--primary-color);
-    width: 50px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    clip-path: polygon(calc(100% - 10px) 0%,100% 10px,100% 100%,10px 100%,0% calc(100% - 10px),0% 0%);
-}
-
-.shop:hover{
-    background-color: var(--primary-color-hover);
-}
-
-.amountBox{
-    position: absolute;
-    top: -9px;
-    right: -8px;
-}
-
-.buttons-bar-right{
-    display: flex;
-    align-items: center;
-}
-
 .side-bar-buttons{
     width: 100%;
     background-color: var(--text-color-2);
@@ -262,13 +207,6 @@
     .logo{
         width: 180px!important;
     }
-}
-
-@media only screen and (max-width: 991px) {
-    .buttons{
-        padding: 12px 5px;
-    }
-    
 }
 
 .navShadow{
@@ -313,15 +251,16 @@
     color: var(--text-color);
 }
 
+.menu .fa-icons{
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
 .menu .icon-text{
     font-size: .8rem;
     color: var(--text-color);
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Futura PT', sans-serif;
     font-weight: 500;
-}
-
-.offer{
-    font-size: 1.3rem!important;
 }
 
 .menu td:hover{
@@ -342,17 +281,12 @@
 }
 
 .side-button span{
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Futura PT', sans-serif;
     font-weight: 500;
 }
 
 .person{
     padding: 16px 15px!important;
-}
-
-.css-ai1ye3-MuiBadge-root .MuiBadge-badge{
-    background-color: var(--main-color)!important;
-    border-color: var(--main-color)!important;
 }
 
 .userLogged{
@@ -458,9 +392,10 @@
 .drawer-right{
     min-width: 250px;
     height: 100vh;
-    background-color: var(--secondary-color);
+    background-color: rgb(16, 20, 24);
     position: absolute;
     right: 0;
+    clip-path: polygon(50% 0%, 79% 0, 100% 0, 100% 70%, 100% 100%, 0 85%, 0 0);
 }
 
 .off-canvas{
@@ -479,19 +414,29 @@
 }
 
 .drawer-close{
-    font-size: 18px;
-    color: var(--secondary-color-hover);
-    transition: all .2s;
     display: flex;
-    align-items: Center;
+    align-items: center;
     justify-content: center;
-    border: 0;
-    overflow: hidden;
+    background-color: transparent;
+    outline: 0px;
+    border: 0px;
+    margin: 0;
+    padding: 10px 8px 8px 10px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+    text-decoration: none;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 50%;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    color: rgb(0, 107, 214);
 }
 
 .drawer-close:hover {
-    font-size: 20px;
-    color: var(--text-color);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .drawHeader{
@@ -505,8 +450,9 @@
 .drawHeader span{
     font-weight: 500;
     font-size: 20px;
-    font-family: "PT Sans", sans-serif;
+    font-family: 'Futura PT', sans-serif;
     margin-left: 8px;
+    color: var(--text-color-2)
 }
 
 
@@ -515,45 +461,48 @@
     border: 0;
     display: flex;
     justify-content: space-between;
-    padding: 8px 14px;
+    padding: 14px 10px;
     transition: all .3s;
+    background-color: transparent;
+    border-color: rgb(0, 97, 194);
 }
 
 .draw-left i{
     font-size: 14px;
+    color: rgb(0, 97, 194);
 }
 
 .bi-chevron-right, .bi-chevron-down{
     font-size: 10px;
+    color: rgb(0, 97, 194);
 }
 
 .draw-text{
     font-size: 13px;
     line-height: 1;
-    font-family: "PT Sans", sans-serif;
+    font-family: 'Futura PT', sans-serif;
+    color: var(--text-color-2);
 }
 
 .draw-button:hover{
-    background-color: var(--main-color);
+    background-color: rgb(0, 97, 194);
     color: var(--text-color-2)!important;
 }
 
-.draw-button:hover .fa-solid{
+.draw-button:hover .fa-solid, .draw-button:hover .bi-chevron-right{
     color: var(--text-color-2)!important;
 }
 
 .dropElement{
     width: 90%;
-    box-shadow: -4px 4px 5px 0 rgba(0,0,0,.15);
-    background-color: var(--secondary-color);
-    gap: 5px;
     display: flex;
     flex-direction: column;
 }
 
 .dropdown-button{
     border: 0;
-    background-color: var(--secondary-color);
+    border-radius: 5px;
+    background-color: transparent;
     width: 100%;
     display: flex;
     gap: 10px;
@@ -562,21 +511,24 @@
 }
 
 .dropdown-button:hover{
-    background-color: var(--text-color-2);
-    color: var(--main-color);
+    background-color: rgb(0, 97, 194);
+}
+
+.dropdown-button:hover .drop-icon{
+    color: var(--text-color-2);
 }
 
 .drop-icon{
     font-size: 12px!important;
     margin-top: 1px;
-    color: var(--main-color);
+    color: rgb(0, 97, 194);
 }
 
 .drop-draw-text{
     font-weight: 300;
-    color: var(--text-color)!important;
+    color: var(--text-color-2)!important;
     font-size: 11px;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Futura PT', sans-serif;
 }
 
 .dropdown-button:hover .fa-arrow-right{
@@ -584,7 +536,7 @@
 }
 
 .draw-dropdown{
-    background-color: var(--secondary-color);
+    background-color: transparent;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -602,4 +554,155 @@
 
 .logoutBtn:hover{
     background-color: transparent!important;
+}
+
+.drawHeader-divider{
+    margin: 0px;
+    flex-shrink: 0;
+    border-width: 0px 0px thin;
+    border-style: solid;
+    border-color: rgba(31, 38, 46, 0.8);
+}
+
+.navMiddle{
+    width: 100%;
+    background-color: rgba(34, 34, 34, 1);
+    height: 35px;
+}
+
+.navMiddle .buttons{
+    color: var(--text-color-2);
+    line-height: 35px;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0 1rem;
+    cursor: pointer;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    text-decoration: none;
+    flex-grow: 1; 
+    transition: all .3s;
+    font-family: 'Futura PT', sans-serif;
+}
+
+.navMiddle .buttons:hover{
+    line-height: 35px;
+    background-color: var(--text-color-2);
+    color: var(--text-color);
+}
+
+.buttons-bar-left{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; 
+    text-decoration: inherit;
+    text-align: center;
+    flex-grow: 1!important; 
+}
+
+.buttons-bar-right{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.badges{
+    color: var(--text-color);
+}
+
+.shop{
+    padding: 10px;
+    background-color: transparent;
+    width: 40px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.css-ai1ye3-MuiBadge-root .MuiBadge-badge{
+    background-color: red!important;
+    border-color: red!important;
+}
+
+.shoppingCart{
+    color: var(--text-color-2);
+}
+
+.shop:hover .shoppingCart{
+    color: var(--primary-color-hover);
+}
+
+.amountBox{
+    position: absolute;
+    top: -3px;
+    right: -30px;
+}
+
+.badges{
+    color: var(--text-color);
+}
+
+.packets{
+    background-color: #C90406;
+}
+
+.onsale{
+    background-color: #FF6600;
+}
+
+@media only screen and (max-width: 992px) {
+    .navMiddle .buttons{
+        padding: 0 2px;
+    }
+}
+
+.nav-desktop{
+    height: 100px;
+}
+
+.navBottom{
+    width: 100%;
+    padding: 7px;
+    background-color: var(--text-color-2);
+}
+
+.navInfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navBottom img{
+    pointer-events: none;
+}
+
+.navInfo strong{
+    font-size: 0.8rem;
+    font-weight: bolder;
+    font-family: 'Futura PT', sans-serif;
+    pointer-events: none;
+    height: 17px;
+}
+
+.navInfo span{
+    font-size: 0.8rem;
+    font-family: 'Futura PT', sans-serif;
+    font-weight: 400;
+    pointer-events: none;
+    height: 17px;
+}
+
+@media only screen and (max-width: 992px) {
+    .navInfo strong{
+        height: auto;
+        font-size: 0.7rem;
+    }
+    
+    .navInfo span{
+        height: auto;
+        font-size: 0.7rem;
+    }
 }

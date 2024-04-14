@@ -26,7 +26,7 @@ export const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="content">
+            <div className="content dashContent">
               <div className="row mb-3">
                 <div className="col-6 col-lg-3">
                   <div className="dash-info" onClick={() => navigate("/favorites")}>

@@ -143,6 +143,7 @@ footer{
     width: 100%;
     background-color: rgba(0,0,0,.75);
     top: 0;
+    right: -150%;
     overflow-y: hidden;
     z-index: 99999999;
     display: flex;
@@ -150,8 +151,14 @@ footer{
     align-items: center;
 }
 
-.modalCenter{
-    position: relative;
+.showContactModal{
+    right:0;
+}
+
+.footerModalCenter{
+    position: fixed;
+    right: -150%;
+    transition: right .3s ease-in-out;
     height: 30vh;
     width: 25%;
     background-color: var(--main-color);
@@ -161,6 +168,10 @@ footer{
     align-items: center;
     justify-content: space-evenly;
     padding: 32px 0 0 0;
+}
+
+.showContactModalCenter{
+    right: 38%;
 }
 
 .contactModalItem{
@@ -173,14 +184,14 @@ footer{
     width: 85%;
 }
 
-.modalCenter h5{
+.footerModalCenter h5{
     color: var(--text-color-2);
     font-size: 17px;
     text-align: center;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.modalCenter .fa-regular{
+.footerModalCenter .fa-regular{
     position: absolute;
     top: 15px;
     right: 15px;
@@ -190,12 +201,16 @@ footer{
     cursor: pointer;
 }
 
-.modalCenter .fa-regular:hover{
+.footerModalCenter .fa-regular:hover{
     color: #8a8a8a!important;
 }
 
 @media only screen and (max-width: 1100px) {
-    .modalCenter{
+    .footerModalCenter{
         width: 70%
+    }
+
+    .showContactModalCenter{
+        right: 18%;
     }
 }

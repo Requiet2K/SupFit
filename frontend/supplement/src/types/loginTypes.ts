@@ -7,9 +7,34 @@ export type UserState = {
     gender?: string,
     birthDate?: Date | null,
     phoneNumber?: string,
-    address?: string;
+    addresses?: AddressState[];
     role: Role;
-  };
+};
+
+export type AddressState = {
+    id: number;
+    default: boolean;
+    title: string;
+    recipientFirstName: string;
+    recipientLastName: string;
+    recipientPhoneNumber: string;
+    country: string;
+    city: string;
+    district: string;
+    address: string;
+}
+
+export type sendAddressState = {
+    default: boolean;
+    title: string;
+    recipientFirstName: string;
+    recipientLastName: string;
+    recipientPhoneNumber: string;
+    country: string;
+    city: string;
+    district: string;
+    address: string;
+}
 
 export type AuthState = {
     user?: UserState; 

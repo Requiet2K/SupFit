@@ -78,7 +78,7 @@ export const Security = () => {
     }else{
       document.body.style.overflow = 'visible';
     }
-  },[passModal, tokenModal])
+  },[passModal, tokenModal]);
 
   const handleTokenValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const enteredValue = parseInt(e.target.value, 10);
@@ -190,7 +190,7 @@ export const Security = () => {
                 <div className="col-12 col-lg-6 d-flex justify-content-center">
                   <div className="changePass" onClick={() => setPassModel(true)}>
                     <div className="security-text d-flex flex-column gap-3 w-50">
-                      <h4>Change Your Password</h4>
+                      <h4 className='secTitle'>Change Your Password</h4>
                       <span className='text-span'>Your passwords are securely encrypted using JWT technology.</span>
                     </div>
                     <img src={changePass} alt="" className='w-50 sec-picture'/>
@@ -199,7 +199,7 @@ export const Security = () => {
                 <div className="col-12 col-lg-6 d-flex justify-content-center">
                   <div className="changeTimeout" onClick={() => setTokenModal(true)}>
                     <div className="security-text d-flex flex-column gap-3 w-50">
-                      <h4>Configure Session Timeout</h4>
+                      <h4 className='secTitle'>Configure Session Timeout</h4>
                       <span className='text-span'>Configure your session timeout. After the specified duration, your JWT token will expire.</span>
                     </div>
                     <img src={changeToken} alt="" className='w-50 sec-picture'/>
