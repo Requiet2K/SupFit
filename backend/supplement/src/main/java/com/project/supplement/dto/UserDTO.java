@@ -1,5 +1,6 @@
 package com.project.supplement.dto;
 
+import com.project.supplement.entity.Address;
 import com.project.supplement.security.Role;
 import lombok.*;
 import org.springframework.lang.Nullable;
@@ -7,6 +8,7 @@ import org.springframework.lang.Nullable;
 import javax.validation.constraints.Null;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,7 +23,7 @@ public class UserDTO {
     private String email;
     private Role role;
     @Nullable
-    private String address;
+    private List<Address> addresses;
     @Nullable
     private LocalDate birthDate;
     @Nullable

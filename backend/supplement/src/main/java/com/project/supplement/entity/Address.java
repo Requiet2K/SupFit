@@ -18,13 +18,12 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "address_id", nullable = false, updatable = false)
     private Long id;
 
     @Column(name = "is_default", columnDefinition = "boolean default false")
     private boolean isDefault;
 
-    @Column(name = "title")
     private String title;
 
     @Column(name = "recipient_first_name")
@@ -37,16 +36,12 @@ public class Address {
     @Column(name = "recipient_phone_number", length = 12)
     private String recipientPhoneNumber;
 
-    @Column(name = "country")
     private String country;
 
-    @Column(name = "city")
     private String city;
 
-    @Column(name = "district")
     private String district;
 
-    @Column(name = "address")
     private String address;
 
     @ManyToOne
