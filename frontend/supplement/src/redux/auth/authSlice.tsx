@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { AuthState } from "../../types/loginTypes"
+import { AuthState } from "../../types/userTypes"
 import { jwtDecode } from "jwt-decode";
 
 const initialState: AuthState = {

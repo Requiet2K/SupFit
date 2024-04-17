@@ -114,7 +114,7 @@
     padding: 0;
     font-weight: 600;
     font-size: 24px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Futura PT', sans-serif;
     transition: color .15s ease-in-out;
 }
 
@@ -171,8 +171,9 @@
 }
 
 .faqsItemContent{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Futura PT', sans-serif;
     color: #5e5e5e;
+    font-size: 18px;
 }
 
 .faqsModalBottom{
@@ -188,7 +189,7 @@
 
 .faqsModalBottom button{
     font-size: 14px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Futura PT', sans-serif;
     border: 0;
     border-radius: 5px;
     background: #D04F53;

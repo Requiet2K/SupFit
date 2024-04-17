@@ -3,7 +3,7 @@ import { AccountPage } from '../../AccountPage'
 import { BreadCrumb } from '../../BreadCrumb'
 import '../../../../style/AccountPage/components/Information.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { AuthState } from '../../../../types/loginTypes'
+import { AuthState } from '../../../../types/userTypes'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectCurrentToken, selectCurrentUser } from "../../redux/auth/authSlice";
-import '../../style/HomePage/HomePage.css';
+import '../../style/MainPages/HomePage.css';
 
 export default function HomePage() {
   const token = useSelector(selectCurrentToken);

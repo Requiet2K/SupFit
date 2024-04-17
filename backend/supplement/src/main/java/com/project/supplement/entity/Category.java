@@ -23,4 +23,7 @@ public class Category {
 
     @Column(name = "category_image")
     private String categoryImage;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products;
 }

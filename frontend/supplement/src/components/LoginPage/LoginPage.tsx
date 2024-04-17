@@ -10,7 +10,7 @@ import { useLoginMutation, useLazyGetLoggedUserQuery, useRegisterMutation } from
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/auth/authSlice';
 import { useNavigate } from 'react-router-dom'
-import { AuthState } from '../../types/loginTypes';
+import { AuthState } from '../../types/userTypes';
 import { ForgetPassword } from './ForgetPassword';
 
 export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {

@@ -118,18 +118,6 @@
     opacity: 1;
 }
 
-.navbar{
-    z-index: 999!important;
-    position: fixed!important;
-    top: 0;
-    width: 100%;
-    transition: top 100ms;
-}
-
-.navbar-hide{
-    top: -151px;
-}
-
 @media only screen and (max-width: 992px) {
     .navbar-hide{
         top: -165px;
@@ -564,35 +552,6 @@
     border-color: rgba(31, 38, 46, 0.8);
 }
 
-.navMiddle{
-    width: 100%;
-    background-color: rgba(34, 34, 34, 1);
-    height: 35px;
-}
-
-.navMiddle .buttons{
-    color: var(--text-color-2);
-    line-height: 35px;
-    font-weight: 500;
-    font-size: 14px;
-    padding: 0 1rem;
-    cursor: pointer;
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    text-align: center;
-    text-decoration: none;
-    flex-grow: 1; 
-    transition: all .3s;
-    font-family: 'Futura PT', sans-serif;
-}
-
-.navMiddle .buttons:hover{
-    line-height: 35px;
-    background-color: var(--text-color-2);
-    color: var(--text-color);
-}
-
 .buttons-bar-left{
     display: flex;
     justify-content: flex-start;
@@ -655,7 +614,14 @@
 
 @media only screen and (max-width: 992px) {
     .navMiddle .buttons{
-        padding: 0 2px;
+        padding: 0 1px!important;
+    }
+    .navBottom img{
+        margin-top: 0!important;
+    }
+
+    .navInfo span{
+        margin-top: 2px;
     }
 }
 
@@ -666,7 +632,7 @@
 .navBottom{
     width: 100%;
     padding: 7px;
-    background-color: var(--text-color-2);
+    background-color: var(--secondary-color);
 }
 
 .navInfo{
@@ -677,6 +643,7 @@
 
 .navBottom img{
     pointer-events: none;
+    margin-top: 1px;
 }
 
 .navInfo strong{
@@ -698,11 +665,60 @@
 @media only screen and (max-width: 992px) {
     .navInfo strong{
         height: auto;
-        font-size: 0.7rem;
+        font-size: 0.5rem;
     }
     
     .navInfo span{
         height: auto;
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
+    
+}
+
+.navbar{
+    z-index: 999!important;
+    position: fixed!important;
+    top: 0;
+    width: 100%;
+    transition: top 99ms;
+}
+
+.navbar-hide{
+    top: -151px;
+}
+
+.navMiddle{
+    width: 100%;
+    background-color: rgba(34, 34, 34, 1);
+    height: 35px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.navMiddle .buttons{
+    color: var(--text-color-2);
+    line-height: 35px;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0 1rem;
+    cursor: pointer;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    text-decoration: none;
+    flex-grow: 1; 
+    transition: all .3s;
+    font-family: 'Futura PT', sans-serif;
+}
+
+.navMiddle .buttons:hover{
+    line-height: 35px;
+    background-color: var(--text-color-2);
+    color: var(--text-color);
+}
+
+.buttons-active{
+    border-inline: 3px solid white;
 }

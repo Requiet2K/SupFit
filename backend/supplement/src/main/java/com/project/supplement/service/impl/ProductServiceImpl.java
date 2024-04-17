@@ -1,10 +1,13 @@
 package com.project.supplement.service.impl;
 
 import com.project.supplement.dto.productDTO;
+import com.project.supplement.entity.Address;
 import com.project.supplement.entity.Category;
 import com.project.supplement.entity.NutritionFacts;
 import com.project.supplement.entity.Product;
+import com.project.supplement.exception.custom_exceptions.AddressNotExistsException;
 import com.project.supplement.exception.custom_exceptions.InvalidCategoryIdException;
+import com.project.supplement.exception.custom_exceptions.ProductNotExistsException;
 import com.project.supplement.repository.CategoryRepository;
 import com.project.supplement.repository.ProductRepository;
 import com.project.supplement.service.ProductService;
@@ -12,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,5 +68,12 @@ public class ProductServiceImpl implements ProductService{
                     return productDto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void deleteProduct(Long productId){
+        Optional<Product> product = productRepository.findById(productId);
+        product.ifPresentOrElse(productRepository::delete,
+                ProductNotExistsException::new
+        );
     }
 }

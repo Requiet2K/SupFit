@@ -9,13 +9,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { PiUserCircleDuotone } from "react-icons/pi";
 import { GiCardboardBoxClosed } from "react-icons/gi";
 import { GrFormNext } from "react-icons/gr";
-import { NavLink, useNavigate } from "react-router-dom";
-import { AuthState } from "../../types/loginTypes";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { AuthState } from "../../types/userTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
 import { overflowHidden, overflowShow } from "../../utils/handleOverflow";
 
-export const Navbar = () => {
+export const Navbar = ({ category, onCategoryChange }: {category: string, onCategoryChange: (e: string) => void}) => {
 
   const [sideBar, setSideBar] = useState(false);
   const [rightDrawer, setRightDrawer] = useState(false);
@@ -89,6 +89,18 @@ export const Navbar = () => {
       }
     }, [rightDrawer, sideBar]);
 
+    const [categoryState, setCategoryState] = useState(""); 
+
+    const handleCategoryClick = (newCategory: string) => {
+      if(newCategory == "home"){
+        setCategoryState(""); 
+        onCategoryChange(""); 
+      }else{  
+        setCategoryState(newCategory); 
+        onCategoryChange(newCategory); 
+      }
+    };
+
   return (
     <div className={`navbar p-0 ${hideNav ? "navbar-hide" : ""}`} ref={navbarRef}>
       <button className={`show-nav ${hideNav ? "show-true" : ""}`} onClick={() => setHideNav(false)}><i className="fa-solid fa-caret-down"/></button>
@@ -97,7 +109,7 @@ export const Navbar = () => {
         <div className="d-flex flex-column w-100 nav-color nav-desktop">
           <div className="container p-0">
             <div className="d-flex align-items-center w-100 justify-content-between nav-top">
-              <NavLink className="navbar-brand p-0 mt-1" to="/home">
+              <NavLink className="navbar-brand p-0 mt-1" to="/home" onClick={() => handleCategoryClick("home")}>
                   <img src={logo} className="logo"/>
               </NavLink>
               <div className="d-flex align-items-center w-50 searchBar">
@@ -143,14 +155,16 @@ export const Navbar = () => {
             <div className="container">
               <div className="row">
                 <div className="col-10 buttons-bar-left">
-                    <a href="#" className="buttons">PROTEIN</a>
-                    <a href="#" className="buttons">NUTRITION</a>
-                    <a href="#" className="buttons">SNACKS</a>
-                    <a href="#" className="buttons">VITAMIN</a>
-                    <a href="#" className="buttons">ACCESSORY</a>
-                    <a href="#" className="buttons">ALL PRODUCTS</a>
-                    <a href="#" className="buttons packets">PACKETS</a>
-                    <a href="#" className="buttons onsale">ON SALE</a>
+                    <Link to="/protein" className={`buttons ${categoryState == 'protein' && "buttons-active"}`} onClick={() => handleCategoryClick("protein")}>
+                      PROTEIN
+                    </Link>
+                    <Link to="/nutrition" className={`buttons ${categoryState == 'nutrition' && "buttons-active"}`} onClick={() => handleCategoryClick("nutrition")}>NUTRITION</Link>
+                    <Link to="/snack" className={`buttons ${categoryState == 'snack' && "buttons-active"}`} onClick={() => handleCategoryClick("snack")}>SNACK</Link>
+                    <Link to="/vitamin" className={`buttons ${categoryState == 'vitamin' && "buttons-active"}`} onClick={() => handleCategoryClick("vitamin")}>VITAMIN</Link>
+                    <Link to="/accessory" className={`buttons ${categoryState == 'accessory' && "buttons-active"}`} onClick={() => handleCategoryClick("accessory")}>ACCESSORY</Link>
+                    <Link to="/all" className={`buttons ${categoryState == 'all' && "buttons-active"}`} onClick={() => handleCategoryClick("all")}>ALL PRODUCTS</Link>
+                    <Link to="/packets" className={`buttons packets ${categoryState == 'packets' && "buttons-active"}`} onClick={() => handleCategoryClick("packets")}>PACKETS</Link>
+                    <Link to="/onsale" className={`buttons onsale ${categoryState == 'onsale' && "buttons-active"}`} onClick={() => handleCategoryClick("onsale")}>ON SALE</Link>
                 </div>
                 <div className="col-2 col-md-2 buttons-bar-right">
                   <a href="#" className="shop">
@@ -170,7 +184,7 @@ export const Navbar = () => {
                   <span>&nbsp;- 4:00 PM BEFORE ORDERS</span>
                 </div>
                 <div className="col-4 navInfo">
-                <img className="mr-1 overflow-hidden me-1" width="16" height="16" src="https://cdn.myikas.com/images/theme-images/afbc751e-179d-4e69-b2bc-c9eebb97a2af/image_180.webp"/>
+                  <img className="mr-1 overflow-hidden me-1" width="16" height="16" src="https://cdn.myikas.com/images/theme-images/afbc751e-179d-4e69-b2bc-c9eebb97a2af/image_180.webp"/>
                   <strong>FREE SHIPPING</strong>
                   <span>&nbsp;- 50 USD AND ABOVE ORDERS</span>
                 </div>
@@ -251,34 +265,38 @@ export const Navbar = () => {
               <div className="categories">
                 <div className="menu-categories my-4">Categories</div>
               </div>
-              <a href="#" className="side-button justify-content-between">
+              <a href="" className="side-button justify-content-between" onClick={() => {handleCategoryClick("protein"); navigate('/protein')}}>
                 <span>Protein</span>
                 <GrFormNext />
               </a>
-              <a href="#" className="side-button justify-content-between">
+              <a href="" className="side-button justify-content-between" onClick={() => {handleCategoryClick("nutrition"); navigate('/nutrition')}}>
                 <span>Nutrition</span>
                 <GrFormNext />
               </a> 
-              <a href="#" className="side-button justify-content-between">
-                <span>Snacks</span>
+              <a href="" className="side-button justify-content-between" onClick={() => {handleCategoryClick("snack"); navigate('/snack')}}>
+                <span>Snack</span>
                 <GrFormNext />
               </a> 
-              <a href="#" className="side-button justify-content-between">
+              <a href="" className="side-button justify-content-between" onClick={() => {handleCategoryClick("vitamin"); navigate('/vitamin')}}>
                 <span>Vitamin</span>
                 <GrFormNext />
               </a> 
-              <a href="#" className="side-button justify-content-between">
+              <a href="" className="side-button justify-content-between" onClick={() => {handleCategoryClick("accessory"); navigate('/accessory')}}>
                 <span>Accessory</span>
                 <GrFormNext />
               </a> 
-              <a href="#" className="side-button justify-content-between">
+              <a href="" className="side-button justify-content-between" onClick={() => {handleCategoryClick("all"); navigate('/all')}}>
                 <span>All Products</span>
                 <GrFormNext />
               </a> 
-              <a href="#" className="side-button justify-content-between">
+              <a href="" className="side-button justify-content-between" onClick={() => {handleCategoryClick("packets"); navigate('/packets')}}>
                 <span>Packets</span>
                 <GrFormNext />
               </a> 
+              <a href="" className="side-button justify-content-between" onClick={() => {handleCategoryClick("onsale"); navigate('/onsale')}}>
+                <span>On Sale</span>
+                <GrFormNext />
+              </a>
             </div>
           </div>
           <form className="d-flex w-100 mb-2 px-2">

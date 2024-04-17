@@ -1,4 +1,4 @@
-import { changePasswordState, updateUserState } from "../../types/loginTypes";
+import { changePasswordState, updateUserState } from "../../types/userTypes";
 import { apiSlice } from "../api/apiSlice"
 
 export const userApiSlice = apiSlice.injectEndpoints({

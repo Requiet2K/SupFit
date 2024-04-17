@@ -1,4 +1,4 @@
-import { AddressState, sendAddressState } from "../../types/loginTypes";
+import { AddressState, sendAddressState } from "../../types/userTypes";
 import { apiSlice } from "../api/apiSlice"
 
 export const addressApiSlice = apiSlice.injectEndpoints({

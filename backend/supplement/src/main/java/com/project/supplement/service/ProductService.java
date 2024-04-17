@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface ProductService {
     void createProduct(productDTO productRequest);
-    public List<productDTO> getProductsByCategory(Long categoryId);
+    List<productDTO> getProductsByCategory(Long categoryId);
+    void deleteProduct(Long productId);
+
 }

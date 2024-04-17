@@ -30,7 +30,7 @@ public class Product {
     @JsonManagedReference
     private List<NutritionFacts> NutritionFacts;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 

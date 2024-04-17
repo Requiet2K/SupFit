@@ -65,7 +65,7 @@ export const Faqs = ({ handleContactModal }: { handleContactModal: () => void })
         <div className="faqsModalContent">
           <div className="row">
             <div className="col-12">
-              <h5>FAQ</h5>
+              <h5 className='ms-4'>FAQ</h5>
             </div>
           </div>
           <div className="row mt-3">

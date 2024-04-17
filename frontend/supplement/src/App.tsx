@@ -1,9 +1,9 @@
 import './App.css'
 import { Footer } from './components/NavbarAndFooter/Footer'
-import HomePage from './components/HomePage.tsx/HomePage'
+import HomePage from './components/MainPages/HomePage'
 import {LoginPage} from './components/LoginPage/LoginPage'
 import { Navbar } from './components/NavbarAndFooter/Navbar'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { RequireAuth, RequireNonAuth } from './redux/auth/RequireAccess'
 import { Dashboard } from './components/Account/layout/Account/Dashboard'
 import { Information } from './components/Account/layout/Account/Information'
@@ -15,7 +15,8 @@ import { Box } from './components/Account/layout/Box'
 import { Addresses } from './components/Account/layout/Addresses'
 import { Comments } from './components/Account/layout/Comments'
 import { Faqs } from './components/Account/layout/Faqs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { ProductPage } from './components/MainPages/ProductPage'
 
 function App() {
 
@@ -29,13 +30,33 @@ function App() {
       setShowContactModal(false);
     }
 
+    const [category, setCategory] = useState("");
+
+    const handleCategoryChange = (newCategory: string) => {
+      setCategory(newCategory);
+    };
+
+    const location = useLocation();
+
+    useEffect(() => {
+      const parametre = location.pathname.substring(1); 
+      
+      if(['protein', 'nutrition', 'snack', 'vitamin', 'accessory', 'all', 'packets', 'onsale'].includes(parametre)){
+        setCategory(parametre);
+      }
+
+    }, [location.pathname]);
+
     return (
         <div className='d-flex flex-column min-vh-100'>
-          <Navbar />
+          <Navbar category={category} onCategoryChange={handleCategoryChange}/>
           <div className='flex-grow-1 contentItems'>
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/home' element={<HomePage />} />
+            {['protein', 'nutrition', 'snack', 'vitamin', 'accessory', 'all', 'packets', 'onsale'].includes(category) && (
+            <Route path={`/${category}`} element={<ProductPage category={category} />} />
+            )}
             <Route element={<RequireNonAuth />}>
               <Route path='/login' element={<LoginPage />} />
             </Route>

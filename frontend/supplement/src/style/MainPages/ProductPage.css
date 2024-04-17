@@ -1,0 +1,21 @@
+*{
+    font-family: 'Futura PT', sans-serif;
+}
+
+.productPage{
+    height: 1500px;
+}
+
+.productPageHeader{
+    padding: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.productPageHeader h1{
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 1rem;
+    color: black;
+}

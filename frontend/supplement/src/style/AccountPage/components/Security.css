@@ -112,8 +112,9 @@
 
 .showPassIcon{
     position: absolute;
-    top: 37%;
+    top: 35%;
     left: 10%;
+    height: 5px;
 }
 
 .showPassIcon .bi{
