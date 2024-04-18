@@ -24,7 +24,7 @@
 }
 
 .containerLogin span{
-    font-size: 12px;
+    font-size: 15px;
 }
 
 .containerLogin a{
@@ -68,7 +68,7 @@
     border: none;
     margin: 8px 0;
     padding: 10px 15px;
-    font-size: 13px;
+    font-size: 15px;
     border-radius: 8px;
     width: 100%;
     outline: none;
@@ -255,8 +255,8 @@
     }
 }
 
-.errors{
-    font-size: 10px;
+.loginPage .errors{
+    font-size: 12px;
     width: 100%!important;
     color: red;
     margin-left: 1rem!important;

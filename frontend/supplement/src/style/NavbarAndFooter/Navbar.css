@@ -689,7 +689,7 @@
 
 .navMiddle{
     width: 100%;
-    background-color: rgba(34, 34, 34, 1);
+    background-color: var(--main-color);
     height: 35px;
     display: flex;
     justify-content: space-between; 

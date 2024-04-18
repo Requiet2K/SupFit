@@ -64,7 +64,7 @@ footer{
 }
 
 .footer-list a, .footer-list button{
-    font-size: 12px;
+    font-size: 15px;
     text-decoration: none;
     color: var(--text-color);
     left: 0;
@@ -77,6 +77,23 @@ footer{
 
 .footer-list a:hover, .footer-list button:hover {
     left: 5px;
+}
+
+.footer-list a::after, 
+.footer-list button::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0; 
+    height: 1px;
+    background-color: var(--text-color); 
+    transition: width 0.5s ease;
+}
+
+.footer-list a:hover::after, 
+.footer-list button:hover::after {
+    width: 100%; 
 }
 
 .footerMid{

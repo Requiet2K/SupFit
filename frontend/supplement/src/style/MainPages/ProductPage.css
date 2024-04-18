@@ -2,8 +2,8 @@
     font-family: 'Futura PT', sans-serif;
 }
 
-.productPage{
-    height: 1500px;
+.fa-star{
+    color: #FFD300;
 }
 
 .productPageHeader{
@@ -18,4 +18,85 @@
     font-size: 3rem;
     line-height: 1rem;
     color: black;
+}
+
+.productPageContent{
+    row-gap: 35px;
+}
+
+.productItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.productItem:hover .productImg img{
+    transform: scale(1.05);
+}
+
+.productImg img{
+    width: 275px;
+    transition: transform 0.3s ease;
+}
+
+@media only screen and (max-width: 992px) {
+    .productImg img{
+        width: 250px;
+    }
+}
+
+@media only screen and (max-width: 488px) {
+    .productImg img{
+        width: 150px;
+    }
+}
+
+.productName{
+    font-weight: 600;
+    color: var(--text-color);
+    line-height: 1;
+    font-size: 1.125rem;
+    text-align: center;
+}
+
+.productTitle{
+    color: rgba(136, 136, 136);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+}
+
+.productComments{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333 !important;
+    cursor: pointer;
+    line-height: 17px;
+}
+
+.productComments:hover{
+    color: var(--main-color)!important;
+}
+
+.productPrice{
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.productPageFooter span{
+    font-size: .875rem;
+    line-height: 1.25rem;
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 50px;
+}
+
+.productSkeleton{
+    width: 100%;
+    height: 1000px!important;
 }

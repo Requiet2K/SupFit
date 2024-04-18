@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/category")
 @RequiredArgsConstructor
@@ -21,5 +23,10 @@ public class CategoryController {
         Category category = categoryRepository.findByName(categoryName)
                 .orElseThrow(InvalidCategoryIdException::new);
         return category.getId();
+    }
+
+    @GetMapping("/allCategories")
+    public List<Category> findCategoryIdByName(){
+        return categoryRepository.findAll();
     }
 }
