@@ -3,9 +3,10 @@ export type ProductState = {
     name: string;
     title: string;
     imageUrl: string;
-    flavors: string[],
-    ingredients: string[],
-    price: number,
+    blurhashImg: string;
+    flavors: string[];
+    ingredients: string[];
+    price: number;
     weight: number;
     quantity: number;
     description: string;

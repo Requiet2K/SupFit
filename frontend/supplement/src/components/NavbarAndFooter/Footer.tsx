@@ -3,7 +3,7 @@ import '../../style/NavbarAndFooter/Footer.css';
 import SearchIcon from '@mui/icons-material/Search';
 import payments from "../../images/payments.png";
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { overflowHidden, overflowShow } from '../../utils/handleOverflow';
 
 export const Footer = ({ handleContactModal, handleCloseContactModal } : { handleContactModal: boolean, handleCloseContactModal: () => void}) => {
@@ -24,6 +24,11 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
       setContactModal(true);
     }
   }, [handleContactModal]);
+
+  const handleNavigate = (e : FormEvent, path: string) => {
+    e.preventDefault();
+    navigate(`/${path}`);
+  }
   
   return (
     <footer>
@@ -96,22 +101,22 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
                     <h5>Management</h5>
                     <ul className="footer-list">
                       <li>
-                        <a href="" onClick={() => navigate('/dashboard')}>Account</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'account')}>Account</a>
                       </li>
                       <li>
-                        <a href="" onClick={() => navigate('/past-orders')}>Orders</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'past-orders')}>Orders</a>
                       </li>
                       <li>
-                        <a href="" onClick={() => navigate('/favorites')}>Favorites</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'favorites')}>Favorites</a>
                       </li>
                       <li>
-                        <a href="" onClick={() => navigate('/box')}>Box</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'box')}>Box</a>
                       </li>
                       <li>
-                        <a href="" onClick={() => navigate('/addresses')}>Addresses</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'addresses')}>Addresses</a>
                       </li>
                       <li>
-                        <a href="" onClick={() => navigate('/comments')}>Comments</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'comments')}>Comments</a>
                       </li>
                     </ul>
                   </div>
@@ -122,7 +127,7 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
                         <button onClick={() => { setContactModal(true); }}>Contact Us</button>
                       </li>
                       <li>
-                        <a href="" onClick={() => navigate('/faqs')}>FAQs</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'faqs')}>FAQs</a>
                       </li>
                     </ul>
                   </div>

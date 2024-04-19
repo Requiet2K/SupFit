@@ -36,19 +36,23 @@
     transform: scale(1.05);
 }
 
-.productImg img{
+.productImg{
     width: 275px;
+}
+
+.productImg img{
+    width: 100%;
     transition: transform 0.3s ease;
 }
 
 @media only screen and (max-width: 992px) {
-    .productImg img{
+    .productImg{
         width: 250px;
     }
 }
 
 @media only screen and (max-width: 488px) {
-    .productImg img{
+    .productImg{
         width: 150px;
     }
 }
@@ -99,4 +103,9 @@
 .productSkeleton{
     width: 100%;
     height: 1000px!important;
+}
+
+.productItem .blurLoadingImg{
+    width: 100%!important;
+    height: 275px!important;
 }

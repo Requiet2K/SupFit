@@ -4,8 +4,9 @@ import { useLazyFindCategoryIdByNameQuery } from '../../redux/product/categoryAp
 import { ProductState } from '../../types/productType';
 import { useLazyGetProductsByCategoryQuery } from '../../redux/product/productApiSlice';
 import { Skeleton } from '@mui/material';
+import { ImageComponent } from '../../utils/imageComponent';
 
-export const ProductPage = ({category} : {category: string}) => {
+export const ProductPage = ({category, selectedProduct} : {category: string, selectedProduct: (e: ProductState) => void}) => {
 
     const [products, setProducts] = useState<ProductState[]>();
     const [loading, setLoading] = useState(true);
@@ -20,6 +21,7 @@ export const ProductPage = ({category} : {category: string}) => {
     const [getProductsQuery] = useLazyGetProductsByCategoryQuery();
 
     useEffect(() => {
+      setLoading(true);
     const fetchData = async () => {
       try {
         const categoryNum = await getCategoryIdQuery(category).unwrap();
@@ -36,10 +38,11 @@ export const ProductPage = ({category} : {category: string}) => {
 
     fetchData();
   }, [category]);
+  
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
+  const handleClickedProduct = (product: ProductState) => {
+    selectedProduct(product);
+  }
 
   return (
     <div className="productPage">
@@ -52,16 +55,16 @@ export const ProductPage = ({category} : {category: string}) => {
           </div>
           <div className="productPageContent row mb-5">
             {products?.map((product, index) => (
-                <div className="productPageContentItems col-6 col-md-4 col-lg-3" key={index}>
+                <div className="productPageContentItems col-6 col-md-4 col-lg-3" key={index} onClick={() => handleClickedProduct(product)}>
                   <div className="productItem">
                     <div className="productImg mb-3">
-                      <img src={product.imageUrl} alt={product.name} />
+                      <ImageComponent src={product.imageUrl} alt={product.name} blurhashImg={product.blurhashImg}/>
                     </div>
                     <div className="productName mb-1">
                       {product.name.toUpperCase()}
                     </div>
-                    <div className="productTitle mb-2">
-                      {product.title}
+                    <div className="productTitle mb-2 w-75">
+                      {product.title.toUpperCase()}
                     </div>
                     <div className="productStars mb-1">
                       <i className="fa-solid fa-star" />

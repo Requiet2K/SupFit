@@ -29,9 +29,14 @@ export const RequireAuth = () => {
                 }
                 await getLoggedUser(token).unwrap();
             } catch (err: any) {
+                console.log(err+"sasaasas");
                 if (err.status === "FETCH_ERROR") {
                     showErrorModal("No server response!", "Server is under maintenance, please try again later.");
-                }else {
+                }else if(err == "Error: Invalid token type"){
+                    dispatch(logout({}));
+                    navigate("/login", { state: { signBoolean: false } });
+                    showErrorModal("Login required!", "Please log in or create a new account.");
+                }else{
                     dispatch(logout({}));
                     navigate("/login", { state: { signBoolean: true } });
                     showErrorModal("Your account does not exist!", "Please create a new account.");

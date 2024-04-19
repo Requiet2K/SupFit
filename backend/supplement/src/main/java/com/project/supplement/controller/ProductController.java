@@ -24,6 +24,16 @@ public class ProductController {
         return productService.getProductsByCategory(categoryId);
     }
 
+    @GetMapping("/getAllProductsName")
+    public List<String> getProductsByCategoryId(){
+        return productService.getAllProductsName();
+    }
+
+    @GetMapping("/findProductByPathName/{pathName}")
+    public productDTO getProductsByCategoryId(@PathVariable String pathName){
+        return productService.findProductByPathName(pathName);
+    }
+
     @DeleteMapping("/deleteProductById/{productId}")
     public void deleteProductById(@PathVariable Long productId){
         productService.deleteProduct(productId);

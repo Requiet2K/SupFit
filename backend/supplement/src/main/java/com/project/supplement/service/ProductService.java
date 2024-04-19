@@ -8,5 +8,6 @@ public interface ProductService {
     void createProduct(productDTO productRequest);
     List<productDTO> getProductsByCategory(Long categoryId);
     void deleteProduct(Long productId);
-
+    List<String> getAllProductsName();
+    productDTO findProductByPathName(String pathName);
 }

@@ -2,6 +2,7 @@ package com.project.supplement.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -15,10 +16,11 @@ public class productDTO {
     private Long id;
     private String name;
     private String title;
+    private String blurhashImg;
     private String imageUrl;
     private List<String> flavors;
     private List<String> ingredients;
-    private int price;
+    private BigDecimal price;
     private int weight;
     private int servingAmount;
     private int quantity;

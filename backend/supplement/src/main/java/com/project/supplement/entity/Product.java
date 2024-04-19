@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,9 @@ public class Product {
 
     private String imageUrl;
 
+    @Column(name = "blurhash_img")
+    private String blurhashImg;
+
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<NutritionFacts> NutritionFacts;
@@ -34,7 +38,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private int price;
+    private BigDecimal price;
 
     @ElementCollection
     private List<String> flavors;
