@@ -1,13 +1,16 @@
 package com.project.supplement.service.impl;
 
 import com.luciad.imageio.webp.WebPReadParam;
-import com.project.supplement.dto.productDTO;
+import com.project.supplement.dto.request.productDTO;
+import com.project.supplement.dto.response.productResponse;
 import com.project.supplement.entity.Category;
+import com.project.supplement.entity.Flavour;
 import com.project.supplement.entity.NutritionFacts;
 import com.project.supplement.entity.Product;
 import com.project.supplement.exception.custom_exceptions.InvalidCategoryIdException;
 import com.project.supplement.exception.custom_exceptions.ProductNotExistsException;
 import com.project.supplement.repository.CategoryRepository;
+import com.project.supplement.repository.FlavourRepository;
 import com.project.supplement.repository.ProductRepository;
 import com.project.supplement.service.ProductService;
 import io.trbl.blurhash.BlurHash;
@@ -21,8 +24,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,12 +34,14 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final FlavourRepository flavourRepository;
     private final ModelMapper modelMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CategoryRepository categoryRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CategoryRepository categoryRepository, FlavourRepository flavourRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
+        this.flavourRepository = flavourRepository;
     }
 
     @Override
@@ -60,7 +66,7 @@ public class ProductServiceImpl implements ProductService{
 
         product.setCategory(category);
 
-        String imageUrl = productRequest.getBlurhashImg();
+        String imageUrl = productRequest.getImageUrl();
 
         try {
             URL url = new URL(imageUrl);
@@ -79,16 +85,28 @@ public class ProductServiceImpl implements ProductService{
                 System.out.println("Invalid image: " + imageUrl);
             } else {
                 String blurHash = BlurHash.encode(image);
-                product.setBlurhashImg(blurHash);
+                if (blurHash == null) {
+                    System.out.println("Could not generate BlurHash for image: " + imageUrl);
+                } else {
+                    product.setBlurhashImg(blurHash);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        List<Flavour> flavours = flavourRepository.findAllById(productRequest.getFlavourIds());
+
+        if(flavours == null){
+            throw new InvalidCategoryIdException();
+        }
+
+        product.setFlavours(flavours);
+
         productRepository.save(product);
     }
 
-    public List<productDTO> getProductsByCategory(Long categoryId){
+    public List<productResponse> getProductsByCategory(Long categoryId){
 
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(InvalidCategoryIdException::new);
@@ -101,17 +119,23 @@ public class ProductServiceImpl implements ProductService{
             products = productRepository.findAllByCategoryId(categoryId);
         }
 
-
         return products.stream()
                 .map(product -> {
 
-                    productDTO productDto = modelMapper.map(product, productDTO.class);
+                    productResponse productResponse = modelMapper.map(product, productResponse.class);
 
-                    productDto.setNutritionFacts(product.getNutritionFacts().stream()
+                    productResponse.setNutritionFacts(product.getNutritionFacts().stream()
                             .collect(Collectors.toMap(NutritionFacts::getNutrientName, NutritionFacts::getAmount)));
-                    productDto.setCategoryId(product.getCategory().getId());
+                    productResponse.setCategoryName(product.getCategory().getName());
 
-                    return productDto;
+                    Map<String, String> flavourMap = new HashMap<>();
+                    for (Flavour flavour : product.getFlavours()) {
+                        flavourMap.put(flavour.getName(), flavour.getColor());
+                    }
+
+                    productResponse.setFlavours(flavourMap);
+
+                    return productResponse;
 
                 })
                 .collect(Collectors.toList());
@@ -124,7 +148,7 @@ public class ProductServiceImpl implements ProductService{
                 .collect(Collectors.toList());
     }
 
-    public productDTO findProductByPathName(String pathName){
+    public productResponse findProductByPathName(String pathName){
         String[] parts = pathName.split("-");
         String output = "";
         for (int i = 0; i < parts.length; i++) {
@@ -138,7 +162,19 @@ public class ProductServiceImpl implements ProductService{
         Product productOptional = productRepository.findByName(output)
                 .orElseThrow(ProductNotExistsException::new);
 
-        return modelMapper.map(productOptional, productDTO.class);
+        productResponse productResponse = modelMapper.map(productOptional, productResponse.class);
+        productResponse.setCategoryName(productOptional.getCategory().getName());
+        productResponse.setNutritionFacts(productOptional.getNutritionFacts().stream()
+                .collect(Collectors.toMap(NutritionFacts::getNutrientName, NutritionFacts::getAmount)));
+
+        Map<String, String> flavourMap = new HashMap<>();
+        for (Flavour flavour : productOptional.getFlavours()) {
+            flavourMap.put(flavour.getName(), flavour.getColor());
+        }
+
+        productResponse.setFlavours(flavourMap);
+
+        return productResponse;
     }
 
     //If images are added manually from the database, this function will generate hashed img strings for null blashedImgs

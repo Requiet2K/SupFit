@@ -40,8 +40,13 @@ public class Product {
 
     private BigDecimal price;
 
-    @ElementCollection
-    private List<String> flavors;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "product_flavour",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "flavour_id")
+    )
+    private List<Flavour> flavours;
 
     @ElementCollection
     private List<String> ingredients;

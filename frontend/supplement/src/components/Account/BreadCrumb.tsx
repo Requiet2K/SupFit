@@ -13,6 +13,7 @@ export const BreadCrumb: React.FC<{path: string[]}> = (props) => {
     }
 
     const handleName = (item: string) => {
+      item = item.replace("-", " ");
       if(item == "current-order") return "Current Orders";
       if(item == "past-order") return "Past Orders";
       return item.charAt(0).toUpperCase() + item.slice(1);

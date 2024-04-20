@@ -1,4 +1,4 @@
-package com.project.supplement.dto;
+package com.project.supplement.dto.response;
 
 import lombok.*;
 
@@ -12,13 +12,13 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class productDTO {
+public class productResponse {
     private Long id;
     private String name;
     private String title;
     private String blurhashImg;
     private String imageUrl;
-    private List<String> flavors;
+    private Map<String, String> flavours;
     private List<String> ingredients;
     private BigDecimal price;
     private int weight;
@@ -27,5 +27,5 @@ public class productDTO {
     private String description;
     private String usageDescription;
     private Map<String, Double> nutritionFacts;
-    private Long categoryId;
+    private String categoryName;
 }

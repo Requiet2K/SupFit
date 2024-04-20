@@ -4,13 +4,14 @@ export type ProductState = {
     title: string;
     imageUrl: string;
     blurhashImg: string;
-    flavors: string[];
+    flavours: Record<string, string>;
     ingredients: string[];
     price: number;
     weight: number;
+    servingAmount: number;
     quantity: number;
     description: string;
     usageDescription: string;
     nutritionFacts: Record<string, number>;
-    categoryId: number;
+    categoryName: string;
 };

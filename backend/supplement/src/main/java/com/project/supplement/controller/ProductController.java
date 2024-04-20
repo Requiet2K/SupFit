@@ -1,6 +1,7 @@
 package com.project.supplement.controller;
 
-import com.project.supplement.dto.productDTO;
+import com.project.supplement.dto.request.productDTO;
+import com.project.supplement.dto.response.productResponse;
 import com.project.supplement.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ProductController {
     }
 
     @GetMapping("/getProductsByCategory/{categoryId}")
-    public List<productDTO> getProductsByCategoryId(@PathVariable Long categoryId){
+    public List<productResponse> getProductsByCategoryId(@PathVariable Long categoryId){
         return productService.getProductsByCategory(categoryId);
     }
 
@@ -30,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/findProductByPathName/{pathName}")
-    public productDTO getProductsByCategoryId(@PathVariable String pathName){
+    public productResponse findProductByPathName(@PathVariable String pathName){
         return productService.findProductByPathName(pathName);
     }
 

@@ -1,13 +1,14 @@
 package com.project.supplement.service;
 
-import com.project.supplement.dto.productDTO;
+import com.project.supplement.dto.request.productDTO;
+import com.project.supplement.dto.response.productResponse;
 
 import java.util.List;
 
 public interface ProductService {
     void createProduct(productDTO productRequest);
-    List<productDTO> getProductsByCategory(Long categoryId);
+    List<productResponse> getProductsByCategory(Long categoryId);
     void deleteProduct(Long productId);
     List<String> getAllProductsName();
-    productDTO findProductByPathName(String pathName);
+    productResponse findProductByPathName(String pathName);
 }

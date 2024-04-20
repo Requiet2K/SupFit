@@ -116,7 +116,7 @@ function App() {
             <Route path='/' element={<HomePage />} />
             <Route path='/home' element={<HomePage />} />
             <Route path={`/${category}`} element={<ProductPage category={category} selectedProduct={handleSelectedProduct}/>} />
-            {selectedProduct && <Route path={`/${handleSelectedProductPath(selectedProduct)}`} element={<ProductItem product={selectedProduct}/>} />}
+            {selectedProduct && <Route path={`/${handleSelectedProductPath(selectedProduct)}`} element={<ProductItem product={selectedProduct} productPath={handleSelectedProductPath(selectedProduct)}/>} />}
             <Route element={<RequireNonAuth />}>
               <Route path='/login' element={<LoginPage />} />
             </Route>
