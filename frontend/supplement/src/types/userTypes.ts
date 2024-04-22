@@ -1,3 +1,4 @@
+import { ProductState } from "./productType";
 
 export type UserState = {
     id: number;
@@ -9,6 +10,7 @@ export type UserState = {
     phoneNumber?: string,
     addresses?: AddressState[];
     role: Role;
+    favorites: ProductState[];
 };
 
 export type AddressState = {

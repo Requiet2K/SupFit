@@ -1,0 +1,183 @@
+*{
+    font-family: 'Futura PT', sans-serif;
+}
+
+.showcaseItemWrapper{
+    width: 100%;
+    position: relative;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+    transition: all .3s;
+    z-index: 4;
+}
+
+.favs .row{
+    row-gap: 20px;
+}
+
+.showcaseItemWrapper:hover {
+    filter: drop-shadow(0 0px 10px rgba(0, 0, 0, 0.4));
+    transition: all .3s;
+    z-index: 5;
+}
+
+.showcaseItem{
+    width: 100%;
+    position: relative;
+    padding: 8px 10px 10px;
+}
+
+.showcaseItem::before{
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var(--text-color-2);
+    clip-path: polygon(100% 0%, 100% 100%, 25px 100%, 0% calc(100% - 22px), 0% 0%);
+}
+
+.showcaseItemHeader{
+    width: 100%;
+    position: relative;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #bbbbbb;
+}
+
+.showcaseItemBody{
+    width: 100%;
+    position: relative;
+    padding-top: 10px;
+}
+
+.showcaseItemHeaderImg{
+    width: 65px;
+    position: relative;
+}
+
+.showcaseItemHeaderImg img{
+    width: 65px;
+    position: relative;
+}
+
+.showcaseItemHeaderTitle{
+    width: calc(100% - 70px);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.showcasePname, .showcaseCname{
+    border: none;
+    background: transparent;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.showcasePname{
+    letter-spacing: .7px;
+}
+
+.showcaseCname{
+    font-size: 14px;
+    font-weight: 400;
+    color: #343891;
+}
+
+.showcaseItemHeaderTitle h3{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.showcaseItemRemove{
+    width: 25px;
+    height: 25px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    background-color: #c3141b;
+    color: #fff;
+    border-radius: 50%;
+    border: 0;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .4);
+    z-index: 3;
+    transition: all .2s;
+}
+
+.showcaseItemRemove .fa-trash-can{
+    margin-top: 1px;
+    transition: all .2s;
+}
+
+.showcaseItemRemove:hover {
+    transform: scale(1.2);
+    transition: all .2s;
+}
+
+.showcaseItemRemove:hover .fa-trash-can{
+    transform: scale(1.1);
+    margin: 0;
+}
+
+.showcaseItemBodyFooter{
+    width: 100%;
+}
+
+.showcaseItemBodyFooter button{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: var(--main-color);
+    clip-path: polygon(100% 0%, 100% 100%, 100% 100%, 17px 100%, 0% calc(100% - 14px), 0% 0%);
+    color: var(--text-color-2);
+    font-size: 11px;
+    font-weight: 400;
+    position: relative;
+    border: 0;
+    transition: all .2s ease;
+}
+
+.showcaseItemBodyFooter button::before {
+    content: "";
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background: #343891;
+    clip-path: polygon(100% 0%, 100% 100%, 100% 100%, 16px 100%, 0% calc(100% - 13px), 0% 0%);
+    z-index: 1;
+    transition: all .2s ease;
+}
+
+.showcaseItemBodyFooter button:hover{
+    background: #248a50;
+    color: var(--text-color-2);
+}
+
+.showcaseItemBodyFooter button:hover::before{
+    background: rgb(118, 228, 204);
+}
+
+.showcaseItemBodyFooter button span{
+    z-index: 2;
+    letter-spacing: 1px;
+    font-size: 13px;
+    transition: all .2s ease;
+    color: var(--text-color-2);
+}
+
+.showcaseItemBodyFooter button:hover span{
+    color: var(--text-color);
+}

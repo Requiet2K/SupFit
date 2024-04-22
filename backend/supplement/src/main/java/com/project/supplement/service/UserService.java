@@ -16,4 +16,6 @@ public interface UserService {
     Long getUserTokenValidation(Long userId);
     Long findUserIdByEmail(String email);
     void changeUserPassword(Long userId, String newPasswordRequest);
+    void addFavoriteProduct(Long userId, Long productId);
+    void removeFavoriteProduct(Long userId, Long productId);
 }

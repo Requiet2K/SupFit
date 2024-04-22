@@ -37,25 +37,25 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
           <div className="row row-cols-3 row-cols-md-5 justify-content-center">
             <div className="col">
               <div className="trustItem">
-                <div className="icon"><i className="bi bi-shield-fill-check"></i></div>
+                <div className="icon"><i className="bi bi-shield-fill-check mt-2"></i></div>
                 <h6 className='icon-text'>24/7 easy and secure payment options.</h6>
               </div>
             </div>
             <div className="col">
               <div className="trustItem">
-                <div className="icon"><i className="bi bi-truck"></i></div>
+                <div className="icon"><i className="bi bi-truck mt-2 ms-1"></i></div>
                 <h6 className='icon-text'>Next-day shipping is guarantee for your orders.</h6>
               </div>
             </div>
             <div className="col">
               <div className="trustItem">
-                <div className="icon"><i className="bi bi-capsule"></i></div>
+                <div className="icon"><i className="bi bi-capsule mt-1"></i></div>
                 <h6 className='icon-text'>Laboratory-tested products</h6>
               </div>
             </div>
             <div className="col">
               <div className="trustItem">
-                <div className="icon"><i className="bi bi-award-fill"></i></div>
+                <div className="icon"><i className="bi bi-award-fill mt-1"></i></div>
                 <h6 className='icon-text'>100% customer satisfaction guarantee.</h6>
               </div>
             </div>

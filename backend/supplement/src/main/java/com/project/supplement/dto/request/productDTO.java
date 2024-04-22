@@ -14,6 +14,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class productDTO {
+    private Long id;
     private String name;
     private String title;
     private String blurhashImg;

@@ -61,4 +61,7 @@ public class Product {
     private String description;
 
     private String usageDescription;
+
+    @ManyToMany(mappedBy = "favorites")
+    private List<User> favoritedByUsers;
 }

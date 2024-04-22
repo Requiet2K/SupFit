@@ -55,4 +55,14 @@ public class UserController {
     public void changeUserPassword(@PathVariable Long id, @RequestBody String newPassword){
         userService.changeUserPassword(id,newPassword);
     }
+
+    @PutMapping("/addFavoriteProduct/{userId}")
+    public void addFavoriteProduct(@PathVariable Long userId, @RequestParam Long productId){
+        userService.addFavoriteProduct(userId, productId);
+    }
+
+    @PutMapping("/removeFavoriteProduct/{userId}")
+    public void removeFavoriteProduct(@PathVariable Long userId, @RequestParam Long productId){
+        userService.removeFavoriteProduct(userId, productId);
+    }
 }

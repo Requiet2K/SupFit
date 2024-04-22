@@ -1,8 +1,66 @@
 import { AccountPage } from '../AccountPage'
 import { BreadCrumb } from '../BreadCrumb'
 import '../../../style/AccountPage/AccountBase.css'
+import '../../../style/AccountPage/components/Favorites.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectCurrentUser, updateUser } from '../../../redux/auth/authSlice'
+import { ImageComponent } from '../../../utils/imageComponent'
+import { ProductState } from '../../../types/productType'
+import { useNavigate } from 'react-router-dom'
+import { useLazyGetUserQuery, useRemoveFavoriteProductMutation } from '../../../redux/user/userApiSlice'
+import { VariantType, useSnackbar } from 'notistack'
+import Swal from 'sweetalert2'
 
 export const Favorites = () => {
+
+  const user = useSelector(selectCurrentUser);
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClickVariant = (msg: string ,variant: VariantType) => () => {
+    enqueueSnackbar(msg, { variant });
+  };
+  
+  const handleSelectedProductPath = (product: ProductState) => {
+    const path = product.name.toLowerCase().replace(" ","-");
+    return path;
+  }
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [removeFavorites] = useRemoveFavoriteProductMutation();
+  const [getUpdatedUser] = useLazyGetUserQuery();;
+
+  const handleRemoveFavorites = async (product : ProductState) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Are you sure you want to remove it from favorites?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#416D19",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        if(user){
+          try{
+            await removeFavorites({id: user?.id, credentials: product.id});
+            const userUpdated = await getUpdatedUser(user.id).unwrap();
+            dispatch(updateUser(userUpdated));
+            handleClickVariant(`${product.name} removed from your favorites!`,'success')();
+          }catch(err: any){
+            console.log(err);
+          }
+        }
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+  }
 
   return (
     <div className='favs mb-3'>
@@ -23,7 +81,43 @@ export const Favorites = () => {
               </div>
             </div>
             <div className="content">
-              sa favorites
+              <div className="row">
+              {user?.favorites.map((product, index) => (
+                <div className='col-6 col-lg-3 showcaseItemWrapper' key={index}> 
+                  <div className="showcaseItem">
+                    <div className="showcaseItemHeader">
+                      <div className="showcaseItemHeaderImg" onClick={() =>navigate(`/${handleSelectedProductPath(product)}`)}>
+                        <ImageComponent
+                        src={product.imageUrl} 
+                        alt={product.name} 
+                        blurhashImg={product.blurhashImg} 
+                        />
+                      </div>
+                      <div className="showcaseItemHeaderTitle">
+                          <button className='showcasePname' onClick={() =>navigate(`/${handleSelectedProductPath(product)}`)}>
+                            <h3>{product.name}</h3>
+                          </button>
+                          <div className="d-flex align-items-center justify-content-between">
+                            <button className='showcaseCname' onClick={() =>navigate(`/${product.categoryName}`)}>
+                              {product.categoryName.substring(0,1).toUpperCase()+product.categoryName.substring(1)}
+                            </button>
+                            <button className="showcaseItemRemove" onClick={() => handleRemoveFavorites(product)}>
+                              <i className="fa-solid fa-trash-can"/>
+                            </button>
+                          </div>  
+                      </div>
+                    </div>
+                    <div className="showcaseItemBody">
+                      <div className="showcaseItemBodyFooter">
+                        <button onClick={() =>navigate(`/${handleSelectedProductPath(product)}`)}>
+                          <span>DETAILS</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              </div>
             </div>
           </div>
         </div>
@@ -31,3 +125,4 @@ export const Favorites = () => {
     </div>
   )
 }
+

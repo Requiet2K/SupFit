@@ -1,6 +1,7 @@
 package com.project.supplement.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.supplement.security.Role;
 import jakarta.persistence.*;
@@ -62,6 +63,14 @@ public class User implements UserDetails {
 
     @Column(name = "token_validation", columnDefinition = "bigint default 30")
     private Long tokenValidation = 30L;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_favorites",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> favorites;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

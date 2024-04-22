@@ -20,6 +20,7 @@ import { ProductPage } from './components/MainPages/ProductPage'
 import { ProductState } from './types/productType'
 import { ProductItem } from './components/MainPages/ProductItem'
 import { useLazyFindProductByPathNameQuery, useLazyGetAllProductsNameQuery } from './redux/product/productApiSlice'
+import { SnackbarProvider } from 'notistack';
 
 function App() {
 
@@ -78,14 +79,9 @@ function App() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-      if(selectedProduct){
-        navigate(`/${handleSelectedProductPath(selectedProduct)}`);
-      }
-    }, [selectedProduct])
-
     const handleSelectedProduct = (product: ProductState) => {
       setSelectedProduct(product);
+      navigate(`/${handleSelectedProductPath(product)}`);
     }
 
     const handleSelectedProductPath = (product: ProductState) => {
@@ -93,7 +89,6 @@ function App() {
       return path;
     }
 
-    
     useEffect(() => {
       
       window.scrollTo(0, 0);
@@ -116,7 +111,11 @@ function App() {
             <Route path='/' element={<HomePage />} />
             <Route path='/home' element={<HomePage />} />
             <Route path={`/${category}`} element={<ProductPage category={category} selectedProduct={handleSelectedProduct}/>} />
-            {selectedProduct && <Route path={`/${handleSelectedProductPath(selectedProduct)}`} element={<ProductItem product={selectedProduct} productPath={handleSelectedProductPath(selectedProduct)}/>} />}
+            {selectedProduct && <Route path={`/${handleSelectedProductPath(selectedProduct)}`} 
+            element={
+              <SnackbarProvider maxSnack={3}>
+                <ProductItem product={selectedProduct} productPath={handleSelectedProductPath(selectedProduct)}/>
+              </SnackbarProvider>} />}
             <Route element={<RequireNonAuth />}>
               <Route path='/login' element={<LoginPage />} />
             </Route>
@@ -128,7 +127,12 @@ function App() {
               <Route path="/security" element={<Security />} />
               <Route path="/current-orders" element={<CurrentOrder />} />
               <Route path="/past-orders" element={<PastOrder />} />
-              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/favorites" 
+              element={
+              <SnackbarProvider maxSnack={3}>
+                <Favorites />
+              </SnackbarProvider>} 
+              />
               <Route path="/box" element={<Box />} />
               <Route path="/addresses" element={<Addresses />} />
               <Route path="/comments" element={<Comments />} />

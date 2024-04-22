@@ -1,11 +1,15 @@
 package com.project.supplement.service.impl;
 
+import com.project.supplement.mapper.UserMapper;
 import com.project.supplement.dto.UserDTO;
 import com.project.supplement.dto.request.changePasswordDTO;
 import com.project.supplement.dto.request.updateUserDTO;
+import com.project.supplement.entity.Product;
 import com.project.supplement.entity.User;
 import com.project.supplement.exception.custom_exceptions.PasswordIncorrectException;
+import com.project.supplement.exception.custom_exceptions.ProductNotExistsException;
 import com.project.supplement.exception.custom_exceptions.UserNotExistsException;
+import com.project.supplement.repository.ProductRepository;
 import com.project.supplement.repository.UserRepository;
 import com.project.supplement.security.auth.AuthResponse;
 import com.project.supplement.security.config.JwtService;
@@ -20,24 +24,30 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     @Autowired
-    public UserServiceImpl(@Lazy JwtService jwtService, UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(@Lazy JwtService jwtService, UserRepository userRepository, ModelMapper modelMapper, UserMapper userMapper,
+                           PasswordEncoder passwordEncoder, ProductRepository productRepository) {
         this.jwtService = jwtService;
+        this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserDTO getUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .map(user -> modelMapper.map(user, UserDTO.class))
+                .map(userMapper::toUserDTO)
                 .orElseThrow(UserNotExistsException::new);
     }
+
 
     @Override
     public User findUserByEmail(String email) {
@@ -47,8 +57,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Long theUserId){
-        return userRepository.findById(theUserId).map(
-                foundUser -> modelMapper.map(foundUser, UserDTO.class))
+        return userRepository.findById(theUserId)
+                .map(userMapper::toUserDTO)
                 .orElseThrow(UserNotExistsException::new);
     }
 
@@ -60,10 +70,11 @@ public class UserServiceImpl implements UserService {
                     foundUser.setBirthDate(updatedUserRequest.getBirthDate());
                     foundUser.setPhoneNumber(updatedUserRequest.getPhoneNumber());
                     userRepository.save(foundUser);
-                    return modelMapper.map(foundUser, UserDTO.class);
+                    return userMapper.toUserDTO(foundUser);
                 })
                 .orElseThrow(UserNotExistsException::new);
     }
+
     @Override
     public AuthResponse updateUserPassword(Long userId, changePasswordDTO changePasswordRequest){
 
@@ -125,6 +136,28 @@ public class UserServiceImpl implements UserService {
         user.setPassword(newPassword);
         System.out.println(convertedPass);
         userRepository.save(user);
+    }
+
+    @Override
+    public void addFavoriteProduct(Long userId, Long productId) {
+        userRepository.findById(userId)
+                .ifPresent(user -> {
+                    Product product = productRepository.findById(productId)
+                            .orElseThrow(ProductNotExistsException::new);
+                    user.getFavorites().add(product);
+                    userRepository.save(user);
+                });
+    }
+
+    @Override
+    public void removeFavoriteProduct(Long userId, Long productId) {
+        userRepository.findById(userId)
+                .ifPresent(user -> {
+                    Product product = productRepository.findById(productId)
+                            .orElseThrow(ProductNotExistsException::new);
+                    user.getFavorites().remove(product);
+                    userRepository.save(user);
+                });
     }
 
 

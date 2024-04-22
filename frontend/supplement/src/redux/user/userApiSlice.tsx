@@ -48,7 +48,19 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 method: 'PUT',
                 body: {newPass}
             })
-        })
+        }),
+        addFavoriteProduct: builder.mutation({
+            query: ({ id, credentials }: { id: number, credentials: number }) => ({
+                url: `/user/addFavoriteProduct/${id}?productId=${credentials}`,
+                method: 'PUT',
+            })
+        }),
+        removeFavoriteProduct: builder.mutation({
+            query: ({ id, credentials }: { id: number, credentials: number }) => ({
+                url: `/user/removeFavoriteProduct/${id}?productId=${credentials}`,
+                method: 'PUT',
+            })
+        }),
     })
 })
 
@@ -59,5 +71,7 @@ export const {
     useLazyGetTokenValidationQuery,
     useUpdateTokenValidationMutation,
     useLazyGetUserIdQuery,
-    useChangeUserPasswordMutation
+    useChangeUserPasswordMutation,
+    useAddFavoriteProductMutation,
+    useRemoveFavoriteProductMutation
 } = userApiSlice;
