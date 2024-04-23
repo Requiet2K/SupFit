@@ -14,11 +14,15 @@ import { AuthState } from "../../types/userTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
 import { overflowHidden, overflowShow } from "../../utils/handleOverflow";
+import { ProductState } from "../../types/productType";
+import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
 
 export const Navbar = ({ category, onCategoryChange }: {category: string, onCategoryChange: (e: string) => void}) => {
 
   const [sideBar, setSideBar] = useState(false);
   const [rightDrawer, setRightDrawer] = useState(false);
+  const [boxDrawer, setBoxDrawer] = useState(false);
   const [numberDrawer, setNumberDrawer] = useState(0);
   const navigate = useNavigate();
   
@@ -81,13 +85,13 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
   }
 
     useEffect(() => {
-      if(rightDrawer == true || sideBar == true){
+      if(rightDrawer == true || sideBar == true || boxDrawer == true){
         overflowHidden(rightDrawer);
         window.scrollTo(0,0);
       }else{
         overflowShow();
       }
-    }, [rightDrawer, sideBar]);
+    }, [rightDrawer, sideBar, boxDrawer]);
 
     const [categoryState, setCategoryState] = useState(""); 
 
@@ -100,6 +104,21 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
         onCategoryChange(newCategory); 
       }
     };
+
+    const [boxProducts, setBoxProducts] = useState<ProductState[] | null>();
+
+    const getBoxItems = () => {
+      const cartData = localStorage.getItem("cart");
+    
+    if(cartData){
+        const parsedData = JSON.parse(cartData);
+        setBoxProducts(parsedData);
+      }
+    }
+
+    useEffect(() => {
+      getBoxItems();
+    }, [boxDrawer]);
 
   return (
     <div className={`navbar p-0 ${hideNav ? "navbar-hide" : ""}`} ref={navbarRef}>
@@ -167,10 +186,10 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
                     <Link to="/onsale" className={`buttons onsale ${categoryState == 'onsale' && "buttons-active"}`} onClick={() => handleCategoryClick("onsale")}>ON SALE</Link>
                 </div>
                 <div className="col-2 col-md-2 buttons-bar-right">
-                  <a href="#" className="shop">
+                  <button className="shop" onClick={() => setBoxDrawer(true)}>
                     <StyledBadge badgeContent={0} showZero className="badges amountBox" />
                     <ShoppingCartIcon className="shoppingCart"/>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -242,7 +261,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
                   </tr>
                   <tr className="w-100">
                     <td>
-                        <NavLink to="/box" state={{ signBoolean: false }} onClick={() => setSideBar(false)}>
+                        <NavLink to="/box" state={{ signBoolean: false }} onClick={() => {setBoxDrawer(true); setSideBar(false)}}>
                           <GiCardboardBoxClosed className="icons"/>
                           <span className="icon-text">Box</span>
                         </NavLink>
@@ -386,16 +405,6 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
               </div>
               <div className="draw-div">
                 <div className="draw-item">
-                  <button className="draw-button"  onClick={() => handleDrawerClick('box', -1)}>
-                    <div className="draw-left d-flex gap-2 align-items-center">
-                      <i className="fa-solid fa-cart-shopping align-items-center"/>
-                      <span className="draw-text">Box</span>
-                    </div>
-                  </button>
-                </div>
-              </div>
-              <div className="draw-div">
-                <div className="draw-item">
                   <button className="draw-button"  onClick={() => handleDrawerClick('addresses', -1)}>
                     <div className="draw-left d-flex gap-2 align-items-center">
                       <i className="fa-solid fa-map-location-dot align-items-center"/>
@@ -437,7 +446,60 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
             </div>
           </div>
         </div>
-        <div className={`off-canvas ${rightDrawer ? "d-inline" : "d-none"}`} onClick={() => setRightDrawer(false)}/>
+        {/* Box Drawer */}
+        <div className={`boxDrawer ${boxDrawer ? "d-flex" : "hide"}`}>
+          <div className="boxDrawerContent">
+            <div className="boxDrawerTitle">
+              <h5>Your Cart</h5>
+              <button className="boxDrawerClose" onClick={() => setBoxDrawer(false)}>
+                <CloseIcon className="boxDrClose"/>
+              </button>
+            </div>
+            <div className="boxDivider"/>
+            <div className="boxDrawerShipping">
+              <div className="boxDrawerShippingNotice">
+                <span>
+                  Add $28 more to get free shipping.
+                  {/*Congratulations! Enjoy free shipping!*/}
+                </span>
+                <div className="boxDrawerShippingBar">
+                  <div className="shippingProgress" style={{width: "72%"}}/>
+                </div>
+              </div>
+            </div>
+            <div className="boxDivider"/>
+            <div className="boxDrawerHeader">
+              <div className="boxDrawerItems">
+              {boxProducts?.map((product, index) => (
+                <div className="boxDrawerItem" key={index}>
+                  {product.name}
+                </div>
+              ))}
+              </div>
+            </div>
+            <div className="boxDivider"/>
+            <div className="boxDrawerCoupon">
+              <input type="text" placeholder="Enter Coupon Code"/>
+              <button>
+              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093l3.473-4.425a.267.267 0 0 1 .02-.022z"></path></g></svg>
+              </button>
+            </div>
+            <div className="boxDivider"/>
+            <div className="boxDrawerCheckout mt-1">
+              <div className="boxDrawerCheckoutInfo">
+                <span>Total</span>
+                <span>$108</span>
+              </div>
+              <div className="boxDrawerCheckoutBtn">
+                <button>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V10q0-.825.588-1.413Q5.175 8 6 8h1V6q0-2.075 1.463-3.538Q9.925 1 12 1t3.538 1.462Q17 3.925 17 6v2h1q.825 0 1.413.587Q20 9.175 20 10v10q0 .825-.587 1.413Q18.825 22 18 22Zm6-5q.825 0 1.413-.587Q14 15.825 14 15q0-.825-.587-1.413Q12.825 13 12 13q-.825 0-1.412.587Q10 14.175 10 15q0 .825.588 1.413Q11.175 17 12 17ZM9 8h6V6q0-1.25-.875-2.125T12 3q-1.25 0-2.125.875T9 6Z"></path></svg>
+                  <span>CHECKOUT</span>
+                </button>
+              </div>
+            </div>
+          </div>    
+        </div>
+        <div className={`off-canvas ${rightDrawer || boxDrawer ? "d-inline" : "d-none"}`} onClick={() => {setRightDrawer(false); setBoxDrawer(false)}}/>
     </div>
   )
 }

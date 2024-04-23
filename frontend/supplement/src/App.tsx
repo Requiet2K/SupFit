@@ -11,7 +11,6 @@ import { Security } from './components/Account/layout/Account/Security'
 import { CurrentOrder } from './components/Account/layout/CurrentOrder'
 import { PastOrder } from './components/Account/layout/PastOrder'
 import { Favorites } from './components/Account/layout/Favorites'
-import { Box } from './components/Account/layout/Box'
 import { Addresses } from './components/Account/layout/Addresses'
 import { Comments } from './components/Account/layout/Comments'
 import { Faqs } from './components/Account/layout/Faqs'
@@ -133,7 +132,6 @@ function App() {
                 <Favorites />
               </SnackbarProvider>} 
               />
-              <Route path="/box" element={<Box />} />
               <Route path="/addresses" element={<Addresses />} />
               <Route path="/comments" element={<Comments />} />
               <Route path="/faqs" element={<Faqs handleContactModal={handleContactModal}/>} />

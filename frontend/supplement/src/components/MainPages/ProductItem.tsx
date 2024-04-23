@@ -14,6 +14,7 @@ import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { addToCart } from "../../redux/cart/cartSlice";
 
 export const ProductItem = ({product, productPath
 } : {product : ProductState, productPath: string}) => {
@@ -116,12 +117,37 @@ export const ProductItem = ({product, productPath
     }
 
     return totalCalories;
-};
+  };
 
-  useEffect(() => {
-    console.log(product);
-    console.log(user);
-  }, [])
+  const handleAddCart = () => {
+    
+    const cartData = localStorage.getItem("cart");
+    
+    if(cartData){
+      const cartItems = JSON.parse(cartData);
+      const cartProduct = cartItems.find((item: { product: { id: number; }; }) => item.product.id === product.id); 
+      const quantity = cartProduct ? cartProduct.quantity : 0;
+
+      if(product.quantity <= quantity){
+        handleClickVariant(`You cannot add more items to the box than the quantity available in stock!`,'error')();
+      }else{
+        let msg = productCount > 1 ? "pieces" : "piece";
+        if(productCount + quantity <= product.quantity){
+          handleClickVariant(`${productCount} ${msg} ${product.name} added into your box!`,'success')();
+          dispatch(addToCart({ product, quantity: productCount }));
+        }
+        else{
+          msg = (product.quantity - quantity) > 1 ? "pieces" : "piece";
+          handleClickVariant(`${product.quantity - quantity} ${msg} ${product.name} added into your box!`,'success')();
+          dispatch(addToCart({ product, quantity: product.quantity - quantity }));
+        }
+      }
+    }else{
+        dispatch(addToCart({ product, quantity: productCount }));
+        let msg = productCount > 1 ? "pieces" : "piece";
+        handleClickVariant(`${productCount} ${msg} ${product.name} added into your box!`,'success')();
+    }
+  }
 
   return (
       <div className="productItemPage">
@@ -221,7 +247,7 @@ export const ProductItem = ({product, productPath
                   <button onClick={handleIncreaseProductCount}><AddIcon /></button>
                 </div>
                 <div className="productItemBox-right">
-                  <button className="gap-3">
+                  <button className="gap-3" onClick={handleAddCart}>
                     <AddShoppingCartIcon className="fs-2"/>
                     <span>Add to Cart</span> 
                   </button>
