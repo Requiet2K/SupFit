@@ -83,12 +83,6 @@ export const AccountPage: React.FC<{}> = () => {
                       <span>Favorites</span>
                     </div>
                   </button>
-                  <button className="sidebar-item"  onClick={() => navigate("/box")}>
-                    <div className="sidebar-item-left">
-                      <i className="fa-solid fa-cart-shopping"/>
-                      <span>Box</span>
-                    </div>
-                  </button>
                   <button className="sidebar-item"  onClick={() => navigate("/addresses")}>
                     <div className="sidebar-item-left">
                       <i className="fa-solid fa-map-location-dot"/>

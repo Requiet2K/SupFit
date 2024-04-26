@@ -1,5 +1,6 @@
 package com.project.supplement.security.auth;
 
+import com.project.supplement.entity.Cart;
 import com.project.supplement.entity.User;
 import com.project.supplement.helper.NameConverter;
 import com.project.supplement.repository.UserRepository;
@@ -36,6 +37,9 @@ public class AuthService {
                 .tokenValidation(defaultExpirationTime)
                 .role(Role.USER)
                 .build();
+        Cart cart = new Cart();
+        user.setCart(cart);
+        cart.setUser(user);
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()

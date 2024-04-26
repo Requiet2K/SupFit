@@ -191,12 +191,12 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 0;
+    padding: 9px 0;
     border-bottom: 2px solid var(--secondary-color);
     font-size: 14px;
-    height: 56px;
     color: var(--text-color);
     overflow: hidden;
+    height: 50px;
 }
 
 .addressListItem i{
@@ -502,4 +502,8 @@
     justify-content: center;
     margin-top: 30px!important;
     color: #081299;
+}
+
+.addresses .content .row{
+    row-gap: 20px;
 }

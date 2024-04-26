@@ -3,6 +3,7 @@ package com.project.supplement.dto;
 import com.project.supplement.dto.request.productDTO;
 import com.project.supplement.dto.response.productResponse;
 import com.project.supplement.entity.Address;
+import com.project.supplement.entity.Cart;
 import com.project.supplement.entity.Product;
 import com.project.supplement.security.Role;
 import lombok.*;
@@ -35,4 +36,5 @@ public class UserDTO {
     private String phoneNumber;
     @Nullable
     private List<productResponse> favorites;
+    private Cart cart;
 }

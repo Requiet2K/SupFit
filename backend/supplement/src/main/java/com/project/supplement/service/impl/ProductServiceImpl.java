@@ -1,5 +1,6 @@
 package com.project.supplement.service.impl;
 
+import com.project.supplement.helper.ImagePngHelper;
 import com.project.supplement.mapper.ProductMapper;
 import com.project.supplement.dto.request.productDTO;
 import com.project.supplement.dto.response.productResponse;
@@ -46,7 +47,7 @@ public class ProductServiceImpl implements ProductService{
         Product product = productMapper.toProductEntity(productRequest, category, flavours);
 
         String imageUrl = productRequest.getImageUrl();
-        String blurHash = ImageHelper.generateBlurHash(imageUrl);
+        String blurHash = ImagePngHelper.generateBlurHash(imageUrl);
 
         product.setBlurhashImg(blurHash);
 
@@ -104,7 +105,7 @@ public class ProductServiceImpl implements ProductService{
                 .forEach(product -> {
                     if(product.getBlurhashImg() == null){
                         String imageUrl = product.getImageUrl();
-                        String blurHash = ImageHelper.generateBlurHash(imageUrl);
+                        String blurHash = ImagePngHelper.generateBlurHash(imageUrl);
                         product.setBlurhashImg(blurHash);
                         productRepository.save(product);
                     }

@@ -1,6 +1,6 @@
 import logo from "../../images/logo.png";
 import '../../style/NavbarAndFooter/Navbar.css'
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Squash as Hamburger } from 'hamburger-react'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge, { BadgeProps } from '@mui/material/Badge';
@@ -14,15 +14,21 @@ import { AuthState } from "../../types/userTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
 import { overflowHidden, overflowShow } from "../../utils/handleOverflow";
-import { ProductState } from "../../types/productType";
 import CloseIcon from '@mui/icons-material/Close';
-import CheckIcon from '@mui/icons-material/Check';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import { CartItem } from "../../types/cartType";
+import { ImageComponent } from "../../utils/imageComponent";
+import { addToCart, removeFromCart, removeItemFromCart, updateQuantityInCart } from "../../redux/cart/cartSlice";
+import Swal from "sweetalert2";
+import { CartContext } from "../../context/CartContext";
+import { showErrorModal } from "../swalInfo/swalInfo";
+import React from "react";
 
 export const Navbar = ({ category, onCategoryChange }: {category: string, onCategoryChange: (e: string) => void}) => {
 
   const [sideBar, setSideBar] = useState(false);
   const [rightDrawer, setRightDrawer] = useState(false);
-  const [boxDrawer, setBoxDrawer] = useState(false);
   const [numberDrawer, setNumberDrawer] = useState(0);
   const navigate = useNavigate();
   
@@ -84,6 +90,8 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
     }
   }
 
+  const { boxProducts, getBoxItems, updateBoxProducts, total, applyCoupon, discount, showCouponMessage, boxDrawer, setBoxDrawer} = useContext(CartContext);
+
     useEffect(() => {
       if(rightDrawer == true || sideBar == true || boxDrawer == true){
         overflowHidden(rightDrawer);
@@ -105,16 +113,119 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
       }
     };
 
-    const [boxProducts, setBoxProducts] = useState<ProductState[] | null>();
+    const handleProductCountChange = (e: React.ChangeEvent<HTMLInputElement>, item: CartItem) => {
+      const newCount = parseInt(e.target.value);
+      let updatedQuantity = 1;
 
-    const getBoxItems = () => {
-      const cartData = localStorage.getItem("cart");
-    
-    if(cartData){
-        const parsedData = JSON.parse(cartData);
-        setBoxProducts(parsedData);
+      if (!isNaN(newCount)) {
+        if(newCount <= 0){
+          updatedQuantity = 1;
+        } else if(newCount > item.product.quantity){
+          updatedQuantity = item.product.quantity;
+        } else{
+          updatedQuantity = newCount;
+        }
+      }
+
+      
+      const updatedProducts = boxProducts?.map(product => 
+        product.id === item.id ? { ...product, quantity: updatedQuantity } : product
+      );
+      
+      dispatch(updateQuantityInCart({ productId: item.product.id, quantity: updatedQuantity}));
+      updateBoxProducts(updatedProducts);
+    }
+
+    const handleIncreaseProductCount = (item: CartItem) => {
+      if(item.quantity + 1 > item.product.quantity){
+        item.quantity = item.product.quantity;
+      }else{
+        item.quantity++;
+      }
+      updateBoxProducts([...(boxProducts || [])]);
+      dispatch(addToCart({ product: item.product, quantity: 1}));
+    }
+  
+    const handleDecreaseProductCount = (item: CartItem) => {
+      if(item.quantity != 1){
+        if(item.quantity - 1 <= 0){
+          item.quantity = 1;
+        }else{
+          item.quantity--;
+        }
+        updateBoxProducts([...(boxProducts || [])]);
+        dispatch(removeFromCart({ productId: item.product.id, quantity: 1}));
       }
     }
+
+    const handleRemoveItemFromBox = (item: CartItem) => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really wanna remove this product from the cart?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#416D19",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, remove it!"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          dispatch(removeItemFromCart({ productId: item.product.id}));
+          getBoxItems();
+        }
+      });
+    }
+
+    function handleCalculateTotal() {
+      let total = 0;
+      if(boxProducts){
+        boxProducts.forEach((item) => {
+          total += item.quantity * item.product.price;
+        })
+      }
+      return total;
+    }
+
+    function handleBoxShippingInfo(){
+      let total = handleCalculateTotal();
+      if(total > 50){
+        return "Congratulations! Enjoy free shipping!";
+      }else{
+        return `Add $${50 - total} more to get free shipping.`
+      }
+    }
+
+    const [couponValue, setCouponValue] = useState("");
+
+    useEffect(() => {
+      const couponCode = localStorage.getItem('discountCode');
+      if(couponCode){
+        setCouponValue(couponCode);
+      }
+    }, [])
+
+    const handleDiscount = () => {
+      if(boxProducts.length != 0){
+        applyCoupon(couponValue);
+        showCouponMessage(couponValue);
+      }else{
+        showErrorModal("Box is empty!", "Please add products to your cart to try applying a promotion code!");
+      }
+    }
+
+    const removeDiscount = () => {
+      applyCoupon("");
+    }
+
+    const [disableCouponInput, setDisableCouponInput] = useState(false);
+
+    useEffect(() => {
+      if(discount == 0){
+        setDisableCouponInput(false);
+      }else{
+        setDisableCouponInput(true);
+      }
+
+    }, [discount]);
 
     useEffect(() => {
       getBoxItems();
@@ -187,7 +298,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
                 </div>
                 <div className="col-2 col-md-2 buttons-bar-right">
                   <button className="shop" onClick={() => setBoxDrawer(true)}>
-                    <StyledBadge badgeContent={0} showZero className="badges amountBox" />
+                    <StyledBadge badgeContent={boxProducts ? boxProducts.length : 0} showZero className="badges amountBox" />
                     <ShoppingCartIcon className="shoppingCart"/>
                   </button>
                 </div>
@@ -452,43 +563,116 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
             <div className="boxDrawerTitle">
               <h5>Your Cart</h5>
               <button className="boxDrawerClose" onClick={() => setBoxDrawer(false)}>
-                <CloseIcon className="boxDrClose"/>
+                <CloseIcon className="boxDrClose" style={{color: "#282b78"}}/>
               </button>
             </div>
             <div className="boxDivider"/>
             <div className="boxDrawerShipping">
               <div className="boxDrawerShippingNotice">
                 <span>
-                  Add $28 more to get free shipping.
-                  {/*Congratulations! Enjoy free shipping!*/}
+                  {handleBoxShippingInfo()}
                 </span>
                 <div className="boxDrawerShippingBar">
-                  <div className="shippingProgress" style={{width: "72%"}}/>
+                  <div className="shippingProgress" style={{width: `${(handleCalculateTotal()/50)*100}%` }}/>
                 </div>
               </div>
             </div>
             <div className="boxDivider"/>
             <div className="boxDrawerHeader">
               <div className="boxDrawerItems">
-              {boxProducts?.map((product, index) => (
-                <div className="boxDrawerItem" key={index}>
-                  {product.name}
+              {boxProducts?.map((item, index) => (
+                <React.Fragment key={index}>
+                <div className="boxDrawerItem row">
+                  <div className="boxDrawerItemImage col-4" 
+                  onClick={() => {navigate(`/${item.product.name.toLowerCase().replace(" ","-")}`); setBoxDrawer(false)}}>
+                    <ImageComponent alt={item.product.name} 
+                    src={item.product.imageUrl} 
+                    blurhashImg={item.product.blurhashImg}/>
+                  </div>
+                  <div className="boxDrawerItemDetails col-8">
+                    <div className="boxDrawerItemInfo">
+                    <span 
+                    onClick={() => navigate(`/${item.product.name.toLowerCase().replace(" ","-")}`)}>
+                      {item.product.name}
+                    </span>
+                    <div className="mt-1 boxDrawerItemPrice">
+                      ${item.quantity * item.product.price}
+                    </div>
+                    <div className="boxDrawerItemQuantity">
+                      <button onClick={() => handleDecreaseProductCount(item)}><RemoveIcon style={{color: "white"}}/></button>
+                      <input min={1} pattern="[0-9]" type="number" value={item.quantity} 
+                      onChange={(e) => handleProductCountChange(e, item)}/>
+                      <button onClick={() => handleIncreaseProductCount(item)}><AddIcon style={{color: "white"}}/></button>
+                    </div>
+                    <button className="boxDrawerTrash" onClick={() => handleRemoveItemFromBox(item)}>
+                      <i className="fa-solid fa-trash"/>
+                    </button>
+                    </div>
+                  </div>
                 </div>
+                <div className="boxDivider"/>
+                </React.Fragment>
               ))}
               </div>
+              {(boxProducts == null) || (boxProducts.length === 0) && 
+                <div className="boxDrawerEmptyBox">
+                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19zM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74A3.007 3.007 0 0 0 3.92 3H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7zM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5z" fill="currentColor"></path></svg>
+                  <span>Your cart is empty!</span>
+                </div>
+              }
             </div>
             <div className="boxDivider"/>
             <div className="boxDrawerCoupon">
-              <input type="text" placeholder="Enter Coupon Code"/>
-              <button>
-              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093l3.473-4.425a.267.267 0 0 1 .02-.022z"></path></g></svg>
+              <input type="text" 
+              placeholder="Enter Coupon Code"
+              value={couponValue} 
+              onChange={(e) => setCouponValue(e.target.value)}
+              disabled={disableCouponInput}
+              className={`${disableCouponInput && "disabledCoupon"}`}
+              />
+              {
+                disableCouponInput ?
+              <button onClick={removeDiscount} className="disableBtnCoupon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path fillRule="evenodd" clipRule="evenodd" d="M17.6568 19.0711L4.92893 6.34317L6.34314 4.92896L19.0711 17.6569L17.6568 19.0711Z"></path><path fillRule="evenodd" clipRule="evenodd" d="M4.92892 17.6569L17.6568 4.92896L19.0711 6.34317L6.34314 19.0711L4.92892 17.6569Z"></path></svg>
+              </button>:
+              <button onClick={handleDiscount}>
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093l3.473-4.425a.267.267 0 0 1 .02-.022z"></path></g></svg>
               </button>
+              }
             </div>
             <div className="boxDivider"/>
             <div className="boxDrawerCheckout mt-1">
               <div className="boxDrawerCheckoutInfo">
                 <span>Total</span>
-                <span>$108</span>
+                <span>
+                {discount == 0 ? 
+                "$"+handleCalculateTotal().toFixed(2)
+                :
+                <div className="codeValid">
+                  <span className="codeValidDiscountPercentage">%{discount}</span>
+                  <span className="codeValidDiscountBefore">${handleCalculateTotal().toFixed(2)}</span>
+                  <span className="codeValidDiscountAfter">${(handleCalculateTotal() - (handleCalculateTotal()*(discount/100))).toFixed(2)}</span>
+                </div> 
+                }
+                </span>
+              </div>
+              <div className="boxDrawerCheckoutInfo">
+                <span>Shipping</span>
+                <span>
+                  {handleCalculateTotal() < 50 ? 
+                  "$12.99" 
+                  : 
+                  <div className="shippingFree">
+                    <span className="codeValidDiscountPercentage">FREE</span>
+                    <span className="codeValidDiscountBefore extraMg">$12.99</span>
+                    <span className="codeValidDiscountAfter">$0</span>
+                  </div>
+                  }
+                </span>
+              </div>
+              <div className="boxDrawerCheckoutInfo">
+                <span>SubTotal</span>
+                <span>${total}</span>
               </div>
               <div className="boxDrawerCheckoutBtn">
                 <button>

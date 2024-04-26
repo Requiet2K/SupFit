@@ -762,7 +762,7 @@
 }
 
 .boxDrawerTitle h5{
-    color: var(--text-color);
+    color: var(--main-color);
     font-size: 18px;
     margin: 0;
     margin-top: 2px;
@@ -812,6 +812,7 @@
     top: 0;
     left: 0;
     width: 0;
+    max-width: 100%;
     height: 100%;
     background: #ff9a00;
     border-radius: 50px;
@@ -829,12 +830,8 @@
     }
 }
 
-.boxDrawerHeader{
-    height: 600px;
-}
-
 .boxDrawerCoupon{
-    padding: 15px;
+    padding: 10px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -861,12 +858,14 @@
     height: 40px;
     flex: 0 0 40px;
     border: 0;
-    background: #000;
+    background: var(--main-color);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     outline: 0;
+    transition: all .2s;
+    border: 1px solid var(--main-color);
 }
 
 .boxDrawerCoupon button svg {
@@ -875,7 +874,7 @@
 }
 
 .boxDrawerCheckoutInfo{
-    padding: 10px 15px 0 15px;
+    padding: 5px 15px 0 15px;
     justify-content: space-between;
     display: flex;
     align-items: center;
@@ -899,12 +898,12 @@
     text-align: center;
     max-width: calc(100% - 30px);
     margin: 0 15px;
-    padding: 12px;
+    padding: 9px;
     margin-top: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
+    background: var(--main-color);
     color: #fff;
     text-transform: uppercase;
     font-weight: bold;
@@ -913,14 +912,18 @@
     transition: .2s all ease-in-out;
     user-select: none;
     width: 100%;
-    border: 0;
+    border: 1px solid var(--main-color);
+}
+
+.boxDrawerCheckoutBtn button:hover, .boxDrawerCoupon button:hover{
+    background: var(--text-color-2);
+    color: var(--main-bg-color);
 }
 
 .boxDrawerCheckoutBtn span{
     font-size: 16px;
     text-align: center;
     font-weight: 600;
-    color: #fff;
     text-transform: uppercase;
     user-select: none;
     font-family: "Inter", sans-serif;
@@ -930,4 +933,163 @@
     width: 20px;
     height: 20px;
     margin-right: 5px;
+    color: var(--text-color-2);
+}
+
+.boxDrawerCheckoutBtn button:hover span,
+.boxDrawerCheckoutBtn button:hover svg,
+.boxDrawerCoupon button:hover svg
+{
+    color: var(--main-color);
+}
+
+.boxDrawerHeader{
+    height: 570px;
+    overflow-y: auto;
+}
+
+.boxDrawerItem{
+    padding: 26px 15px;
+    display: flex;
+    width: 100%;
+}
+
+.boxDrawerItemImage{
+    height: 90px;
+    width: 90px;
+    cursor: pointer;
+}
+
+.boxDrawerItemImage img{
+    width: 100%;
+    height: 100%
+}
+
+.boxDrawerItemDetails{
+    padding-left: 12px;
+    position: relative;
+}
+
+.boxDrawerItemInfo{
+    padding-right: 35px;
+}
+
+.boxDrawerItemInfo span{
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.boxDrawerItemInfo span:hover{
+    color: var(--main-color-hover)
+}
+
+.boxDrawerTrash{
+    border: 0;
+    width: 25px;
+    height: 25px;
+    background: transparent;
+    color: var(--main-color);
+    position: absolute;
+    right: 0;
+    top: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s all ease-in-out;
+}
+
+.boxDrawerTrash:hover{
+    color:var(--main-color-hover)
+}
+
+.boxDrawerItemPrice{
+    color: #737373;
+}
+
+.boxDrawerItemQuantity{
+    display: flex;
+    margin-top: 5px;
+}
+
+.boxDrawerItemQuantity input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--main-color);
+    width: 46px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.boxDrawerItemQuantity button{
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #363232;
+    background-color: var(--main-color);
+}
+
+.boxDrawerItemQuantity .css-i4bv87-MuiSvgIcon-root{
+    font-size: 1rem;
+}
+
+.boxDrawerEmptyBox{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.boxDrawerEmptyBox span{
+    font-size: 36px;
+}
+
+.boxDrawerEmptyBox svg{
+    font-size: 300px;
+    color: var(--main-color);
+}
+
+.boxDrawerItems .row {
+    margin-left: 0;
+}
+
+.codeValidDiscountBefore{
+    font-family: "Inter", sans-serif;
+    text-decoration: line-through;
+    font-style: italic;
+    margin-right: 10px;
+}
+
+.codeValidDiscountPercentage{
+    margin-right: 7px;
+    background-color: red;
+    padding-left: 4px;
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+.extraMg{
+    margin-right: 42px;
+}
+
+.disabledCoupon{
+    background: #108f36!important;
+    color: white!important;
+    border: 0!important;
+}
+
+.disableBtnCoupon{
+    background: #108f36!important;
+    color: white!important;
+    border: 0!important;
+}
+
+.disableBtnCoupon:hover svg{
+    color: rgb(226, 17, 17)!important;
 }

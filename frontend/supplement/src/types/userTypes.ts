@@ -1,3 +1,4 @@
+import { userCart } from "./cartType";
 import { ProductState } from "./productType";
 
 export type UserState = {
@@ -11,6 +12,7 @@ export type UserState = {
     addresses?: AddressState[];
     role: Role;
     favorites: ProductState[];
+    cart: userCart;
 };
 
 export type AddressState = {

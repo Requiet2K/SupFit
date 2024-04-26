@@ -2,7 +2,7 @@ import { ProductState } from "../../types/productType"
 import '../../style/MainPages/ProductItem.css';
 import { BreadCrumb } from "../Account/BreadCrumb";
 import { ImageComponent } from "../../utils/imageComponent";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { addToCart } from "../../redux/cart/cartSlice";
+import { CartContext } from "../../context/CartContext";
 
 export const ProductItem = ({product, productPath
 } : {product : ProductState, productPath: string}) => {
@@ -119,6 +120,8 @@ export const ProductItem = ({product, productPath
     return totalCalories;
   };
 
+  const { getBoxItems } = useContext(CartContext);
+  
   const handleAddCart = () => {
     
     const cartData = localStorage.getItem("cart");
@@ -147,6 +150,7 @@ export const ProductItem = ({product, productPath
         let msg = productCount > 1 ? "pieces" : "piece";
         handleClickVariant(`${productCount} ${msg} ${product.name} added into your box!`,'success')();
     }
+    getBoxItems();
   }
 
   return (

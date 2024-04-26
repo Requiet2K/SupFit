@@ -5,13 +5,17 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import { store } from './redux/store.tsx';
+import { CartProvider } from './context/CartContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-          <Route path='/*' element={<App />} />
-      </Routes>
-    </BrowserRouter>
+    <CartProvider>
+      <BrowserRouter>
+        <Routes>
+            <Route path='/*' element={<App />} />
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   </Provider>
 )
+

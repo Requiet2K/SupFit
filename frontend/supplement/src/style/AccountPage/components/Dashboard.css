@@ -27,12 +27,6 @@
     .info-text{
         font-size: 10px!important;
     }
-    .layer-left{
-        height: 278px!important;
-    }
-    .layer-right{
-        height: 278px!important;
-    }
     .payment-text-header{
         font-size: 26px!important; 
     }
@@ -89,7 +83,7 @@
     }
 
     .dashboard{
-        height: 950px;
+        height: 850px;
     }
 }
 
@@ -127,7 +121,7 @@
 }
 
 .layer-left{
-    height: 258px;
+    height: 230px;
     background: linear-gradient(90deg, #231885 0%, #22739e 100%);
     transition: transform 0.3s ease-in-out; 
     border-radius: 10px 0 0 10px;
@@ -135,7 +129,7 @@
 }
 
 .layer-right{
-    height: 258px;
+    height: 230px;
     background: linear-gradient(90deg, #22739e 0%, #231885 100%);
     transition: transform 0.3s ease-in-out; 
     border-radius: 0 10px 10px 0;

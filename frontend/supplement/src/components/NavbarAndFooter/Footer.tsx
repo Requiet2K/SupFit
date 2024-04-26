@@ -3,13 +3,16 @@ import '../../style/NavbarAndFooter/Footer.css';
 import SearchIcon from '@mui/icons-material/Search';
 import payments from "../../images/payments.png";
 import { useNavigate } from 'react-router-dom';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { overflowHidden, overflowShow } from '../../utils/handleOverflow';
+import { CartContext } from '../../context/CartContext';
 
 export const Footer = ({ handleContactModal, handleCloseContactModal } : { handleContactModal: boolean, handleCloseContactModal: () => void}) => {
   const navigate = useNavigate();
 
   const [contactModal, setContactModal] = useState(false);
+  
+  const {setBoxDrawer} = useContext(CartContext);
 
   useEffect(() => {
     if(contactModal){
@@ -110,7 +113,7 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
                         <a href="" onClick={(e) => handleNavigate(e, 'favorites')}>Favorites</a>
                       </li>
                       <li>
-                        <a href="" onClick={(e) => handleNavigate(e, 'box')}>Box</a>
+                        <button onClick={() => setBoxDrawer(true)}>Box</button>
                       </li>
                       <li>
                         <a href="" onClick={(e) => handleNavigate(e, 'addresses')}>Addresses</a>

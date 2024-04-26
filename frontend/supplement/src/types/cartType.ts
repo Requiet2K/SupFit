@@ -9,3 +9,8 @@ export type CartItem = {
 export type CartState = {
     items: CartItem[];
 };
+
+export type userCart = {
+    id: number;
+    items: CartItem[];
+}
