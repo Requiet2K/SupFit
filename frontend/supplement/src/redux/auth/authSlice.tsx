@@ -7,7 +7,6 @@ const initialState: AuthState = {
     token: localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token') as string) : null,
 };
 
-
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -32,8 +31,6 @@ const authSlice = createSlice({
             state.token = action.payload.token;
             localStorage.setItem('token', JSON.stringify(action.payload.token));
             localStorage.setItem('exp', JSON.stringify(jwtDecode(action.payload.token).exp));
-            console.log(state.token);
-            console.log(localStorage.getItem("token"));
         },
         updateUser: (state, action) => {
             state.user = action.payload;

@@ -1,5 +1,6 @@
 package com.project.supplement.dto;
 
+import com.project.supplement.dto.request.cartItemsDTO;
 import com.project.supplement.dto.request.productDTO;
 import com.project.supplement.dto.response.productResponse;
 import com.project.supplement.entity.Address;
@@ -36,5 +37,5 @@ public class UserDTO {
     private String phoneNumber;
     @Nullable
     private List<productResponse> favorites;
-    private Cart cart;
+    private List<cartItemsDTO> cartItems;
 }

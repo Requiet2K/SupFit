@@ -1,20 +1,15 @@
 package com.project.supplement.service.impl;
 
-import com.project.supplement.entity.Product;
-import com.project.supplement.entity.User;
-import com.project.supplement.exception.custom_exceptions.CartItemNotExistsException;
-import com.project.supplement.exception.custom_exceptions.CartNotExistsException;
-import com.project.supplement.exception.custom_exceptions.ProductNotExistsException;
-import com.project.supplement.exception.custom_exceptions.UserNotExistsException;
-import com.project.supplement.repository.CartItemRepository;
-import com.project.supplement.repository.CartRepository;
-import com.project.supplement.repository.ProductRepository;
-import com.project.supplement.repository.UserRepository;
+import com.project.supplement.dto.request.cartItemsDTO;
+import com.project.supplement.dto.response.productResponse;
+import com.project.supplement.entity.*;
+import com.project.supplement.exception.custom_exceptions.*;
+import com.project.supplement.mapper.ProductMapper;
+import com.project.supplement.repository.*;
 import com.project.supplement.service.CartService;
 import org.springframework.stereotype.Service;
-import com.project.supplement.entity.Cart;
-import com.project.supplement.entity.CartItem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,82 +21,66 @@ public class CartServiceImpl implements CartService {
     private final UserRepository userRepository;
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final ProductMapper productMapper;
 
     public CartServiceImpl(CartRepository cartRepository, CartItemRepository cartItemRepository,
-                           ProductRepository productRepository, UserRepository userRepository) {
+                           ProductRepository productRepository, UserRepository userRepository, ProductMapper productMapper, CategoryRepository categoryRepository) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.productMapper = productMapper;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public void addToCart(Long userId, Long productId, int quantity) {
+    public void updateCartItems(Long userId, List<cartItemsDTO> cartItems) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotExistsException::new);
 
-        Product product = productRepository.findById(productId)
-                .orElseThrow(ProductNotExistsException::new);
-
         Cart cart = user.getCart();
+
         if (cart == null) {
             cart = new Cart();
             cart.setUser(user);
             user.setCart(cart);
         }
 
-        Optional<CartItem> existingCartItem = cart.getItems().stream()
-                .filter(item -> item.getProduct().equals(product))
-                .findFirst();
+        List<CartItem> cartItemsList = new ArrayList<>(cart.getItems());
 
-        if (existingCartItem.isPresent()) {
-            CartItem cartItem = existingCartItem.get();
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
-        } else {
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct(product);
-            cartItem.setQuantity(quantity);
-            cartItem.setCart(cart);
-            cart.getItems().add(cartItem);
+
+        for (cartItemsDTO cartItemDTO : cartItems) {
+
+            Category category = categoryRepository.findByName(cartItemDTO.getProduct().getCategoryName())
+                    .orElseThrow(InvalidCategoryIdException::new);
+            Product product = productMapper.toProductEntity(cartItemDTO.getProduct(), category);
+
+            boolean foundInCart = false;
+
+            for (CartItem existingItem : cartItemsList) {
+                if (existingItem.getProduct().getId().equals(product.getId())) {
+                    existingItem.setQuantity(cartItemDTO.getQuantity());
+                    foundInCart = true;
+                    break;
+                }
+            }
+
+            if (!foundInCart) {
+                CartItem newCartItem = new CartItem();
+                newCartItem.setProduct(product);
+                newCartItem.setQuantity(cartItemDTO.getQuantity());
+                newCartItem.setCart(cart);
+                cartItemsList.add(newCartItem);
+            }
         }
 
+        cart.setItems(cartItemsList);
         cartRepository.save(cart);
     }
 
     @Override
-    public void removeFromCart(Long userId, Long cartItemId, int quantity) {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
-
-        Cart cart = user.getCart();
-
-        CartItem cartItem = cartItemRepository.findById(cartItemId)
-                .orElseThrow(CartItemNotExistsException::new);
-
-        if (cartItem.getQuantity() <= quantity) {
-            cart.getItems().remove(cartItem);
-            cartItemRepository.delete(cartItem);
-        } else {
-            cartItem.setQuantity(cartItem.getQuantity() - quantity);
-            cartItemRepository.save(cartItem);
-        }
-    }
-
-    @Override
-    public void emptyCart(Long userId) {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
-
-        Cart cart = user.getCart();
-
-        cart.getItems().clear();
-        cartRepository.save(cart);
-    }
-
-    @Override
-    public List<CartItem> getCartItems(Long userId) {
+    public List<cartItemsDTO> getCartItems(Long userId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotExistsException::new);
@@ -114,6 +93,17 @@ public class CartServiceImpl implements CartService {
             user.setCart(cart);
         }
 
-        return cart.getItems();
+        List<cartItemsDTO> cartItemDtos = new ArrayList<>();
+
+        cart.getItems().forEach((item) -> {
+            cartItemsDTO cartItemDTO = new cartItemsDTO();
+            cartItemDTO.setId(item.getId());
+            cartItemDTO.setQuantity(item.getQuantity());
+            productResponse productResponse = productMapper.toProductResponse(item.getProduct());
+            cartItemDTO.setProduct(productResponse);
+            cartItemDtos.add(cartItemDTO);
+        });
+
+        return cartItemDtos;
     }
 }

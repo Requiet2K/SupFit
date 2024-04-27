@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import '../../style/LoginPage/LoginPage.css';
 import { useFormik } from 'formik';
 import { signUpSchema } from './yup/signUpYup';
@@ -10,8 +10,10 @@ import { useLoginMutation, useLazyGetLoggedUserQuery, useRegisterMutation } from
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/auth/authSlice';
 import { useNavigate } from 'react-router-dom'
-import { AuthState } from '../../types/userTypes';
+import { AuthState, UserState } from '../../types/userTypes';
 import { ForgetPassword } from './ForgetPassword';
+import { addToCart } from '../../redux/cart/cartSlice';
+import { CartContext } from '../../context/CartContext';
 
 export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
 
@@ -35,12 +37,18 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
     const [getLoggedUser] = useLazyGetLoggedUserQuery();
 
     const user = useSelector((state: {auth: AuthState}) => state.auth.user);
-
+    const { getBoxItems } = useContext(CartContext);
+    
     const handleLoginSubmit = async () => {
         try {
             const userData = await signIn({ email: formikSignIn.values.signEmail , password: formikSignIn.values.signPassword }).unwrap();
-            const data = await getLoggedUser(userData.token).unwrap();
+            const data: UserState = await getLoggedUser(userData.token).unwrap();
             dispatch(login({ ...userData, user: data }));
+            console.log(data.cartItems);
+            data.cartItems.forEach((item) => (
+                dispatch(addToCart({ product: item.product, quantity: item.quantity }))
+            ));
+            getBoxItems();
         } catch (err: any) {
             if (err.status === "FETCH_ERROR") {
                 showErrorModal("No server response!", "Server is under maintenance, please try again later.");
@@ -48,6 +56,7 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
                 if (err.status === 403) {
                     showErrorModal("Wrong email or password", "Please check your login informations again.");
                 } else {
+                    console.log(err);
                     showErrorModal("Login failed!", "Please try again.");
                 }
             }

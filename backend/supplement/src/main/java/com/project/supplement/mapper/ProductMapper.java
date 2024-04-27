@@ -7,6 +7,7 @@ import com.project.supplement.entity.Product;
 import org.modelmapper.ModelMapper;
 import com.project.supplement.entity.Flavour;
 import com.project.supplement.entity.NutritionFacts;
+
 import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.List;
@@ -55,5 +56,48 @@ public class ProductMapper {
         productResponse.setFlavours(flavourMap);
 
         return productResponse;
+    }
+
+    public Product toProductEntity(productResponse productResponse, Category category) {
+        Product product = new Product();
+
+        product.setId(productResponse.getId());
+        product.setName(productResponse.getName());
+        product.setTitle(productResponse.getTitle());
+        product.setBlurhashImg(productResponse.getBlurhashImg());
+        product.setImageUrl(productResponse.getImageUrl());
+        product.setPrice(productResponse.getPrice());
+        product.setWeight(productResponse.getWeight());
+        product.setServingAmount(productResponse.getServingAmount());
+        product.setQuantity(productResponse.getQuantity());
+        product.setDescription(productResponse.getDescription());
+        product.setUsageDescription(productResponse.getUsageDescription());
+
+        product.setIngredients(productResponse.getIngredients());
+
+        product.setCategory(category);
+
+        List<Flavour> flavours = productResponse.getFlavours().entrySet().stream()
+                .map(entry -> {
+                    Flavour flavour = new Flavour();
+                    flavour.setName(entry.getKey());
+                    flavour.setColor(entry.getValue());
+                    return flavour;
+                })
+                .collect(Collectors.toList());
+        product.setFlavours(flavours);
+
+        List<NutritionFacts> nutritionFacts = productResponse.getNutritionFacts().entrySet().stream()
+                .map(entry -> {
+                    NutritionFacts nutritionFact = new NutritionFacts();
+                    nutritionFact.setNutrientName(entry.getKey());
+                    nutritionFact.setAmount(entry.getValue());
+                    nutritionFact.setProduct(product);
+                    return nutritionFact;
+                })
+                .collect(Collectors.toList());
+        product.setNutritionFacts(nutritionFacts);
+
+        return product;
     }
 }

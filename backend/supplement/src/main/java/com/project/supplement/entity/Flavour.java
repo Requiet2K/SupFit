@@ -1,5 +1,6 @@
 package com.project.supplement.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import jakarta.persistence.*;
 
@@ -24,5 +25,6 @@ public class Flavour {
     private String color;
 
     @ManyToMany(mappedBy = "flavours")
+    @JsonManagedReference
     private List<Product> products;
 }

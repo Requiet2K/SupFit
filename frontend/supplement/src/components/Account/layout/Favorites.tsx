@@ -82,6 +82,10 @@ export const Favorites = () => {
             </div>
             <div className="content">
               <div className="row">
+              {user?.favorites.length == 0 && <>
+                    <h3 className='d-flex w-100 justify-content-center mt-5 pt-5'> You don't have any favorite item. </h3>
+                    <i className="fa-solid fa-heart addressEmptyIcon"/>
+                  </>}
               {user?.favorites.map((product, index) => (
                 <div className='col-6 col-lg-3 showcaseItemWrapper' key={index}> 
                   <div className="showcaseItem">

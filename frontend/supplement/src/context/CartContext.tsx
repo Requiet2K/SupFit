@@ -1,7 +1,12 @@
-import { createContext, useState, ReactNode } from 'react';
+import { createContext, useState, ReactNode, useEffect } from 'react';
 import { CartItem } from '../types/cartType';
 import { showErrorModal, showSuccessModal } from '../components/swalInfo/swalInfo';
 import { useLazyFindCouponQuery } from '../redux/cart/couponApiSlice';
+import { ProductState } from '../types/productType';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, removeAllFromCart, removeFromCart, removeItemFromCart, updateQuantityInCart } from '../redux/cart/cartSlice';
+import { useLazyGetItemsQuery, useUpdateCartMutation } from '../redux/cart/cartApiSlice';
+import { selectCurrentUser } from '../redux/auth/authSlice';
 
 type CartContextType = {
   boxProducts: CartItem[];
@@ -13,6 +18,12 @@ type CartContextType = {
   showCouponMessage: (code: string) => void;
   boxDrawer: boolean;
   setBoxDrawer: (value: boolean) => void;
+  handleRemoveAllFromCart: () => void;
+  handleAddToCart: (product: ProductState, quantity: number) => void;
+  handleRemoveFromCart: (productId: number, quantity: number) => void;
+  handleRemoveItemFromCart: (productId: number) => void;
+  handleUpdateQuantityInCart: (productId: number, quantity: number) => void;
+  loadingBoxItems: boolean;
 };
 
 export const CartContext = createContext<CartContextType>({
@@ -25,6 +36,12 @@ export const CartContext = createContext<CartContextType>({
   showCouponMessage:() => {},
   boxDrawer: false,
   setBoxDrawer: () => {},
+  handleRemoveAllFromCart: () => {},
+  handleAddToCart: ()  => {},
+  handleRemoveFromCart: ()  => {},
+  handleRemoveItemFromCart: () => {},
+  handleUpdateQuantityInCart: () => {},
+  loadingBoxItems: false,
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
@@ -32,8 +49,38 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [boxProducts, setBoxProducts] = useState<CartItem[]>([]);
   const [discount, setDiscount] = useState(0);
   const [boxDrawer, setBoxDrawer] = useState(false);
+
+  const [updateCartMutation, {isLoading}] = useUpdateCartMutation();
+  const [getItems] = useLazyGetItemsQuery();
+  const user = useSelector(selectCurrentUser);
+
+  const [loadingBoxItems, setLoadingBoxItems] = useState(false);
+
+  useEffect(() => {
+    if(isLoading) setLoadingBoxItems(true);
+    else setLoadingBoxItems(false);
+  }, [isLoading])
+
+  const updateUserCart = async () => {
+    if (user) {
+      try {
+        const response = await getItems(user.id).unwrap();
+        const cartData = JSON.parse(JSON.stringify(response));
+        setBoxProducts(cartData);
+        await updateCartMutation({
+          userId: user.id,
+          cartItems: boxProducts,
+        }).unwrap();
+        getBoxItems();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
   
   const shippingFee = 12.99;
+
+  const dispatch = useDispatch();
 
   const getBoxItems = () => {
     const cartData = localStorage.getItem("cart");
@@ -45,6 +92,29 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     if(discountCode){
         applyCoupon(discountCode);
     }
+  }
+  
+  const handleAddToCart = (product: ProductState, quantity: number) => {
+    dispatch(addToCart({ product, quantity }));
+    updateUserCart();
+  }
+
+  const handleRemoveFromCart = (productId: number, quantity: number) => {
+    dispatch(removeFromCart({ productId, quantity }));
+    updateUserCart();
+  }
+
+  const handleRemoveAllFromCart = () => {
+    setBoxProducts([]);
+    dispatch(removeAllFromCart());
+  }
+
+  const handleRemoveItemFromCart = (productId: number) => {
+    dispatch(removeItemFromCart({productId}));
+  }
+
+  const handleUpdateQuantityInCart = (productId: number, quantity: number) => {
+    dispatch(updateQuantityInCart({ productId, quantity }));
   }
 
   const updateBoxProducts = (items: CartItem[]) => {
@@ -110,7 +180,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   return (
     <CartContext.Provider value={{ boxProducts, getBoxItems, updateBoxProducts, 
     total: handleCalculateTotal(), applyCoupon, discount, showCouponMessage,
-    boxDrawer, setBoxDrawer}}>
+    boxDrawer, setBoxDrawer, handleRemoveAllFromCart ,handleAddToCart, 
+    handleRemoveFromCart, handleRemoveItemFromCart, handleUpdateQuantityInCart, loadingBoxItems}}>
       {children}
     </CartContext.Provider>
   );

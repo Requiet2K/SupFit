@@ -19,7 +19,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { CartItem } from "../../types/cartType";
 import { ImageComponent } from "../../utils/imageComponent";
-import { addToCart, removeFromCart, removeItemFromCart, updateQuantityInCart } from "../../redux/cart/cartSlice";
+import { addToCart, removeAllFromCart, removeFromCart, removeItemFromCart, updateQuantityInCart } from "../../redux/cart/cartSlice";
 import Swal from "sweetalert2";
 import { CartContext } from "../../context/CartContext";
 import { showErrorModal } from "../swalInfo/swalInfo";
@@ -73,11 +73,13 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
   }, [prevScrollpos]);
 
   const dispatch = useDispatch();
-  
+
   const handleLogout= async () => {
-    navigate("/login");
     dispatch(logout({}));
+    handleRemoveAllFromCart();
     setRightDrawer(false);
+    getBoxItems();
+    navigate("/login");
   }
 
   const handleDrawerClick = (path: string, itemNo: number) => {
@@ -90,7 +92,10 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
     }
   }
 
-  const { boxProducts, getBoxItems, updateBoxProducts, total, applyCoupon, discount, showCouponMessage, boxDrawer, setBoxDrawer} = useContext(CartContext);
+  const { boxProducts, getBoxItems, updateBoxProducts, total, 
+    applyCoupon, discount, showCouponMessage, boxDrawer, setBoxDrawer, 
+    handleRemoveAllFromCart, handleAddToCart, handleRemoveFromCart,
+    handleRemoveItemFromCart, handleUpdateQuantityInCart} = useContext(CartContext);
 
     useEffect(() => {
       if(rightDrawer == true || sideBar == true || boxDrawer == true){
@@ -127,12 +132,11 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
         }
       }
 
-      
       const updatedProducts = boxProducts?.map(product => 
         product.id === item.id ? { ...product, quantity: updatedQuantity } : product
       );
-      
-      dispatch(updateQuantityInCart({ productId: item.product.id, quantity: updatedQuantity}));
+
+      handleUpdateQuantityInCart(item.product.id, updatedQuantity);
       updateBoxProducts(updatedProducts);
     }
 
@@ -143,7 +147,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
         item.quantity++;
       }
       updateBoxProducts([...(boxProducts || [])]);
-      dispatch(addToCart({ product: item.product, quantity: 1}));
+      handleAddToCart( item.product, 1);
     }
   
     const handleDecreaseProductCount = (item: CartItem) => {
@@ -154,7 +158,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
           item.quantity--;
         }
         updateBoxProducts([...(boxProducts || [])]);
-        dispatch(removeFromCart({ productId: item.product.id, quantity: 1}));
+        handleRemoveFromCart( item.product.id, 1);
       }
     }
 
@@ -169,7 +173,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
         confirmButtonText: "Yes, remove it!"
       }).then(async (result) => {
         if (result.isConfirmed) {
-          dispatch(removeItemFromCart({ productId: item.product.id}));
+          handleRemoveItemFromCart(item.product.id);
           getBoxItems();
         }
       });

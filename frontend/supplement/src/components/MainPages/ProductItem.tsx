@@ -14,8 +14,8 @@ import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { addToCart } from "../../redux/cart/cartSlice";
 import { CartContext } from "../../context/CartContext";
+import ClockLoader from "react-spinners/ClockLoader";
 
 export const ProductItem = ({product, productPath
 } : {product : ProductState, productPath: string}) => {
@@ -120,7 +120,7 @@ export const ProductItem = ({product, productPath
     return totalCalories;
   };
 
-  const { getBoxItems } = useContext(CartContext);
+  const { getBoxItems, loadingBoxItems, handleAddToCart } = useContext(CartContext);
   
   const handleAddCart = () => {
     
@@ -137,16 +137,16 @@ export const ProductItem = ({product, productPath
         let msg = productCount > 1 ? "pieces" : "piece";
         if(productCount + quantity <= product.quantity){
           handleClickVariant(`${productCount} ${msg} ${product.name} added into your box!`,'success')();
-          dispatch(addToCart({ product, quantity: productCount }));
+          handleAddToCart(product, productCount);
         }
         else{
           msg = (product.quantity - quantity) > 1 ? "pieces" : "piece";
           handleClickVariant(`${product.quantity - quantity} ${msg} ${product.name} added into your box!`,'success')();
-          dispatch(addToCart({ product, quantity: product.quantity - quantity }));
+          handleAddToCart(product, product.quantity - quantity);
         }
       }
     }else{
-        dispatch(addToCart({ product, quantity: productCount }));
+        handleAddToCart(product, productCount);
         let msg = productCount > 1 ? "pieces" : "piece";
         handleClickVariant(`${productCount} ${msg} ${product.name} added into your box!`,'success')();
     }
@@ -252,8 +252,14 @@ export const ProductItem = ({product, productPath
                 </div>
                 <div className="productItemBox-right">
                   <button className="gap-3" onClick={handleAddCart}>
+                    {loadingBoxItems ? 
+                    <ClockLoader color="#ffffff" size={32}/>
+                    :
+                    <>
                     <AddShoppingCartIcon className="fs-2"/>
                     <span>Add to Cart</span> 
+                    </>
+                    }
                   </button>
                 </div>
               </div>

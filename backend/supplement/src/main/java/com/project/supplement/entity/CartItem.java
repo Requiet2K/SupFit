@@ -1,5 +1,6 @@
 package com.project.supplement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonBackReference
     private Cart cart;
 
     @ManyToOne
@@ -25,4 +27,5 @@ public class CartItem {
     private Product product;
 
     private int quantity;
+
 }
