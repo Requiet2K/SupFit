@@ -3,6 +3,7 @@ package com.project.supplement.controller;
 import com.project.supplement.entity.Address;
 import com.project.supplement.service.AddressService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class AddressController {
         return addressService.getAddresses(id);
     }
 
-    @PostMapping("/createAddress/{id}")
+    @PostMapping(path = "/createAddress/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createAddress(@PathVariable Long id, @RequestBody Address newAddress){
         addressService.createAddress(id, newAddress);
     }

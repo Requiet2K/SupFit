@@ -19,7 +19,10 @@ export const addressApiSlice = apiSlice.injectEndpoints({
             query: ({id, credentials}: {id: number, credentials: sendAddressState}) => ({
                 url: `/address/createAddress/${id}`,
                 method: 'POST',
-                body: {...credentials}
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(credentials)
             })
         }),
         updateAddress: builder.mutation({

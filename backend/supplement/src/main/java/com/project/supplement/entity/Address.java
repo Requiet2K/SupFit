@@ -46,6 +46,6 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonBackReference(value = "userAddresses")
     private User user;
 }
