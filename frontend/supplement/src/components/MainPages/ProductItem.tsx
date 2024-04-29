@@ -28,7 +28,9 @@ export const ProductItem = ({product, productPath
     enqueueSnackbar(msg, { variant });
   };
 
-  const [selectedFlavour, setSelectedFlavour] = useState(Object.entries(product.flavours)[0][0]);
+  const [selectedFlavour, setSelectedFlavour] = useState<string | null>
+  (Object.keys(product.flavours).length > 0 ? Object.entries(product.flavours)[0][0] : null);
+
   const [productCount, setProductCount] = useState(1);
 
   const handleIncreaseProductCount = () => {
@@ -120,7 +122,7 @@ export const ProductItem = ({product, productPath
     return totalCalories;
   };
 
-  const { getBoxItems, loadingBoxItems, handleAddToCart } = useContext(CartContext);
+  const { getBoxItems, handleAddToCart, addToCartLoading } = useContext(CartContext);
   
   const handleAddCart = () => {
     
@@ -186,33 +188,39 @@ export const ProductItem = ({product, productPath
                 </div>
               </div>
               <div className="productItemDivider mt-2"/>
-              <div className="productItemFlavors mt-2">
-                <h5 className="mt-2">Flavour</h5>
-                <div className="flavors">
-                {Object.entries(product.flavours).map(([flavour, color]) => (
-                  <div className="flavors-item" style={{borderColor: color}} key={flavour} onClick={() => setSelectedFlavour(flavour)}>
-                    <div className="flavors-item-color" style={{background: color}}/>
-                    <span style={{color: color}}>{flavour.toUpperCase()}</span>
-                    {selectedFlavour == flavour && <i className="fa-regular fa-circle-check"/>}
+              {Object.keys(product.flavours).length > 0 &&
+                <div className="productItemFlavors mt-2">
+                  <h5 className="mt-2">Flavour</h5>
+                  <div className="flavors">
+                  {Object.entries(product.flavours).map(([flavour, color]) => (
+                    <div className="flavors-item" style={{borderColor: color}} key={flavour} onClick={() => setSelectedFlavour(flavour)}>
+                      <div className="flavors-item-color" style={{background: color}}/>
+                      <span style={{color: color}}>{flavour.toUpperCase()}</span>
+                      {selectedFlavour == flavour && <i className="fa-regular fa-circle-check"/>}
+                    </div>
+                  ))}
                   </div>
-                ))}
                 </div>
-              </div>
+              }
               <div className="productItemInfo mt-4">
                 <div className="productItemInfoContainer">
-                  <div className="productItemDash">
-                    <span>{product.weight}G</span>
+                  <div className={`productItemDash ${Object.keys(product.flavours).length == 0 && "productItemDash2"}`}>
+                    <span className={`${Object.keys(product.flavours).length == 0 && "fs-5"}`}>{product.weight}G</span>
+                    {Object.keys(product.flavours).length > 0 &&
                     <span className="text-center">{product.servingAmount} servings</span>
+                    }
                   </div>
                 </div>
+                {Object.keys(product.flavours).length > 0 &&
+                    <div className="productItemInfoContainer">
+                      <div className={`productItemDash ${Object.keys(product.flavours).length == 0 && "productItemDash2"}`}>
+                        <span className="productItemPerServing">{(product.price/product.servingAmount).toLocaleString()}$</span>
+                        <span className="text-center">per serving</span>
+                      </div>
+                    </div>
+                }
                 <div className="productItemInfoContainer">
-                  <div className="productItemDash">
-                    <span className="productItemPerServing">{(product.price/product.servingAmount).toLocaleString()}$</span>
-                    <span className="text-center">per serving</span>
-                  </div>
-                </div>
-                <div className="productItemInfoContainer">
-                  <div className="productItemDash">
+                  <div className={`productItemDash ${Object.keys(product.flavours).length == 0 && "productItemDash2"}`}>
                     <span className="productItemPerStock">{product.quantity}</span>
                     <span className="text-center">in stock</span>
                   </div>
@@ -252,7 +260,7 @@ export const ProductItem = ({product, productPath
                 </div>
                 <div className="productItemBox-right">
                   <button className="gap-3" onClick={handleAddCart}>
-                    {loadingBoxItems ? 
+                    {addToCartLoading ? 
                     <ClockLoader color="#ffffff" size={32}/>
                     :
                     <>
@@ -263,8 +271,36 @@ export const ProductItem = ({product, productPath
                   </button>
                 </div>
               </div>
+              {
+                Object.keys(product.flavours).length == 0 &&
+                <div className="productSingleItemDescription">
+                  <div className="row">
+                    <div className="col-12">
+                      <Accordion>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel4-content"
+                          id="panel4-header"
+                        >
+                          <div className='productItemDescriptionTitle'>
+                            DESCRIPTION
+                          </div>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <div className='productItemDescriptionContent'>
+                            <div className="productItemAbout">
+                              <span>{product.description}</span>
+                            </div>
+                          </div>
+                        </AccordionDetails>
+                      </Accordion>
+                    </div>
+                  </div>
+                </div>
+              }
             </div>
           </div>
+          {Object.keys(product.flavours).length > 0 ? 
           <div className="productItemDescription">
             <div className="row">
               <div className="col-6 col-md-4">
@@ -389,6 +425,9 @@ export const ProductItem = ({product, productPath
               </div>
             </div>
           </div>
+          : 
+          <div className="productItemDivider"/>
+          }
           <div className="productItemFooter mt-4">
             <div className="productItemRate row">
               <div className="productItemRateLeft col-12 col-md-6">

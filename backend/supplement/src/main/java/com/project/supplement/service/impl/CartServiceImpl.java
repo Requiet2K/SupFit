@@ -8,6 +8,7 @@ import com.project.supplement.mapper.ProductMapper;
 import com.project.supplement.repository.*;
 import com.project.supplement.service.CartService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,43 +36,46 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void updateCartItems(Long userId, List<cartItemsDTO> cartItems) {
+    public void increaseCartItem(Long userId, productResponse productResponse, int quantity) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotExistsException::new);
 
         Cart cart = user.getCart();
 
-        if (cart == null) {
-            cart = new Cart();
-            cart.setUser(user);
-            user.setCart(cart);
+        List<CartItem> cartItemsList = new ArrayList<>(cart.getItems());
+
+        for (CartItem existingItem : cartItemsList) {
+            if (existingItem.getProduct().getId().equals(productResponse.getId())) {
+                if(existingItem.getQuantity() + quantity <= productResponse.getQuantity()){
+                    existingItem.setQuantity(existingItem.getQuantity() + quantity);
+                }else{
+                    existingItem.setQuantity(productResponse.getQuantity());
+                }
+                break;
+            }
         }
+
+        cart.setItems(cartItemsList);
+        cartRepository.save(cart);
+    }
+
+    @Override
+    public void decreaseCartItem(Long userId, productResponse productResponse, int quantity) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExistsException::new);
+
+        Cart cart = user.getCart();
 
         List<CartItem> cartItemsList = new ArrayList<>(cart.getItems());
 
-
-        for (cartItemsDTO cartItemDTO : cartItems) {
-
-            Category category = categoryRepository.findByName(cartItemDTO.getProduct().getCategoryName())
-                    .orElseThrow(InvalidCategoryIdException::new);
-            Product product = productMapper.toProductEntity(cartItemDTO.getProduct(), category);
-
-            boolean foundInCart = false;
-
-            for (CartItem existingItem : cartItemsList) {
-                if (existingItem.getProduct().getId().equals(product.getId())) {
-                    existingItem.setQuantity(cartItemDTO.getQuantity());
-                    foundInCart = true;
-                    break;
+        for (CartItem existingItem : cartItemsList) {
+            if (existingItem.getProduct().getId().equals(productResponse.getId())) {
+                if(existingItem.getQuantity() - quantity >= 1){
+                    existingItem.setQuantity(existingItem.getQuantity() - quantity);
+                }else{
+                    existingItem.setQuantity(1);
                 }
-            }
-
-            if (!foundInCart) {
-                CartItem newCartItem = new CartItem();
-                newCartItem.setProduct(product);
-                newCartItem.setQuantity(cartItemDTO.getQuantity());
-                newCartItem.setCart(cart);
-                cartItemsList.add(newCartItem);
+                break;
             }
         }
 
@@ -106,4 +110,114 @@ public class CartServiceImpl implements CartService {
 
         return cartItemDtos;
     }
+
+    @Override
+    public void addToCart(Long userId, productResponse productResponse, int quantity) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExistsException::new);
+
+        Cart cart = user.getCart();
+
+        if(cart == null){
+            Cart newCart = new Cart();
+            user.setCart(newCart);
+            newCart.setUser(user);
+        }
+
+        List<CartItem> cartItemsList = new ArrayList<>(cart.getItems());
+
+        boolean foundInCart = false;
+
+        for (CartItem existingItem : cartItemsList) {
+            if (existingItem.getProduct().getId().equals(productResponse.getId())) {
+                if(existingItem.getQuantity() + quantity <= existingItem.getProduct().getQuantity()){
+                    existingItem.setQuantity(existingItem.getQuantity() + quantity);
+                }else{
+                    existingItem.setQuantity(existingItem.getProduct().getQuantity());
+                }
+                foundInCart = true;
+                break;
+            }
+        }
+
+        if (!foundInCart) {
+            CartItem newCartItem = new CartItem();
+            Category category = categoryRepository.findByName(productResponse.getCategoryName())
+                    .orElseThrow(InvalidCategoryIdException::new);
+            Product product = productMapper.toProductEntity(productResponse, category);
+            newCartItem.setProduct(product);
+            if(quantity < product.getQuantity()){
+                newCartItem.setQuantity(quantity);
+            }else{
+                newCartItem.setQuantity(product.getQuantity());
+            }
+            newCartItem.setCart(cart);
+            cartItemsList.add(newCartItem);
+        }
+
+        cart.setItems(cartItemsList);
+        cartRepository.save(cart);
+    }
+
+    @Override
+    @Transactional
+    public void removeFromCart(Long userId, productResponse productResponse) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExistsException::new);
+
+        Cart cart = user.getCart();
+
+        List<CartItem> cartItemsList = new ArrayList<>(cart.getItems());
+
+        for (CartItem existingItem : cartItemsList) {
+            if (existingItem.getProduct().getId().equals(productResponse.getId())) {
+                cartItemsList.remove(existingItem);
+                break;
+            }
+        }
+
+        cartItemRepository.deleteByCartIdAndProductId(cart.getId(), productResponse.getId());
+        cart.setItems(cartItemsList);
+        cartRepository.save(cart);
+    }
+
+    @Override
+    @Transactional
+    public void clearCart(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExistsException::new);
+
+        Cart cart = user.getCart();
+        cart.getItems().clear();
+
+        cartItemRepository.deleteAllByCartId(cart.getId());
+        cartRepository.save(cart);
+    }
+
+    @Override
+    public void handleUpdateQuantity(Long userId, productResponse productResponse, int quantity) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExistsException::new);
+
+        Cart cart = user.getCart();
+
+        List<CartItem> cartItemsList = new ArrayList<>(cart.getItems());
+
+        for (CartItem existingItem : cartItemsList) {
+            if (existingItem.getProduct().getId().equals(productResponse.getId())) {
+                if(quantity <= productResponse.getQuantity() && quantity > 1){
+                    existingItem.setQuantity(quantity);
+                }else if(quantity <= 1){
+                    existingItem.setQuantity(1);
+                }else {
+                    existingItem.setQuantity(productResponse.getQuantity());
+                }
+                break;
+            }
+        }
+
+        cart.setItems(cartItemsList);
+        cartRepository.save(cart);
+    }
+
 }

@@ -5,7 +5,7 @@ import { useLazyFindCouponQuery } from '../redux/cart/couponApiSlice';
 import { ProductState } from '../types/productType';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeAllFromCart, removeFromCart, removeItemFromCart, updateQuantityInCart } from '../redux/cart/cartSlice';
-import { useLazyGetItemsQuery, useUpdateCartMutation } from '../redux/cart/cartApiSlice';
+import { useAddToCartMutation, useClearCartMutation, useDecreaseCartItemMutation, useHandleUpdateQuantityMutation, useIncreaseCartItemMutation, useLazyGetItemsQuery, useRemoveFromCartMutation } from '../redux/cart/cartApiSlice';
 import { selectCurrentUser } from '../redux/auth/authSlice';
 
 type CartContextType = {
@@ -20,10 +20,14 @@ type CartContextType = {
   setBoxDrawer: (value: boolean) => void;
   handleRemoveAllFromCart: () => void;
   handleAddToCart: (product: ProductState, quantity: number) => void;
-  handleRemoveFromCart: (productId: number, quantity: number) => void;
-  handleRemoveItemFromCart: (productId: number) => void;
-  handleUpdateQuantityInCart: (productId: number, quantity: number) => void;
-  loadingBoxItems: boolean;
+  handleIncreaseFromCart: (product: ProductState, quantity: number) => void;
+  handleRemoveFromCart: (product: ProductState, quantity: number) => void;
+  handleRemoveItemFromCart: (product: ProductState) => void;
+  handleUpdateQuantityInCart: (product: ProductState, quantity: number) => void;
+  handleLogoutBox: () => void;
+  addToCartLoading: boolean;
+  takeUserCartItems: (product: ProductState, quantity: number) => void;
+  saveBeforeLoginCartItems: (product: ProductState, quantity: number) => void;
 };
 
 export const CartContext = createContext<CartContextType>({
@@ -38,10 +42,14 @@ export const CartContext = createContext<CartContextType>({
   setBoxDrawer: () => {},
   handleRemoveAllFromCart: () => {},
   handleAddToCart: ()  => {},
+  handleIncreaseFromCart: () => {},
   handleRemoveFromCart: ()  => {},
   handleRemoveItemFromCart: () => {},
   handleUpdateQuantityInCart: () => {},
-  loadingBoxItems: false,
+  handleLogoutBox: () => {},
+  addToCartLoading: false,
+  takeUserCartItems: () => {},
+  saveBeforeLoginCartItems: () => {},
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
@@ -49,28 +57,26 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [boxProducts, setBoxProducts] = useState<CartItem[]>([]);
   const [discount, setDiscount] = useState(0);
   const [boxDrawer, setBoxDrawer] = useState(false);
-
-  const [updateCartMutation, {isLoading}] = useUpdateCartMutation();
-  const [getItems] = useLazyGetItemsQuery();
+  const [getUserItems] = useLazyGetItemsQuery();
   const user = useSelector(selectCurrentUser);
 
-  const [loadingBoxItems, setLoadingBoxItems] = useState(false);
+  const [addToCartMutation, {isLoading: addToCartLoading}] = useAddToCartMutation();
+  const [increaseCartItemMutation] = useIncreaseCartItemMutation();
+  const [decreaseCartItemMutation] = useDecreaseCartItemMutation();
+  const [clearCartMutation] = useClearCartMutation();
+  const [removeFromCartMutation] = useRemoveFromCartMutation();
+  const [handleUpdateQuantity] = useHandleUpdateQuantityMutation();
 
   useEffect(() => {
-    if(isLoading) setLoadingBoxItems(true);
-    else setLoadingBoxItems(false);
-  }, [isLoading])
+    getItemsQuery();
+  }, [boxDrawer])
 
-  const updateUserCart = async () => {
+  const getItemsQuery = async () => {
     if (user) {
       try {
-        const response = await getItems(user.id).unwrap();
+        const response = await getUserItems(user.id).unwrap();
         const cartData = JSON.parse(JSON.stringify(response));
         setBoxProducts(cartData);
-        await updateCartMutation({
-          userId: user.id,
-          cartItems: boxProducts,
-        }).unwrap();
         getBoxItems();
       } catch (err) {
         console.log(err);
@@ -94,31 +100,67 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }
   
-  const handleAddToCart = (product: ProductState, quantity: number) => {
+  const handleAddToCart = async (product: ProductState, quantity: number) => {
     dispatch(addToCart({ product, quantity }));
-    updateUserCart();
+    if(user){
+      await addToCartMutation({userId: user.id, product, quantity});
+    }
   }
 
-  const handleRemoveFromCart = (productId: number, quantity: number) => {
-    dispatch(removeFromCart({ productId, quantity }));
-    updateUserCart();
+  const takeUserCartItems = async (product: ProductState, quantity: number) => {
+    dispatch(addToCart({ product, quantity }));
   }
 
-  const handleRemoveAllFromCart = () => {
+  const saveBeforeLoginCartItems = async (product: ProductState, quantity: number) => {
+    if(user){
+      await addToCartMutation({userId: user.id, product, quantity});
+    }
+  }
+
+  const handleIncreaseFromCart = async (product: ProductState, quantity: number) => {
+    dispatch(addToCart({ product, quantity }));
+    if(user){
+      await increaseCartItemMutation({userId: user.id, product, quantity});
+    }
+  }
+
+  const handleRemoveFromCart = async (product: ProductState, quantity: number) => {
+    dispatch(removeFromCart({ product, quantity }));
+    if(user){
+      await decreaseCartItemMutation({userId: user.id, product, quantity});
+    }
+  }
+
+  const handleRemoveAllFromCart = async () => {
     setBoxProducts([]);
     dispatch(removeAllFromCart());
+    if(user){
+      await clearCartMutation({userId: user.id});
+    }
   }
 
-  const handleRemoveItemFromCart = (productId: number) => {
-    dispatch(removeItemFromCart({productId}));
+  const handleRemoveItemFromCart = async (product: ProductState) => {
+    dispatch(removeItemFromCart({product}));
+    if(user){
+      await removeFromCartMutation({userId: user.id, product});
+    }
   }
 
-  const handleUpdateQuantityInCart = (productId: number, quantity: number) => {
-    dispatch(updateQuantityInCart({ productId, quantity }));
+  const handleUpdateQuantityInCart = async (product: ProductState, quantity: number) => {
+    dispatch(updateQuantityInCart({ product, quantity }));
+    console.log(quantity);
+    if(user){
+      await handleUpdateQuantity({userId: user.id, product, quantity});
+    }
   }
 
   const updateBoxProducts = (items: CartItem[]) => {
     setBoxProducts(items);
+  }
+
+  const handleLogoutBox = () => {
+    setBoxProducts([]),
+    dispatch(removeAllFromCart());
   }
 
   const handleCalculateTotal = () => {
@@ -181,7 +223,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     <CartContext.Provider value={{ boxProducts, getBoxItems, updateBoxProducts, 
     total: handleCalculateTotal(), applyCoupon, discount, showCouponMessage,
     boxDrawer, setBoxDrawer, handleRemoveAllFromCart ,handleAddToCart, 
-    handleRemoveFromCart, handleRemoveItemFromCart, handleUpdateQuantityInCart, loadingBoxItems}}>
+    handleRemoveFromCart, handleIncreaseFromCart, handleRemoveItemFromCart, 
+    handleUpdateQuantityInCart,  handleLogoutBox, addToCartLoading, takeUserCartItems, saveBeforeLoginCartItems}}>
       {children}
     </CartContext.Provider>
   );

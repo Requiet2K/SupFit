@@ -81,22 +81,22 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
                     <h5>Quick Links</h5>
                     <ul className="footer-list">
                       <li>
-                        <a href="">Protein</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'protein')}>Protein</a>
                       </li>
                       <li>
-                        <a href="">Nutrition</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'nutrition')}>Nutrition</a>
                       </li>
                       <li>
-                        <a href="">Snacks</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'snack')}>Snacks</a>
                       </li>
                       <li>
-                        <a href="">Vitamin</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'vitamin')}>Vitamin</a>
                       </li>
                       <li>
-                        <a href="">Accessory</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'accessory')}>Accessory</a>
                       </li>
                       <li>
-                        <a href="">All Products</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'all')}>All Products</a>
                       </li>
                     </ul>
                   </div>

@@ -19,11 +19,13 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { CartItem } from "../../types/cartType";
 import { ImageComponent } from "../../utils/imageComponent";
-import { addToCart, removeAllFromCart, removeFromCart, removeItemFromCart, updateQuantityInCart } from "../../redux/cart/cartSlice";
 import Swal from "sweetalert2";
 import { CartContext } from "../../context/CartContext";
 import { showErrorModal } from "../swalInfo/swalInfo";
 import React from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 export const Navbar = ({ category, onCategoryChange }: {category: string, onCategoryChange: (e: string) => void}) => {
 
@@ -76,7 +78,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
 
   const handleLogout= async () => {
     dispatch(logout({}));
-    handleRemoveAllFromCart();
+    handleLogoutBox();
     setRightDrawer(false);
     getBoxItems();
     navigate("/login");
@@ -94,15 +96,19 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
 
   const { boxProducts, getBoxItems, updateBoxProducts, total, 
     applyCoupon, discount, showCouponMessage, boxDrawer, setBoxDrawer, 
-    handleRemoveAllFromCart, handleAddToCart, handleRemoveFromCart,
-    handleRemoveItemFromCart, handleUpdateQuantityInCart} = useContext(CartContext);
+    handleRemoveAllFromCart, handleIncreaseFromCart, handleRemoveFromCart,
+    handleRemoveItemFromCart, handleUpdateQuantityInCart, handleLogoutBox} = useContext(CartContext);
 
     useEffect(() => {
-      if(rightDrawer == true || sideBar == true || boxDrawer == true){
+      if(rightDrawer || sideBar || boxDrawer ){
         overflowHidden(rightDrawer);
         window.scrollTo(0,0);
       }else{
         overflowShow();
+      }
+      if(boxDrawer){
+        overflowHidden(boxDrawer);
+        window.scrollTo(0,0);
       }
     }, [rightDrawer, sideBar, boxDrawer]);
 
@@ -136,7 +142,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
         product.id === item.id ? { ...product, quantity: updatedQuantity } : product
       );
 
-      handleUpdateQuantityInCart(item.product.id, updatedQuantity);
+      handleUpdateQuantityInCart(item.product, updatedQuantity);
       updateBoxProducts(updatedProducts);
     }
 
@@ -147,7 +153,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
         item.quantity++;
       }
       updateBoxProducts([...(boxProducts || [])]);
-      handleAddToCart( item.product, 1);
+      handleIncreaseFromCart( item.product, 1);
     }
   
     const handleDecreaseProductCount = (item: CartItem) => {
@@ -158,8 +164,12 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
           item.quantity--;
         }
         updateBoxProducts([...(boxProducts || [])]);
-        handleRemoveFromCart( item.product.id, 1);
+        handleRemoveFromCart( item.product, 1);
       }
+    }
+
+    const handleClearCart = () => {
+      handleRemoveAllFromCart();
     }
 
     const handleRemoveItemFromBox = (item: CartItem) => {
@@ -173,7 +183,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
         confirmButtonText: "Yes, remove it!"
       }).then(async (result) => {
         if (result.isConfirmed) {
-          handleRemoveItemFromCart(item.product.id);
+          handleRemoveItemFromCart(item.product);
           getBoxItems();
         }
       });
@@ -218,6 +228,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
 
     const removeDiscount = () => {
       applyCoupon("");
+      setCouponValue("");
     }
 
     const [disableCouponInput, setDisableCouponInput] = useState(false);
@@ -561,10 +572,17 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
             </div>
           </div>
         </div>
-        {/* Box Drawer */}
-        <div className={`boxDrawer ${boxDrawer ? "d-flex" : "hide"}`}>
+        {/* Box Drawer */} 
+        <div className={`boxDrawer ${boxDrawer ? "d-flex" : ""}`}>  
           <div className="boxDrawerContent">
             <div className="boxDrawerTitle">
+              <div className={`removeAllItems ${(boxDrawer && boxProducts.length > 0) ? "d-flex" : ""}`}>
+                <Tooltip title="Clear Cart">
+                  <IconButton onClick={handleClearCart}>
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>   
               <h5>Your Cart</h5>
               <button className="boxDrawerClose" onClick={() => setBoxDrawer(false)}>
                 <CloseIcon className="boxDrClose" style={{color: "#282b78"}}/>
@@ -577,7 +595,7 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
                   {handleBoxShippingInfo()}
                 </span>
                 <div className="boxDrawerShippingBar">
-                  <div className="shippingProgress" style={{width: `${(handleCalculateTotal()/50)*100}%` }}/>
+                  <div className={`shippingProgress ${(handleCalculateTotal()/50)*100 >= 100 && "shippingProgressCompleted"}`} style={{width: `${(handleCalculateTotal()/50)*100}%` }}/>
                 </div>
               </div>
             </div>
@@ -653,8 +671,10 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
                 "$"+handleCalculateTotal().toFixed(2)
                 :
                 <div className="codeValid">
-                  <span className="codeValidDiscountPercentage">%{discount}</span>
-                  <span className="codeValidDiscountBefore">${handleCalculateTotal().toFixed(2)}</span>
+                  <div className="boxDrawerInfoGroup">
+                    <span className="codeValidDiscountPercentage">%{discount}</span>
+                    <span className="codeValidDiscountBefore">${handleCalculateTotal().toFixed(2)}</span>
+                  </div>
                   <span className="codeValidDiscountAfter">${(handleCalculateTotal() - (handleCalculateTotal()*(discount/100))).toFixed(2)}</span>
                 </div> 
                 }
@@ -667,8 +687,10 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
                   "$12.99" 
                   : 
                   <div className="shippingFree">
-                    <span className="codeValidDiscountPercentage">FREE</span>
-                    <span className="codeValidDiscountBefore extraMg">$12.99</span>
+                    <div className="boxDrawerInfoGroup">
+                      <span className="codeValidDiscountPercentage">FREE</span>
+                      <span className="codeValidDiscountBefore extraMg">$12.99</span>
+                    </div>
                     <span className="codeValidDiscountAfter">$0</span>
                   </div>
                   }

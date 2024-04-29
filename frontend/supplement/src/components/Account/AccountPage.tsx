@@ -2,6 +2,7 @@ import '../../style/AccountPage/AccountPage.css';
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectCurrentUser } from "../../redux/auth/authSlice";
 import { useNavigate } from 'react-router-dom';
+import { removeAllFromCart } from '../../redux/cart/cartSlice';
 
 export const AccountPage: React.FC<{}> = () => {
 
@@ -11,7 +12,8 @@ export const AccountPage: React.FC<{}> = () => {
 
   const handleLogout = () => {
     navigate("/login");
-    dispatch(logout({}))
+    dispatch(logout({}));
+    dispatch(removeAllFromCart());
   }
 
   return (

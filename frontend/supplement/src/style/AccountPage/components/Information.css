@@ -21,7 +21,6 @@
     color: var(--text-color);
     width: 100%;
     position: relative;
-    font-size: 14px;
     padding: 8px 15px !important;
     border-radius: 5px !important;
     z-index: 1;
@@ -35,7 +34,7 @@
 
 .email-icon{
     width: 40px;
-    height: 41px;
+    height: 44px;
     position: absolute;
     bottom: 0px;
     right: 0;

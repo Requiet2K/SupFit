@@ -12,7 +12,6 @@ import { login } from '../../redux/auth/authSlice';
 import { useNavigate } from 'react-router-dom'
 import { AuthState, UserState } from '../../types/userTypes';
 import { ForgetPassword } from './ForgetPassword';
-import { addToCart } from '../../redux/cart/cartSlice';
 import { CartContext } from '../../context/CartContext';
 
 export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
@@ -37,16 +36,15 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
     const [getLoggedUser] = useLazyGetLoggedUserQuery();
 
     const user = useSelector((state: {auth: AuthState}) => state.auth.user);
-    const { getBoxItems } = useContext(CartContext);
+    const { getBoxItems, boxProducts, takeUserCartItems, saveBeforeLoginCartItems} = useContext(CartContext);
     
     const handleLoginSubmit = async () => {
         try {
             const userData = await signIn({ email: formikSignIn.values.signEmail , password: formikSignIn.values.signPassword }).unwrap();
             const data: UserState = await getLoggedUser(userData.token).unwrap();
             dispatch(login({ ...userData, user: data }));
-            console.log(data.cartItems);
             data.cartItems.forEach((item) => (
-                dispatch(addToCart({ product: item.product, quantity: item.quantity }))
+                takeUserCartItems(item.product, item.quantity)
             ));
             getBoxItems();
         } catch (err: any) {
@@ -99,6 +97,11 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
             setTimeout(() => {
                 navigate('/home');
             }, 2000);
+            const itemsToAdd = boxProducts.filter(
+                (boxItem) =>
+                  !user.cartItems.some((cartItem) => cartItem.product.id === boxItem.product.id)
+              );
+              boxProducts.forEach((item) => saveBeforeLoginCartItems(item.product, item.quantity));
         }
     }, [user])
 

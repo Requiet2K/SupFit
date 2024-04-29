@@ -723,7 +723,6 @@
     border-inline: 3px solid white;
 }
 
-
 .boxDrawer{
     position: absolute;
     top: 0px;
@@ -755,6 +754,7 @@
 }
 
 .boxDrawerTitle{
+    position: relative;
     width: 100%;
     padding: 12px 15px;
     display: flex;
@@ -814,11 +814,18 @@
     width: 0;
     max-width: 100%;
     height: 100%;
-    background: #ff9a00;
+    background: var(--main-color);
     border-radius: 50px;
     background-size: 20px 20px;
     background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0, rgba(255, 255, 255, 0.15) 25%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%);
     animation: moveBackground 5s linear infinite;
+}
+
+.shippingProgressCompleted{
+    background: #108f36;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0, rgba(255, 255, 255, 0.15) 25%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%);
+    animation: moveBackground 5s linear infinite;
+    background-size: 20px 20px;
 }
 
 @keyframes moveBackground {
@@ -874,6 +881,7 @@
 }
 
 .boxDrawerCheckoutInfo{
+    position: relative;
     padding: 5px 15px 0 15px;
     justify-content: space-between;
     display: flex;
@@ -945,6 +953,7 @@
 
 .boxDrawerHeader{
     height: 570px;
+    position: relative;
     overflow-y: auto;
 }
 
@@ -962,7 +971,18 @@
 
 .boxDrawerItemImage img{
     width: 100%;
-    height: 100%
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.boxDrawerItemImage img:hover{
+    transform: scale(1.1);
+}
+
+
+.boxDrawerItemImage canvas{
+    width: 100px!important;
+    height: 90px!important;
 }
 
 .boxDrawerItemDetails{
@@ -1092,4 +1112,59 @@
 
 .disableBtnCoupon:hover svg{
     color: rgb(226, 17, 17)!important;
+}
+
+.removeAllItems{
+    z-index: 6991;
+    background-color: white;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    position: absolute;
+    top: -5400%;
+    left: -10%;
+    opacity: 0;
+    transition: opacity .4s ease, top .4s ease;
+}
+
+.removeAllItems.d-flex{
+    top: 749%;
+    opacity: 1;
+}
+
+.boxDrawerInfoGroup{
+    position: absolute;
+    left: 45%;
+}
+
+.productItemDash2{
+    width: 282px!important;
+}
+
+@media only screen and (max-width: 1399px) {
+    .productItemDash2{
+        width: 237px!important;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .productItemDash2{
+        width: 192px!important;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .productItemDash2{
+        width: 133px!important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .productItemDash2{
+        width: 100%!important;
+    }
+}
+
+.productSingleItemDescription{
+    margin-top: 50px;
+    width: 100%;
 }
