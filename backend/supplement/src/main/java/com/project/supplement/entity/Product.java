@@ -31,12 +31,12 @@ public class Product {
     private String blurhashImg;
 
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference(value = "productNutritionFacts")
     private List<NutritionFacts> NutritionFacts;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    @JsonBackReference
+    @JsonBackReference(value = "productCategory")
     private Category category;
 
     private BigDecimal price;
@@ -47,7 +47,7 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "flavour_id")
     )
-    @JsonBackReference
+    @JsonBackReference(value = "productFlavours")
     private List<Flavour> flavours;
 
     @ElementCollection

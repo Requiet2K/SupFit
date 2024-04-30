@@ -43,7 +43,7 @@ public class User implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value = "userAddresses")
     private List<Address> addresses;
 
     @Column(name = "gender", length = 6)
@@ -73,7 +73,7 @@ public class User implements UserDetails {
     private List<Product> favorites;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "userCart")
     private Cart cart;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

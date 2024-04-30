@@ -20,7 +20,7 @@ public class NutritionFacts {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonBackReference
+    @JsonBackReference(value = "productNutritionFacts")
     private Product product;
 
     private String nutrientName;

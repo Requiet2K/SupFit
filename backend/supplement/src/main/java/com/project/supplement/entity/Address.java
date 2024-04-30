@@ -1,6 +1,7 @@
 package com.project.supplement.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 
@@ -47,5 +48,6 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference(value = "userAddresses")
+    @JsonIgnore
     private User user;
 }

@@ -25,11 +25,12 @@ export const RequireAuth = () => {
         const checkUser = async () => {
             try {
                 if (typeof token !== 'string') {
+                    console.log(typeof token);
                     throw new Error('Invalid token type');
                 }
                 await getLoggedUser(token).unwrap();
             } catch (err: any) {
-                console.log(err+"sasaasas");
+                console.log("error:"+err);
                 if (err.status === "FETCH_ERROR") {
                     showErrorModal("No server response!", "Server is under maintenance, please try again later.");
                 }else if(err == "Error: Invalid token type"){

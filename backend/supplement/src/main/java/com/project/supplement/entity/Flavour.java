@@ -25,6 +25,6 @@ public class Flavour {
     private String color;
 
     @ManyToMany(mappedBy = "flavours")
-    @JsonManagedReference
+    @JsonManagedReference(value = "productFlavours")
     private List<Product> products;
 }

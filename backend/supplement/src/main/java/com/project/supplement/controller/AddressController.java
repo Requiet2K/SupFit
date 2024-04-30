@@ -20,7 +20,7 @@ public class AddressController {
         return addressService.getAddresses(id);
     }
 
-    @PostMapping(path = "/createAddress/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/createAddress/{id}")
     public void createAddress(@PathVariable Long id, @RequestBody Address newAddress){
         addressService.createAddress(id, newAddress);
     }
