@@ -1,0 +1,343 @@
+.emptyOrders{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 350px;
+    gap: 30px;
+}
+
+.emptyOrders h3{
+    font-size: 32px;
+}
+
+.emptyOrders i{
+    font-size: 64px;
+    color: var(--main-color);
+}
+
+.orderContent{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.orderContent .css-1c35hjw-MuiPaper-root-MuiAccordion-root {
+    border: 1px solid #e5e5e5;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.order-item-body{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 25px 0 10px;
+}
+
+.order-item-imgs{
+    display: flex;
+}
+
+.order-item-imgs img{
+    width: 50px;
+    height: 50px;
+}
+
+.order-item-imgs .blurLoadingImg{
+    width: 50px!important;
+    height: 50px!important;
+    border: 1px solid transparent;
+    border-radius: 5px!important;
+}
+
+.order-item-dash, .order-item-status, .order-item-date{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.order-images{
+    width: 200px;
+}
+
+
+@media only screen and (max-width: 580px) {
+    .order-images{
+        width: 50px;
+        overflow: hidden;
+    }
+    .order-item-body{
+        padding-left: 20px;
+    }
+    .order-item-body span{
+        font-size: 13px!important;
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    .order-item-status{
+        display: none;
+    }
+}
+
+.order-item-dash{
+    align-items: flex-end;
+}
+
+.order-item-dash span:first-child, .order-item-date span:first-child{
+    font-weight: 450;
+    font-size: 15px;
+    color: #666;
+}
+
+.order-item-dash span:last-child, .order-item-date span:last-child{
+    font-weight: 450;
+    font-size: 16px;
+    color: #439e4a;
+}
+
+.order-item-status{
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-item-status span{
+    font-weight: 450;
+    font-size: 15px;
+    color: #666;
+}
+
+.order-item-status i{
+    font-size: 20px;
+    color: #439e4a;
+}
+
+.order-item-imgs-more{
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 450;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.currentOrder .content .css-1e1x4vv-MuiSkeleton-root {
+    -webkit-transform: none;
+    transform: none; 
+}
+
+.order-details-header-left span{
+    font-size: 16px;
+    font-weight: 450;
+}
+
+.order-details-divider{
+    height: 1px;
+    width: 100%;
+    background: var(--main-color);
+    margin: 10px 0;
+}
+
+.order-details-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-details-header-right span{
+    font-size: 22px;
+}
+
+.order-details-price{
+    color: #439e4a;
+}
+
+.order-details-items{
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.order-detail-item{
+    display: flex;
+    gap: 25px;
+}
+
+.order-detail-item img{
+    width: 150px;
+    pointer-events: none;
+}
+
+.order-detail-item-infos-quantity{
+    font-weight: 500;
+    font-size: 22px;
+}
+
+.order-detail-item-infos-price{
+    font-weight: 450;
+    font-size: 18px;
+}
+
+.order-detail-item-infos-weight{
+    font-weight: 450;
+    font-size: 16px;
+}
+
+.order-address-detail{
+    padding: 25px 25px 0 0;
+}
+
+.order-address-infos{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.order-address-infos span{
+    font-weight: 450;
+}
+
+.order-status-truck{
+    position: relative;
+    overflow: hidden;
+    height: 150px;
+}
+
+.truck-animation{
+    position: absolute;
+    top: -120px;
+    left: -150px;
+    background-color: var(--main-color);
+}
+
+.order-delivery{
+    font-weight: 450;
+    font-size: 18px;
+}
+
+.order-details-titles{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.order-est{
+    font-weight: 450;
+}
+
+.order-delivery i{
+    color: #439e4a;
+}
+
+.order-est span{
+    color: #439e4a;
+}
+
+.wrap{overflow:hidden; position:relative; width:600px; height:250px; border-bottom:solid 3px #000000;}
+
+.mountain{position:absolute; right:-800px; bottom:-135px; width:100px; height:100px; background:#707070; box-shadow:0 0 0 50px #707070, 46px 45px 0 70px #707070, 93px 96px 0 50px #707070, 254px 278px 0 51px #707070, 284px 333px 0 50px #707070, 320px 400px 0 50px #707070; transform:rotate(130deg); animation:mtn 15s linear infinite;}
+
+.tree{position:absolute; bottom:0; height:100px; animation:tree 3s 0.000s linear infinite;}
+.tree:nth-child(2){animation:tree2 8s 0.050s linear infinite;}
+
+.rock{position:absolute; bottom:-6px; width:10px; height:10px; background:#e5e5e5; border-radius:5px; animation:rock 4s -0.530s linear infinite;}
+
+.truck, .wheels{position:absolute; left: 50%; bottom:0; transform:translateX(-50%);}
+.truck{animation:truck 4s 2.20s ease infinite;}
+.wheels{animation:truck 4s 2.121s ease infinite;}
+.truck:before, .truck:after{content:""; position:absolute; width:25px; height:2px; background:#fff;}
+.truck:before{left:-30px; top:28px;}
+.truck:after{left:-35px; top:18px;}
+.truck:before,.truck:after{animation:wind 1.5s ease infinite;}
+
+@keyframes mtn{
+  100%{transform: translateX(-2000px)
+    rotate(130deg);}
+}
+
+@keyframes tree {
+  0%{transform: translate(1350px);}
+  100%{transform: translate(-50px);}
+}
+
+@keyframes tree2 {
+  0%{transform: translate(2750px);}
+  100%{transform: translate(-50px);}
+}
+
+@keyframes rock{
+  0%{transform: translate(2000px);}
+  100%{transform: translate(-200px);}
+}
+
+@keyframes truck {
+  7%{bottom:0px;}
+  8%{bottom:6px;}
+  9%{bottom:0px;}
+  10%{bottom:1px;}
+  11%{bottom:0px;}
+}
+
+@keyframes wind {
+  50%{transform:translateY(3px)}
+}
+
+@media only screen and (max-width: 768px) {
+    .order-detail-item {
+        justify-content: center;
+    }
+    .order-address-infos {
+        justify-content: center;
+        align-items: center;
+    }
+    .order-address-infos span:last-child{
+        width: 70%;
+    }
+    .order-address-detail-header{
+        display: flex;
+        justify-content: center;
+    }
+    .order-address-detail{
+        padding: 0;
+    }
+    .order-status h5{
+        text-align: center;
+    }
+    .order-est{
+        text-align: center;
+    }
+    .wrap{
+        width: 700px;
+    }
+    .order-delivery{
+        text-align: center;
+    }
+    .pastOrder .container{
+        max-width: 90%;
+    }
+}
+
+.addReviewPastOrders{
+    padding: 3px 30px;
+    background: var(--main-color);
+    border: 1px solid var(--main-color);
+    color: white;
+    font-size: 14px;
+    transition: all .3s;
+}
+
+.addReviewPastOrders:hover{
+    background: var(--text-color-2);
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+}
+
+.order-details-items .fa-circle-check{
+    color: #439e4a;
+}

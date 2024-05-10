@@ -212,7 +212,7 @@
 }
 
 @media only screen and (max-width: 992px) {
-    .content{
+    .security .content{
         height: 520px;
     }
     .changeTimeout, .changePass{

@@ -2,7 +2,7 @@ import { ProductState } from "../../types/productType"
 import '../../style/MainPages/ProductItem.css';
 import { BreadCrumb } from "../Account/BreadCrumb";
 import { ImageComponent } from "../../utils/imageComponent";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -10,12 +10,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, updateUser } from "../../redux/auth/authSlice";
 import { VariantType, useSnackbar } from 'notistack';
 import { useAddFavoriteProductMutation, useLazyGetUserQuery, useRemoveFavoriteProductMutation } from "../../redux/user/userApiSlice";
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Pagination, Skeleton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { CartContext } from "../../context/CartContext";
 import ClockLoader from "react-spinners/ClockLoader";
+import { useCreateReviewMutation, useLazyGetProductRatingQuery, useLazyGetProductReviewsQuery, useLazyGetProductTotalCommentsQuery, useLazyGetRatingCountsQuery, useLazyIsProductReviewedQuery } from "../../redux/review/reviewApiSlice";
+import { showErrorModal, showSuccessModal } from "../swalInfo/swalInfo";
+import { StarsReview } from "../../utils/starsReview";
+import { ReviewProductState, ReviewState } from "../../types/reviewType";
+import { useLazyIsProductDeliveredQuery } from "../../redux/checkout/checkoutApiSlice";
 
 export const ProductItem = ({product, productPath
 } : {product : ProductState, productPath: string}) => {
@@ -155,6 +160,215 @@ export const ProductItem = ({product, productPath
     getBoxItems();
   }
 
+  const [isProductReviewedQuery] = useLazyIsProductReviewedQuery();
+  const [productReviewed, setProductReviewed] = useState(false);
+
+  useEffect(() => {
+    if(user){
+      const fetchReviwedData = async () => {
+        try{
+          const data = await isProductReviewedQuery({productId: product.id, userId: user.id}).unwrap();
+          setProductReviewed(data);
+        }catch(err: any){
+          console.log(err);
+        }
+      }
+      fetchReviwedData();
+    }
+  },[])
+
+  const [permissionReview, setPermissionReview] = useState(false);
+
+  const [isProductDeliveredQuery] = useLazyIsProductDeliveredQuery();
+
+  const [isProductPurchased, setIsProductPurchased] = useState(false);
+
+  useEffect(() => {
+    if(user){
+      const isProductShipped = async () =>{
+        try{
+          const data = await isProductDeliveredQuery(
+            {userId: user.id, productId: product.id}).unwrap();
+            setIsProductPurchased(data);
+        }catch(err: any){
+          console.log(err);
+        }
+      }
+      isProductShipped();
+    }
+  }, [user]);
+
+  const handleReviewClick = () => {
+    if(user){
+      if(productReviewed){
+        showErrorModal("Already reviewed!","You already reviewed this product!");
+      }
+      else if(!isProductPurchased){
+        showErrorModal("Purchase required!","In order to comment, you must purchase the product and receive it.!");
+      }
+      else{
+        setPermissionReview(!permissionReview);
+      }
+    }else{
+      showErrorModal("Login required!", "To add a review, you must login!");
+    }
+  }
+
+  const [starInput, setStarInput] = useState(0);
+  const [hoverRate, setHoverRate] = useState(0);
+  const [commentText, setCommentText] = useState("");
+  
+  const [createReviewMutation] = useCreateReviewMutation();
+
+  const handleReviewSubmit = async () => {
+    if(user){
+      if(starInput == 0){
+        showErrorModal("Select rating!","Please rate this product as much as you are satisfied.");
+      }else if(commentText != "" && commentText.trim().length < 10){
+        showErrorModal("Add comment or leave it blank!","If you want to leave a comment on this product please enter comment more than 10 chars.");
+      }else{
+        try{
+          await createReviewMutation({
+            review: {
+              userId: user.id,
+              productId: product.id,
+              rating: starInput,
+              reviewDescription: commentText,
+              reviewDate: new Date()
+            }
+          });
+          showSuccessModal("Successfully reviewed!","You have successfully reviewed this product. To see your comment to go comments page in your dashboard.");
+          setPermissionReview(false);
+          setProductReviewed(true);
+        }catch(err: any){
+          console.log(err);
+        }
+      }      
+    }
+  }
+
+  const [reviews, setReviews] = useState<ReviewProductState[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [reviewsPerPage] = useState(5);
+  const [totalAmountOfReviews, setTotalAmountOfReviews] = useState(0);
+  const [totalAmountOfComments, setTotalAmountOfComments] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [productRating, setProductRating] = useState(0);
+
+  const [getProductReviewsQuery, { isLoading: isLoadingReviews }] = useLazyGetProductReviewsQuery();
+
+  useEffect(() => {
+    const getProductReviews = async () => {
+      try{  
+        const data: any = await getProductReviewsQuery({
+          productId: product.id,
+          page: currentPage - 1,
+          size: reviewsPerPage
+        });
+        setTotalAmountOfReviews(data.data.totalElements);
+        setTotalPages(data.data.totalPages);
+        setReviews(data.data.content);
+      }catch(err: any){
+        console.log(err);
+      }
+    }
+    getProductReviews();
+  }, [currentPage, productReviewed])
+
+  const [getProductTotalCommentsQuery] = useLazyGetProductTotalCommentsQuery();
+  
+  useEffect(() => {
+    const getProductCommentsSize = async () => {
+      try{
+        const data = await getProductTotalCommentsQuery(product.id).unwrap();
+        setTotalAmountOfComments(data);
+      }catch(err: any){
+        console.log(err);
+      }
+    }
+    getProductCommentsSize();
+  }, [productReviewed]);
+
+  const [getProductRatingQuery] = useLazyGetProductRatingQuery();
+
+  useEffect(() => {
+    const getProductRating = async () => {
+      try{
+        const data = await getProductRatingQuery(product.id).unwrap();
+        setProductRating(data);
+      }catch(err: any){
+        console.log(err);
+      }
+    }
+    getProductRating();
+  }, [productReviewed]);
+
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setCurrentPage(value);
+  };
+
+  const [getRatingCountsQuery] = useLazyGetRatingCountsQuery();
+
+  const [votes, setVotes] = useState({});
+
+  useEffect(() => {
+    const getProductRatingNums = async () => {
+      try{
+        const data = await getRatingCountsQuery(product.id).unwrap();
+        setVotes(data);
+      }catch(err: any){
+        console.log(err);
+      }
+    }
+    getProductRatingNums();
+  }, [productReviewed])
+  
+  const totalVotes = (Object.values(votes) as number[]).reduce((a: number, b: number) => a + b, 0);
+
+  const commentsRef = useRef<HTMLDivElement>(null);
+
+  const scrollToComments = () => {
+    if (commentsRef.current) {
+      commentsRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const reviewsRef = useRef<HTMLDivElement>(null);
+
+  const scrollToReviews = () => {
+    if (reviewsRef.current) {
+      reviewsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const commentsRefPagination = useRef<HTMLDivElement>(null);
+
+  const scrollToCommentsPagination = () => {
+    if (commentsRefPagination.current) {
+      commentsRefPagination.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const paginationList = document.querySelector('.css-wjh20t-MuiPagination-ul');
+
+  if (paginationList) {
+    const listItems = paginationList.querySelectorAll('li');
+
+    listItems.forEach((listItem) => {
+      listItem.addEventListener('click', (event) => {
+        const clickedItem = event.target as HTMLLIElement; 
+        if (clickedItem) { 
+          clickedItem.onclick = scrollToCommentsPagination; 
+        }
+      });
+    });
+  }
+
   return (
       <div className="productItemPage">
         <div className="container">
@@ -173,18 +387,14 @@ export const ProductItem = ({product, productPath
                 <h6>{product.title}</h6>
               </div>
               <div className="productItemDashboard">
-                <div className="productItemStars">
-                  <i className="fa-solid fa-star" />
-                  <i className="fa-solid fa-star" />
-                  <i className="fa-solid fa-star" />
-                  <i className="fa-solid fa-star" />
-                  <i className="fa-solid fa-star" />
-                  <span className="ms-2 productItemStarsRate">4.6</span>
-                  <span className="ms-1 productItemStarsRateCount">(73)</span>
+                <div className="productItemStars d-flex" onClick={scrollToReviews}>
+                  <StarsReview rating={productRating} hoverRate={0}/>
+                  <span className="ms-2 productItemStarsRate mt-1">{productRating}</span>
+                  <span className="ms-1 productItemStarsRateCount mt-1">({totalAmountOfReviews})</span>
                 </div>
-                <div className="productItemComments">
+                <div className="productItemComments mt-1">
                   <i className="fa-regular fa-comment"/>
-                  <span className="ms-1">17 Comments</span>
+                  <span className="ms-1" onClick={scrollToComments}>{totalAmountOfComments} Comments</span>
                 </div>
               </div>
               <div className="productItemDivider mt-2"/>
@@ -259,13 +469,13 @@ export const ProductItem = ({product, productPath
                   <button onClick={handleIncreaseProductCount}><AddIcon /></button>
                 </div>
                 <div className="productItemBox-right">
-                  <button className="gap-3" onClick={handleAddCart}>
+                  <button className={`gap-3 ${product.quantity == 0 && "disabledProductItemBtn"}`} onClick={handleAddCart} disabled={product.quantity == 0}>
                     {addToCartLoading ? 
                     <ClockLoader color="#ffffff" size={32}/>
                     :
                     <>
-                    <AddShoppingCartIcon className="fs-2"/>
-                    <span>Add to Cart</span> 
+                    {product.quantity != 0 && <AddShoppingCartIcon className="fs-2"/>}
+                    <span>{product.quantity == 0 ? "OUT OF STOCK" : "Add to Cart"}</span> 
                     </>
                     }
                   </button>
@@ -428,101 +638,115 @@ export const ProductItem = ({product, productPath
           : 
           <div className="productItemDivider"/>
           }
-          <div className="productItemFooter mt-4">
+          <div className="productItemFooter mt-4" ref={reviewsRef}>
             <div className="productItemRate row">
               <div className="productItemRateLeft col-12 col-md-6">
-                <h5>4.6</h5>              
+                <h5>{productRating}</h5>              
                 <span>
-                  <StarIcon className="star"/>
-                  <StarIcon className="star"/>
-                  <StarIcon className="star"/>
-                  <StarIcon className="star"/>
-                  <StarIcon className="star"/>
+                  <StarsReview rating={productRating} hoverRate={0} />
                 </span>
-                <h6>17 COMMENTS</h6>
+                <h6>{totalAmountOfReviews} REVIEWS</h6>
               </div>   
-              <div className="productItemRateRight col-12 col-md-6 mt-4 mt-md-0">
-                  <div className="starsList">
-                    <span className="mt-1 me-1">5</span>
+              <div className="productItemRateRight col-12 col-md-6 mt-4 mt-md-0" ref={commentsRefPagination}>
+                {Object.entries(votes).sort((a, b) => Number(b[0]) - Number(a[0])).map(([star, count]) => (
+                  <div className="starsList" key={star}>
+                    <span className="mt-1 me-1">{star}</span>
                     <div className="me-2">
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
+                      {[...Array(5)].map((_, i) => i < Number(star) ? 
+                        <StarIcon className="star" key={i}/> : 
+                        <StarBorderIcon className="star" key={i}/>
+                      )}
                     </div>
                     <div className="rateBar mt-1">
-                     <div className="rateBarValue" style={{width: "70%"}}/>         
+                      <div className="rateBarValue" style={{width: `${(Number(count) / totalVotes) * 100}%`}}/>         
                     </div>
                     <span className="ms-2 mt-1 totalRated">
-                      (26)
+                      ({Number(count)})
                     </span>
                   </div>
-                  <div className="starsList">
-                    <span className="mt-1 me-1">4</span>
-                    <div className="me-2">
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                    </div>
-                    <div className="rateBar mt-1">
-                     <div className="rateBarValue" style={{width: "20%"}}/>         
-                    </div>
-                    <span className="ms-2 mt-1 totalRated">
-                      (26)
-                    </span>
+                ))}
+              </div>  
+            </div>
+            <div className="addReviewProductItem mt-5">
+              <button onClick={handleReviewClick}>
+                <span>
+                  <i className="fa-solid fa-comment-medical ms"/>
+                </span>
+                <span>
+                  Leave A Review
+                </span>
+              </button>
+            </div>
+            <div className={`addReviewSection ${permissionReview && "showAddReviewSection"} mt-5`}>
+              <div className="addReviewForm">
+                <div className="starSelection">
+                  <div className="d-flex ms-1">
+                    {Array.from({ length: 10 }, (_, i) => (
+                      <div
+                        onMouseEnter={() => setHoverRate(i / 2 + 0.5)}
+                        onMouseLeave={() => setHoverRate(0)}
+                        onClick={() => setStarInput(i / 2 + 0.5)}
+                        className='starHalf border-0 bg-transparent'
+                        key={i}
+                      />
+                    ))}
                   </div>
-                  <div className="starsList">
-                    <span className="mt-1 me-1">3</span>
-                    <div className="me-2">
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                    </div>
-                    <div className="rateBar mt-1">
-                     <div className="rateBarValue" style={{width: "5%"}}/>         
-                    </div>
-                    <span className="ms-2 mt-1 totalRated">
-                      (26)
-                    </span>
-                  </div>        
-                  <div className="starsList">
-                    <span className="mt-1 me-1">2</span>
-                    <div className="me-2">
-                      <StarIcon className="star"/>
-                      <StarIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                    </div>
-                    <div className="rateBar mt-1">
-                     <div className="rateBarValue" style={{width: "3%"}}/>         
-                    </div>
-                    <span className="ms-2 mt-1 totalRated">
-                      (26)
-                    </span>
-                  </div>   
-                  <div className="starsList">
-                    <span className="mt-1 me-1">1</span>
-                    <div className="me-2">
-                      <StarIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                      <StarBorderIcon className="star"/>
-                    </div>
-                    <div className="rateBar mt-1">
-                     <div className="rateBarValue" style={{width: "2%"}}/>         
-                    </div>
-                    <span className="ms-2 mt-1 totalRated">
-                      (26)
-                    </span>
-                  </div>       
-              </div>               
+                  <StarsReview rating={starInput} hoverRate={hoverRate}/>
+                </div>
+                <textarea placeholder="Add a comment" value={commentText} onChange={(e) => setCommentText(e.target.value)}/>
+                <button onClick={handleReviewSubmit}>Submit</button> 
+              </div>
+            </div>
+            <div className="productReviews mt-4 mb-5">
+              <div className="totalReviews mb-4" ref={commentsRef}>
+                <h3>Comments</h3>
+                <span>({totalAmountOfComments})</span>
+              </div>
+             {
+              isLoadingReviews ? 
+              <Skeleton variant="rectangular" height={500} animation="wave"/>
+              :
+              <div className="productItem-reviews">
+                {reviews.length > 0 ? 
+                reviews.map((item, index) => {
+                  const today = new Date();
+                  const productDate = new Date(item.reviewDate);
+
+                  const differenceInTime = today.getTime() - productDate.getTime();
+                  const differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
+                  
+                  if (item.reviewDescription !== "") {
+                    return (
+                      <div className="productItem-reviews-item" key={index}> 
+                        <div className="productItem-reviews-item-header d-flex align-items-center gap-3">
+                          <div className="productItem-reviews-avatar">
+                            {item.userName.charAt(0)}
+                          </div>
+                          <div className="productItem-reviews-info">
+                            <span>{item.userName}</span>
+                            <span>{differenceInDays} {differenceInDays > 1 ? "days ago" : "day ago"}</span>
+                          </div>
+                        </div>
+                        <div className="productItem-reviews-item-stars mt-2">
+                          <StarsReview rating={item.rating} hoverRate={0} />
+                        </div>
+                        <div className="productItem-reviews-item-content ms-1 mt-2">
+                          {item.reviewDescription}
+                        </div>
+                      </div>
+                    );
+                  }
+                })
+                :
+                <div className="d-flex justify-content-center">
+                  <span className="noComments">There are no comments for this product yet.</span>
+                </div>
+                }
+              </div>
+             }
+            </div>
+            <div className="product-item-pagination">
+              <Pagination count={totalPages} color="primary" onChange={handlePageChange}/>
             </div>
           </div>
         </div>

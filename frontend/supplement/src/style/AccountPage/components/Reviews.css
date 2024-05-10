@@ -1,0 +1,133 @@
+.review-comments-item{
+    padding: 10px;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+}
+
+.review-comments-right-top{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.review-divider{
+    height: 1px;
+    width: 100%;
+    background: #9c9c9c;
+}
+
+.review-comments-left{
+    display: flex;
+    justify-content: center;
+}
+
+.review-comments-left i{
+    font-size: 48px;
+}
+
+.review-comments-right{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-around;
+    width: 100%!important;
+}
+
+.review-comments-right-top span:first-child{
+    color: var(--main-color);
+    font-size: 18px;
+    font-weight: 450;
+}
+
+.review-comments-right-top span:last-child{
+    display: flex;
+}
+
+.review-comments-right-top span:last-child .reviewStarList{
+    display: flex;
+    color: #F5D63D;
+}
+
+.review-comment-date{
+    color: #9c9c9c;
+    font-size: 14px;
+    font-weight: 450;
+}
+
+.review-comments-footer{
+    width: 100%;
+}
+
+.review-comments-img{
+    display: flex;
+    justify-content: center;
+    border-left: 1px solid #9c9c9c;
+}
+
+.review-comments-img img{
+    width: 125px;
+    height: 125px;
+}
+
+.review-comments-img span img{
+    cursor: pointer;
+    transition: transform .3s ease;
+}
+
+.review-comments-img span:hover img{
+    transform: scale(1.05);
+}
+
+.review-comments-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.review-comments-divider{
+    height: 1px;
+    background: #9c9c9c;
+}
+
+.review-comments-header .reviewStarList{
+    display: flex;
+    color: #F5D63D;
+}
+
+.review-comments-header i{
+    font-size: 42px;
+}
+
+.review-comments-header .row .col-sm-1{
+    padding-right: 0;
+}
+
+.review-comments-item .review-you{
+    font-weight: 450;
+}
+
+.review-comments-item .review-date{
+    color: #888787;
+}
+
+@media only screen and (max-width: 992px) {
+    .comments .container{
+        max-width: 90%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .review-comments-img{
+        border-left: none;
+    }
+}
+
+.review-comments-footer{
+    padding: 15px 20px;
+    font-size: 24px;
+}
+
+.review-comments-footer span{
+    font-style: italic;
+    color: #888787;
+}

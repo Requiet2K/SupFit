@@ -118,4 +118,14 @@ public class ProductServiceImpl implements ProductService{
                 ProductNotExistsException::new
         );
     }
+
+    public productResponse getProductById(Long productId){
+        Optional<Product> product = productRepository.findById(productId);
+        if(product.isPresent()){
+            return productMapper.toProductResponse(product.get());
+        }else{
+            throw new ProductNotExistsException();
+        }
+
+    }
 }

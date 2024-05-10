@@ -10,5 +10,6 @@ public interface AddressService {
     void createAddress(Long userId, Address newAddress);
     void deleteAddress(Long addressId);
     List<Address> getAddresses(Long userId);
+    Address getAddress(Long addressId);
     void updateAddress(Long addressId, Address updatedAddress);
 }

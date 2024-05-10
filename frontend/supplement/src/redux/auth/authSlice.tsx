@@ -22,9 +22,7 @@ const authSlice = createSlice({
         logout: (state, action) => {
             state.user = undefined;
             state.token = undefined;
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
-            localStorage.removeItem('exp');
+            localStorage.clear();
             localStorage.setItem('userLoggedIn', "false");
         },
         updateToken: (state, action) => {

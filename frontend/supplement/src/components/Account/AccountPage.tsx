@@ -91,10 +91,10 @@ export const AccountPage: React.FC<{}> = () => {
                       <span>My Addresses</span>
                     </div>
                   </button>
-                  <button className="sidebar-item"  onClick={() => navigate("/comments")}>
+                  <button className="sidebar-item"  onClick={() => navigate("/reviews")}>
                     <div className="sidebar-item-left">
                       <i className="fa-solid fa-comment"/>
-                      <span>My Comments</span>
+                      <span>My Reviews</span>
                     </div>
                   </button>
                   <button className="sidebar-item"  onClick={() => navigate("/faqs")}>

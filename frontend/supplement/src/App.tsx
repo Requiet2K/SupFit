@@ -12,14 +12,17 @@ import { CurrentOrder } from './components/Account/layout/CurrentOrder'
 import { PastOrder } from './components/Account/layout/PastOrder'
 import { Favorites } from './components/Account/layout/Favorites'
 import { Addresses } from './components/Account/layout/Addresses'
-import { Comments } from './components/Account/layout/Comments'
+import { Reviews } from './components/Account/layout/Reviews'
 import { Faqs } from './components/Account/layout/Faqs'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ProductPage } from './components/MainPages/ProductPage'
 import { ProductState } from './types/productType'
 import { ProductItem } from './components/MainPages/ProductItem'
 import { useLazyFindProductByPathNameQuery, useLazyGetAllProductsNameQuery } from './redux/product/productApiSlice'
 import { SnackbarProvider } from 'notistack';
+import { CheckoutPage } from './components/MainPages/CheckoutPage'
+import { LoadingContext } from './context/LoadingContext'
+import LoadingScreen from './utils/LoadingScreen'
 
 function App() {
 
@@ -102,43 +105,47 @@ function App() {
 
     }, [location.pathname, productPaths]);
 
+    const {isLoadingScreen} = useContext(LoadingContext);
+
     return (
         <div className='d-flex flex-column min-vh-100'>
-          <Navbar category={category} onCategoryChange={handleCategoryChange}/>
-          <div className='flex-grow-1 contentItems'>
-          <Routes>
-            <Route path='/' element={<HomePage />} />
-            <Route path='/home' element={<HomePage />} />
-            <Route path={`/${category}`} element={<ProductPage category={category} selectedProduct={handleSelectedProduct}/>} />
-            {selectedProduct && <Route path={`/${handleSelectedProductPath(selectedProduct)}`} 
-            element={
-              <SnackbarProvider maxSnack={3}>
-                <ProductItem product={selectedProduct} productPath={handleSelectedProductPath(selectedProduct)}/>
-              </SnackbarProvider>} />}
-            <Route element={<RequireNonAuth />}>
-              <Route path='/login' element={<LoginPage />} />
-            </Route>
-            <Route element={<RequireAuth />}>
-              <Route path="/account" element={<Dashboard />} />
-              <Route path="/order" element={<CurrentOrder />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/information" element={<Information />} />
-              <Route path="/security" element={<Security />} />
-              <Route path="/current-orders" element={<CurrentOrder />} />
-              <Route path="/past-orders" element={<PastOrder />} />
-              <Route path="/favorites" 
+          {isLoadingScreen && <LoadingScreen />}
+            <Navbar category={category} onCategoryChange={handleCategoryChange}/>
+            <div className='flex-grow-1 contentItems'>
+            <Routes>
+              <Route path='/' element={<HomePage />} />
+              <Route path='/home' element={<HomePage />} />
+              <Route path={`/${category}`} element={<ProductPage category={category} selectedProduct={handleSelectedProduct}/>} />
+              {selectedProduct && <Route path={`/${handleSelectedProductPath(selectedProduct)}`} 
               element={
-              <SnackbarProvider maxSnack={3}>
-                <Favorites />
-              </SnackbarProvider>} 
-              />
-              <Route path="/addresses" element={<Addresses />} />
-              <Route path="/comments" element={<Comments />} />
-              <Route path="/faqs" element={<Faqs handleContactModal={handleContactModal}/>} />
-            </Route>
-          </Routes>
-          </div>
-          <Footer handleContactModal={showContactModal} handleCloseContactModal={handleCloseContactModal}/>
+                <SnackbarProvider maxSnack={3}>
+                  <ProductItem product={selectedProduct} productPath={handleSelectedProductPath(selectedProduct)}/>
+                </SnackbarProvider>} />}
+              <Route element={<RequireNonAuth />}>
+                <Route path='/login' element={<LoginPage />} />
+              </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="/account" element={<Dashboard />} />
+                <Route path="/order" element={<CurrentOrder />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/information" element={<Information />} />
+                <Route path="/security" element={<Security />} />
+                <Route path="/current-orders" element={<CurrentOrder />} />
+                <Route path="/past-orders" element={<PastOrder />} />
+                <Route path="/favorites" 
+                element={
+                <SnackbarProvider maxSnack={3}>
+                  <Favorites />
+                </SnackbarProvider>} 
+                />
+                <Route path="/addresses" element={<Addresses />} />
+                <Route path="/reviews" element={<Reviews />} />
+                <Route path="/faqs" element={<Faqs handleContactModal={handleContactModal}/>} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+              </Route>
+            </Routes>
+            </div>
+            <Footer handleContactModal={showContactModal} handleCloseContactModal={handleCloseContactModal}/>
         </div>
     )
   }

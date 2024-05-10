@@ -20,6 +20,11 @@ public class AddressController {
         return addressService.getAddresses(id);
     }
 
+    @GetMapping("/getAddress/{id}")
+    public Address getUserAddress(@PathVariable Long id){
+        return addressService.getAddress(id);
+    }
+
     @PostMapping(path = "/createAddress/{id}")
     public void createAddress(@PathVariable Long id, @RequestBody Address newAddress){
         addressService.createAddress(id, newAddress);

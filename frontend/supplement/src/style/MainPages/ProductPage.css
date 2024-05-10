@@ -38,10 +38,12 @@
 
 .productImg{
     width: 275px;
+    height: 275px;
 }
 
 .productImg img{
-    width: 100%;
+    width: 275px;
+    height: 275px;
     transition: transform 0.3s ease;
 }
 
@@ -108,4 +110,9 @@
 .productItem .blurLoadingImg{
     width: 100%!important;
     height: 275px!important;
+}
+
+.productStars .reviewStarList{
+    display: flex;
+    color: #FFD300;
 }

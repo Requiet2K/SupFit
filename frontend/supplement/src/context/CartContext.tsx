@@ -161,6 +161,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const handleLogoutBox = () => {
     setBoxProducts([]),
     dispatch(removeAllFromCart());
+    setDiscount(0);
+    localStorage.removeItem('discountCode');
   }
 
   const handleCalculateTotal = () => {

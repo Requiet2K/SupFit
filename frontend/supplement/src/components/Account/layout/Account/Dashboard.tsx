@@ -5,9 +5,72 @@ import '../../../../style/AccountPage/components/Dashboard.css'
 import payment from '../../../../images/paymentMethods.png'
 import secureShopping from '../../../../images/secureShopping.png'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectCurrentUser } from '../../../../redux/auth/authSlice'
+import { useContext, useEffect, useState } from 'react'
+import { CartContext } from '../../../../context/CartContext'
+import { useLazyGetUserReviewsQuery } from '../../../../redux/review/reviewApiSlice'
+import { ReviewState } from '../../../../types/reviewType'
+import { useLazyGetTotalOrderOfUserCountQuery } from '../../../../redux/checkout/checkoutApiSlice'
 
 export const Dashboard = () => {
+
   const navigate = useNavigate();
+
+  const user = useSelector(selectCurrentUser);
+
+  const [favs, setFavs] = useState(0);
+  const [comments, setComments] = useState(0);
+  const [orders, setOrders] = useState(0);
+  const [boxed, setBoxed] = useState(0);
+
+  const {boxProducts, setBoxDrawer} = useContext(CartContext);
+
+  const getBoxedItemsCount = () => {
+    setBoxed(boxProducts.length);
+  }
+
+  const getFavItemsCount = () => {
+    if(user){
+      setFavs(user.favorites.length);
+    }
+  }
+
+  const [getUserReviewsQuery] = useLazyGetUserReviewsQuery();
+
+  const fetchReviewsData = async () => {
+    if(user){
+      try{
+        const data: ReviewState[] = await getUserReviewsQuery(user.id).unwrap();
+        setComments(data.length);
+      }catch(err: any){
+        console.log(err);
+      }
+    }
+  }
+
+  const [getTotalOrderOfUserCountQuery] = useLazyGetTotalOrderOfUserCountQuery();
+
+  const fetchTotalOrdersData = async () => {
+    if(user){
+      try{
+        const data = await getTotalOrderOfUserCountQuery(user.id).unwrap();
+        setOrders(data);
+      }catch(err: any){
+        console.log(err);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getFavItemsCount();
+    fetchReviewsData();
+    fetchTotalOrdersData();
+    if(boxProducts.length > 0){
+      getBoxedItemsCount();
+    }
+  },[boxProducts]);
+
   return (
     <div className='dashboard mb-3'>
       <div className="container p-1">
@@ -31,17 +94,17 @@ export const Dashboard = () => {
                 <div className="col-6 col-lg-3">
                   <div className="dash-info" onClick={() => navigate("/favorites")}>
                     <div className="dash-info-text">
-                      <span className='info-size'>10</span>
+                      <span className='info-size'>{favs}</span>
                       <span className='info-text'>Favorites</span>
                     </div>
                     <i className="ms-3 fa-solid fa-star"/>
                   </div>
                 </div>
                 <div className="col-6 col-lg-3">
-                  <div className="dash-info" onClick={() => navigate("/comments")}>
+                  <div className="dash-info" onClick={() => navigate("/reviews")}>
                       <div className="dash-info-text">
-                        <span className='info-size'>7</span>
-                        <span className='info-text'>Comments</span>
+                        <span className='info-size'>{comments}</span>
+                        <span className='info-text'>Reviews</span>
                       </div>
                       <i className="ms-1 fa-solid fa-comments"/>
                     </div>
@@ -49,16 +112,16 @@ export const Dashboard = () => {
                 <div className="col-6 col-lg-3">
                   <div className="dash-info" onClick={() => navigate("/past-orders")}>
                     <div className="dash-info-text">
-                      <span className='info-size'>73</span>
+                      <span className='info-size'>{orders}</span>
                       <span className='info-text'>Total Orders</span>
                     </div>
                     <i className="fa-solid fa-cart-flatbed mt-2"/>
                   </div>
                 </div>
                 <div className="col-6 col-lg-3">
-                  <div className="dash-info" onClick={() => navigate("/box")}>
+                  <div className="dash-info" onClick={() => setBoxDrawer(true)}>
                     <div className="dash-info-text">
-                      <span className='info-size'>4</span>
+                      <span className='info-size'>{boxed}</span>
                       <span className='info-text'>Boxed Items</span>
                     </div>
                     <i className="fa-solid fa-basket-shopping"/>

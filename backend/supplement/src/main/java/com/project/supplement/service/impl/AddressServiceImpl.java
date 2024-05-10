@@ -79,6 +79,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public Address getAddress(Long addressId) {
+        return addressRepository.findById(addressId)
+                .orElseThrow(AddressNotExistsException::new);
+    }
+
+    @Override
     public void updateAddress(Long addressId, Address updatedAddress) {
         Optional<Address> currentAddress = addressRepository.findById(addressId);
 

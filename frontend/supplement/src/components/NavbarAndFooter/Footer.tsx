@@ -119,7 +119,7 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
                         <a href="" onClick={(e) => handleNavigate(e, 'addresses')}>Addresses</a>
                       </li>
                       <li>
-                        <a href="" onClick={(e) => handleNavigate(e, 'comments')}>Comments</a>
+                        <a href="" onClick={(e) => handleNavigate(e, 'reviews')}>Reviews</a>
                       </li>
                     </ul>
                   </div>

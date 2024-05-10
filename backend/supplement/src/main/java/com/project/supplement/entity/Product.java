@@ -66,4 +66,7 @@ public class Product {
 
     @ManyToMany(mappedBy = "favorites")
     private List<User> favoritedByUsers;
+
+    @OneToMany(mappedBy = "product")
+    private List<CheckoutProduct> checkoutProducts;
 }
