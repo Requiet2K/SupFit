@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from 'react';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 
 type LoadingContextType = {
     isLoadingScreen: boolean;
@@ -12,6 +12,14 @@ export const LoadingContext = createContext<LoadingContextType>({
 
 export const LoadingProvider = ({ children }: { children: ReactNode }) => {
   const [isLoadingScreen, setIsLoadingScreen] = useState(false);
+
+  useEffect(() => {
+    if(isLoadingScreen){
+      document.body.style.overflow = "hidden";
+    }else{
+      document.body.style.overflow = "visible";
+    }
+  }, [isLoadingScreen])
 
   return (
     <LoadingContext.Provider value={{ isLoadingScreen, setIsLoadingScreen }}>

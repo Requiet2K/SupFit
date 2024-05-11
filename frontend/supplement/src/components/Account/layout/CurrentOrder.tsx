@@ -44,10 +44,6 @@ export const CurrentOrder = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(currentOrders);
-  }, [currentOrders])
-
   function formatDeliveryDate(dateString: string): string {
     const date = new Date(dateString);
     const deliveryDay = date.getDate();

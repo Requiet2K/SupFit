@@ -7,6 +7,7 @@
   background-color: #D2312B;
   background-image: linear-gradient(43deg, #D2312B 0%, #c54440 22%, #D2312B 49%, #c54440 75%, #D2312B 100%);
   z-index: 99999;
+  overflow: hidden;
 }
 
 .loadingScreen img{
@@ -18,7 +19,7 @@
   opacity: .2;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 760px) {
   .loadingScreen img{
     width: 70%;
   }

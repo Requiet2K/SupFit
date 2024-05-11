@@ -74,7 +74,7 @@ export const ProductPage = ({category, selectedProduct} : {category: string, sel
             {products?.map((product, index) => {
 
               return (
-                <div className="productPageContentItems col-6 col-md-4 col-lg-3" key={index} onClick={() => handleClickedProduct(product)}>
+                <div className="productPageContentItems col-12 col-sm-6 col-md-4 col-lg-3" key={index} onClick={() => handleClickedProduct(product)}>
                   <div className="productItem">
                     <div className="productImg mb-3">
                       <ImageComponent src={product.imageUrl} alt={product.name} blurhashImg={product.blurhashImg}/>

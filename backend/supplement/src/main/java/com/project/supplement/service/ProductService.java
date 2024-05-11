@@ -12,4 +12,5 @@ public interface ProductService {
     List<String> getAllProductsName();
     productResponse findProductByPathName(String pathName);
     productResponse getProductById(Long productId);
+    List<productResponse> getProductsByInput(String input);
 }

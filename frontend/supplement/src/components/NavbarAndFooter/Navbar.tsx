@@ -26,7 +26,7 @@ import React from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import LoadingScreen from "../../utils/LoadingScreen";
+import { SearchBar } from "../../utils/SearchBar";
 
 export const Navbar = ({ category, onCategoryChange }: {category: string, onCategoryChange: (e: string) => void}) => {
 
@@ -296,11 +296,8 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
             <NavLink className="navbar-brand p-0 mt-1" to="/home" onClick={() => handleCategoryClick("home")}>
                 <img src={logo} className="logo"/>
             </NavLink>
-            <div className="d-flex align-items-center w-50 searchBar">
-              <form className="form-inline d-flex w-75">
-                <input className="form-control src" type="search" placeholder="Search" aria-label="Search"/>
-                <button className="search" type="submit"><SearchIcon className="badges"/></button>
-              </form>
+            <div className="d-flex align-items-center w-75 searchBar justify-content-center">
+              <SearchBar />
             </div>
             <div className="nav-right d-flex align-items-center gap-3">
                 {user ? 
@@ -383,11 +380,11 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
       </div>
     </nav>
     {/* Mobile version */}
-    <nav className="navbar p-0 d-inline d-md-none w-100">
+    <nav className="navbar pt-0 d-inline d-md-none w-100 mbNav">
       <div className="d-flex nav-desktop align-items-center w-100 justify-content-center flex-column nav-color">
-        <div className={`topNav d-flex align-items-center justify-content-between w-100 ${sideBar ? 'navShadow' : ''}`}>
+        <div className={`topNav mt-3 d-flex align-items-center justify-content-between w-100 ${sideBar ? 'navShadow' : ''}`}>
           <Hamburger size={18} toggled={sideBar} toggle={setSideBar} color="#83563b"/>
-          <NavLink className="m-0 p-0" to="/home">
+          <NavLink className="m-0 mt-2 p-0" to="/home">
             <img src={logo} className="logo"/>
           </NavLink>
           {user ?     
@@ -483,10 +480,9 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
             </a>
           </div>
         </div>
-        <form className="d-flex w-100 mb-2 px-2">
-          <input className="ourForm mr-sm-2 src w-100" type="search" placeholder="Search" aria-label="Search"/>
-          <button className="search" type="submit"><SearchIcon className="badges"/></button>
-        </form>
+        <div className="d-flex w-100 mb-2 px-2">
+          <SearchBar />
+        </div>
       </div>
     </nav>
     {/* Right Drawer */}

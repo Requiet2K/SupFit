@@ -44,4 +44,9 @@ public class ProductController {
     public productResponse getProductById(@PathVariable Long productId){
         return productService.getProductById(productId);
     }
+
+    @GetMapping("/getProductsByInput/{input}")
+    public List<productResponse> getProductsByInput(@PathVariable String input){
+        return productService.getProductsByInput(input);
+    }
 }

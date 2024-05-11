@@ -22,6 +22,11 @@ export const productApiSlice = apiSlice.injectEndpoints({
                 return `/product/getProductById/${id}`;
             }
         }),
+        getProductsByInput: builder.query({
+            query: name => {
+                return `/product/getProductsByInput/${name}`
+            }
+        })
     })
 })
 
@@ -29,5 +34,6 @@ export const {
     useLazyGetProductsByCategoryQuery,
     useLazyGetAllProductsNameQuery,
     useLazyFindProductByPathNameQuery,
-    useLazyGetProductByIdQuery
+    useLazyGetProductByIdQuery,
+    useLazyGetProductsByInputQuery
 } = productApiSlice;

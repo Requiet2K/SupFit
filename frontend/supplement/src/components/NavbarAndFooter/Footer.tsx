@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { overflowHidden, overflowShow } from '../../utils/handleOverflow';
 import { CartContext } from '../../context/CartContext';
+import { SearchBar } from '../../utils/SearchBar';
 
 export const Footer = ({ handleContactModal, handleCloseContactModal } : { handleContactModal: boolean, handleCloseContactModal: () => void}) => {
   const navigate = useNavigate();
@@ -32,7 +33,9 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
     e.preventDefault();
     navigate(`/${path}`);
   }
-  
+
+  const [openSearchModal, setOpenSearchModal] = useState(false);
+
   return (
     <footer>
       <div className="footerTop">
@@ -138,11 +141,11 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
               </div>
               <div className="col-12 col-md-3 p-0 mt-2 mt-md-0 p-2 p-md-0 d-flex">
                 <div className="d-flex w-100 searchBar gap-2">
-                  <div>
+                  <div className='fSearch'>
                     <h6>Couldn't find what you are looking for?</h6>
-                    <form className="form-inline d-flex w-100">
-                      <input className="form-control src" type="search" placeholder="Search" aria-label="Search"/>
-                      <button className="search" type="submit"><SearchIcon className="badges"/></button>
+                    <form className="form-inline d-flex w-100" onClick={() => setOpenSearchModal(true)}>
+                      <input className="form-control src" type="search" placeholder="Search" aria-label="Search" value={""}/>
+                      <button className="search" type='button'><SearchIcon className="badges"/></button>
                     </form>
                   </div>
                   <div className="contact d-flex gap-3">
@@ -192,6 +195,11 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
             <h6 className="text">info@supfit.com</h6>
           </div>
           <i className="fa-regular fa-circle-xmark" onClick={() => {handleCloseContactModal(); setContactModal(false)}}/>
+        </div>
+      </div>
+      <div className={`searchModal ${openSearchModal ? `showContactModal` : ""}`}>
+        <div className="searchModalBar">
+        <SearchBar setOpenSearchModal={setOpenSearchModal}/>
         </div>
       </div>
     </footer>

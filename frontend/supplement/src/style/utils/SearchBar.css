@@ -1,0 +1,125 @@
+.desktopSearch{
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1000;
+}
+
+.searchResults{
+    background-color: var(--secondary-color);
+    border-radius: 4px;
+    width: 75%;
+    position: absolute;
+    top: 110%;
+    left: 12.5%;
+    z-index: 1000;
+    max-height: 500px;
+    overflow: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.off-canvas-search{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--text-color);
+    opacity: 0.5;
+}
+
+.search-result-item{
+    background-color: white;
+    padding: 10px 5px;
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+}
+
+.search-result-item img{
+    width: 120px
+}
+
+.search-result-info-header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-result-info{
+    width: 100%;
+    display: flex;
+    padding: 2px 20px 0 10px;
+    flex-direction: column;
+}
+
+.search-result-info-footer span:first-child{
+    color: #888888;
+    font-size: 18px;
+}
+
+.search-result-info-header span:first-child{
+    font-weight: 450;
+    font-size: 20px;
+}
+
+.search-result-info-header span:last-child{
+    font-weight: 500;
+    font-size: 20px;
+}
+
+@media only screen and (max-width: 992px) {
+    .search-result-item img{
+        width: 75px;
+        height: 75px;
+    }
+    .search-result-info-footer span:first-child{
+        font-size: 12px;
+    }
+    
+    .search-result-info-header span:first-child{
+        font-size: 14px;
+    }
+    
+    .search-result-info-header span:last-child{
+        font-size: 12px;
+    }
+}
+
+.desktopSearch form{
+    width: 75%;
+}
+
+@media only screen and (max-width: 768px) {
+    .desktopSearch form{
+        width: 100%;
+    }
+    .searchResults{
+        width: 100%;
+        top: 110%;
+        left: 0%;
+        max-height: 386px;
+        padding: 10px;
+    }
+    .search-result-item img{
+        width: 100px;
+        height: 100px;
+    }
+    .search-result-info-footer span:first-child{
+        font-size: 18px;
+    }
+    
+    .search-result-info-header span:first-child{
+        font-size: 18px;
+    }
+    
+    .search-result-info-header span:last-child{
+        font-size: 14px;
+    }
+}

@@ -17,7 +17,9 @@ import com.project.supplement.service.ProductService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -127,5 +129,18 @@ public class ProductServiceImpl implements ProductService{
             throw new ProductNotExistsException();
         }
 
+    }
+
+    @Override
+    public List<productResponse> getProductsByInput(String input) {
+        List<Product> products = productRepository.findAll();
+        List<productResponse> result = new ArrayList<>();
+        for(Product p : products){
+            if(p.getName().toLowerCase().contains(input.toLowerCase())){
+                productResponse productResponse = productMapper.toProductResponse(p);
+                result.add(productResponse);
+            }
+        }
+        return result;
     }
 }
