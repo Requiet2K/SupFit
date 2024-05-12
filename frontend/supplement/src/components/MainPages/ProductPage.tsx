@@ -55,6 +55,10 @@ export const ProductPage = ({category, selectedProduct} : {category: string, sel
 
     fetchData();
   }, [category]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
   
 
   const handleClickedProduct = (product: ProductState) => {
@@ -62,7 +66,7 @@ export const ProductPage = ({category, selectedProduct} : {category: string, sel
   }
 
   return (
-    <div className="productPage">
+    <div className="productPage mt-4">
       {loading ?
         <Skeleton animation="wave" variant="rectangular" className='productSkeleton'/> 
         :

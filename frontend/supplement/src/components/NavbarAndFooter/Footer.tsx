@@ -141,10 +141,10 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
               </div>
               <div className="col-12 col-md-3 p-0 mt-2 mt-md-0 p-2 p-md-0 d-flex">
                 <div className="d-flex w-100 searchBar gap-2">
-                  <div className='fSearch'>
+                  <div>
                     <h6>Couldn't find what you are looking for?</h6>
                     <form className="form-inline d-flex w-100" onClick={() => setOpenSearchModal(true)}>
-                      <input className="form-control src" type="search" placeholder="Search" aria-label="Search" value={""}/>
+                      <input className="form-control src" type="search" placeholder="Search" aria-label="Search" value={""} onChange={() => ""}/>
                       <button className="search" type='button'><SearchIcon className="badges"/></button>
                     </form>
                   </div>
@@ -201,6 +201,7 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
         <div className="searchModalBar">
         <SearchBar setOpenSearchModal={setOpenSearchModal}/>
         </div>
+        <i className="fa-regular fa-circle-xmark" onClick={() => setOpenSearchModal(false)}/>
       </div>
     </footer>
   )

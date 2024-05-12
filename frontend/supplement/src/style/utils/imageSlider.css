@@ -1,0 +1,19 @@
+.slider-comp img{
+    max-height: 468px!important;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.swiper-slide-thumb-active{
+    border-color: var(--main-color)!important;
+}
+
+.mySwiper{
+    margin-top: 20px;
+    width: 50%;
+}
+
+.slider-thumbs-imgs{
+    border-radius: 5px;
+    border: 3px solid var(--secondary-color);
+}

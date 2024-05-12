@@ -1,6 +1,6 @@
 import './App.css'
 import { Footer } from './components/NavbarAndFooter/Footer'
-import HomePage from './components/MainPages/HomePage'
+import {HomePage} from './components/MainPages/HomePage'
 import {LoginPage} from './components/LoginPage/LoginPage'
 import { Navbar } from './components/NavbarAndFooter/Navbar'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
@@ -110,11 +110,11 @@ function App() {
     return (
         <div className='d-flex flex-column min-vh-100'>
           {isLoadingScreen && <LoadingScreen />}
-            <Navbar category={category} onCategoryChange={handleCategoryChange}/>
+            <Navbar category={category} onCategoryChange={handleCategoryChange} categoryStateLocal={category}/>
             <div className='flex-grow-1 contentItems'>
             <Routes>
-              <Route path='/' element={<HomePage />} />
-              <Route path='/home' element={<HomePage />} />
+              <Route path='/' element={<HomePage onCategoryChange={handleCategoryChange}/>} />
+              <Route path='/home' element={<HomePage onCategoryChange={handleCategoryChange}/>} />
               <Route path={`/${category}`} element={<ProductPage category={category} selectedProduct={handleSelectedProduct}/>} />
               {selectedProduct && <Route path={`/${handleSelectedProductPath(selectedProduct)}`} 
               element={

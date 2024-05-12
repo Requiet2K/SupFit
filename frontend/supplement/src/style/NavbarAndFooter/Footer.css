@@ -187,10 +187,6 @@ footer{
     margin-top: 120px;
 }
 
-.fSearch{
-    z-index: 5555;
-}
-
 .showContactModal{
     right:0;
 }
@@ -253,4 +249,13 @@ footer{
     .showContactModalCenter{
         right: 18%;
     }
+}
+
+.searchModal .fa-circle-xmark{
+    color: white;
+    cursor: pointer;
+    font-size: 48px;
+    position: absolute;
+    right: 5%;
+    top: 4%;
 }

@@ -20,7 +20,7 @@ export const BreadCrumb: React.FC<{path: string[]}> = (props) => {
     }
 
   return (
-    <div className="bread-crumb-area">
+    <div className="bread-crumb-area mt-5">
     <Breadcrumbs separator="›" aria-label="breadcrumb">
       <Link to="/home" className="bread-name">
         Home

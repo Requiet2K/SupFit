@@ -5,11 +5,10 @@ import { Squash as Hamburger } from 'hamburger-react'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
 import { PiUserCircleDuotone } from "react-icons/pi";
 import { GiCardboardBoxClosed } from "react-icons/gi";
 import { GrFormNext } from "react-icons/gr";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthState } from "../../types/userTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authSlice";
@@ -28,7 +27,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { SearchBar } from "../../utils/SearchBar";
 
-export const Navbar = ({ category, onCategoryChange }: {category: string, onCategoryChange: (e: string) => void}) => {
+export const Navbar = ({ category, onCategoryChange, categoryStateLocal }: {category: string, onCategoryChange: (e: string) => void, categoryStateLocal: string}) => {
 
   const [sideBar, setSideBar] = useState(false);
   const [rightDrawer, setRightDrawer] = useState(false);
@@ -75,6 +74,12 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
     };
   }, [prevScrollpos]);
 
+  const location = useLocation();
+
+  useEffect(() => {
+    setHideNav(false);
+  }, [location]);
+
   const dispatch = useDispatch();
 
   const handleLogout= async () => {
@@ -114,6 +119,10 @@ export const Navbar = ({ category, onCategoryChange }: {category: string, onCate
     }, [rightDrawer, sideBar, boxDrawer]);
 
     const [categoryState, setCategoryState] = useState(""); 
+
+    useEffect(() => {
+      setCategoryState(categoryStateLocal);
+    }, [categoryStateLocal]);
 
     const handleCategoryClick = (newCategory: string) => {
       if(newCategory == "home"){

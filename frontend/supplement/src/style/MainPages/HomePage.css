@@ -1,3 +1,57 @@
+*{
+    font-family: 'Futura PT', sans-serif;
+}
+
 .sa{
     height: 1500px;
+    background: rgb(238,238,238);
+    background: linear-gradient(90deg, rgb(224, 224, 224) 0%, rgba(229,229,229,1) 49%, rgb(221, 221, 221) 100%);
+}
+
+.homePageSlider{
+    max-width: 1360px;
+    width: 100%;
+    margin: "0 auto";
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 75px;
+}
+
+.homePageHeader{
+    display: flex;
+    justify-content: center;
+}
+
+.categories img{
+    cursor: pointer;
+    transition: transform .3s;
+    width: 85%;
+}
+
+@media only screen and (max-width: 992px) {
+    .categories img{
+        width: 100%;
+    }
+}
+
+.categories img:hover{
+    transform: scale(1.08); 
+}
+
+.categories-item{
+    display: flex;
+    justify-content: center;
+}
+
+.homePageCategories h1{
+    font-size: 56px;
+    text-align: center;
+    color: var(--main-color-dark);
+}
+
+@media only screen and (max-width: 768px) {
+    .homePageCategories h1{
+        font-size: 36px;
+        color: var(--main-color-dark);
+    }
 }

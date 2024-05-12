@@ -204,7 +204,7 @@ export const ProductItem = ({product, productPath
         showErrorModal("Already reviewed!","You already reviewed this product!");
       }
       else if(!isProductPurchased){
-        showErrorModal("Purchase required!","In order to comment, you must purchase the product and receive it.!");
+        showErrorModal("Purchase required!","In order to comment, you must purchase the product and receive it!");
       }
       else{
         setPermissionReview(!permissionReview);
