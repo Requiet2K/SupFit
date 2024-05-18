@@ -120,7 +120,7 @@ export const Reviews = () => {
                   ))
                   :
                   <div className='emptyOrders'>
-                    <h3>You don't have any reviews.</h3>
+                    <h3 className='text-center'>You don't have any reviews.</h3>
                     <i className="fa-solid fa-comment-dots"/>
                   </div>
                 }

@@ -1,18 +1,12 @@
-package com.project.supplement.dto;
+package com.project.supplement.dto.request;
 
-import com.project.supplement.dto.request.cartItemsDTO;
-import com.project.supplement.dto.request.productDTO;
 import com.project.supplement.dto.response.productResponse;
 import com.project.supplement.entity.Address;
-import com.project.supplement.entity.Cart;
-import com.project.supplement.entity.Product;
 import com.project.supplement.security.Role;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
-import javax.validation.constraints.Null;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Getter

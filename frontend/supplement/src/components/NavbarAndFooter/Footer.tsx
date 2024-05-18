@@ -171,7 +171,7 @@ export const Footer = ({ handleContactModal, handleCloseContactModal } : { handl
           <div className="footer-bottom-left">
             <p>
             © All rights reserved by&nbsp;  
-              <a href="#">www.supfit.com</a>
+              <a href="">www.supfit.com</a>
             </p>
           </div>
           <div className="footer-bottom-right">

@@ -324,12 +324,16 @@ export const Navbar = ({ category, onCategoryChange, categoryStateLocal }: {cate
                 </div>
                 : 
                 <>
-                  <div className="d-none d-lg-inline">
+                  <div className="d-none d-lg-flex">
                     <NavLink to="/login">
-                      <button type="button" className="login">Sign In</button>
+                      <button type="button" className="login">
+                        <span>Sign In</span>
+                      </button>
                     </NavLink>
                     <NavLink to="/login" state={{ signBoolean: true }}>
-                      <button type="button" className="signup">Sign Up</button>
+                      <button type="button" className="signup">
+                        <span>Sign Up</span>
+                      </button>
                     </NavLink>
                   </div>
                   <div className="d-lg-none">

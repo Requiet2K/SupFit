@@ -1,6 +1,6 @@
 package com.project.supplement.controller;
 
-import com.project.supplement.dto.UserDTO;
+import com.project.supplement.dto.request.UserDTO;
 import com.project.supplement.dto.request.changePasswordDTO;
 import com.project.supplement.dto.request.updateUserDTO;
 import com.project.supplement.security.auth.AuthResponse;

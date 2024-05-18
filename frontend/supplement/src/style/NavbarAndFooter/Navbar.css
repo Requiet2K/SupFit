@@ -7,7 +7,8 @@
 }
 
 .login{
-    padding: 8px 30px;
+    padding: 8px 0;
+    width: 115px;
     clip-path: polygon(100% 0%,100% 100%,100% 100%,15% 100%,0% 65%,0% 0%);
     background-color: var(--primary-color);
     border: none;
@@ -18,11 +19,18 @@
 }
 
 .signup{
-    padding: 8px 30px;
+    padding: 8px 0;
+    width: 115px;
     clip-path: polygon(85% 0%,100% 35%,100% 100%,0% 100%,0% 0%);
     background: var(--main-color);
     color: var(--text-color-2);
     border: none;
+}
+
+.login span, .signup span{
+    font-size: 16px;
+    width: 100%;
+    padding: 0;
 }
 
 .bi-person-fill{
@@ -30,7 +38,8 @@
 }
 
 .signin{
-    padding: 8px 30px;
+    padding: 8px 0;
+    width: 100px;
     background: var(--main-color);
     color: var(--text-color-2);
     border: none;

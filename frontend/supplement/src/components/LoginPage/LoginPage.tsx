@@ -133,7 +133,7 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
       });
 
   return (
-    <div className="loginPage">
+    <div className="loginPage mt-5">
       <div className={`containerLogin ${signUpPage ? 'active' : ''}`} id="container">
         <div className="form-container sign-up">
             <form onSubmit={formikSignUp.handleSubmit}>

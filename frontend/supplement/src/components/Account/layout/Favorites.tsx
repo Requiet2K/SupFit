@@ -83,7 +83,7 @@ export const Favorites = () => {
             <div className="content">
               <div className="row">
               {user?.favorites.length == 0 && <>
-                    <h3 className='d-flex w-100 justify-content-center mt-5 pt-5'> You don't have any favorite item. </h3>
+                    <h3 className='d-flex w-100 justify-content-center mt-5 pt-5 text-center'> You don't have any favorite item. </h3>
                     <i className="fa-solid fa-heart addressEmptyIcon"/>
                   </>}
               {user?.favorites.map((product, index) => (

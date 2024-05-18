@@ -1,7 +1,7 @@
 package com.project.supplement.service.impl;
 
 import com.project.supplement.mapper.UserMapper;
-import com.project.supplement.dto.UserDTO;
+import com.project.supplement.dto.request.UserDTO;
 import com.project.supplement.dto.request.changePasswordDTO;
 import com.project.supplement.dto.request.updateUserDTO;
 import com.project.supplement.entity.Product;

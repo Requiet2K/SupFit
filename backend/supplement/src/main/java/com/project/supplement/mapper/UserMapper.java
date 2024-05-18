@@ -1,6 +1,6 @@
 package com.project.supplement.mapper;
 
-import com.project.supplement.dto.UserDTO;
+import com.project.supplement.dto.request.UserDTO;
 import com.project.supplement.dto.request.cartItemsDTO;
 import com.project.supplement.dto.response.productResponse;
 import com.project.supplement.entity.User;
