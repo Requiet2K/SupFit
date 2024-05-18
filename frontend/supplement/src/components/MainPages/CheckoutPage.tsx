@@ -187,6 +187,14 @@ export const CheckoutPage = () => {
 
     const {setIsLoadingScreen} = useContext(LoadingContext);
 
+    const handleRightSubmit = () => {
+      if(!itemChange){
+        setItemChange(true);
+      }else{
+        formikPaymentModal.handleSubmit();
+      }
+    }
+
     const handleSubmit = async () => {
       if(!itemChange){
         setItemChange(true);
@@ -354,76 +362,78 @@ export const CheckoutPage = () => {
                     </div>
                   </div>
                   <div className="col-12 col-md-5">
-                    <div className="p-card-infos">
-                      <div className="card-infos-header mt-5 mb-5 mt-md-4">
-                        <h4>Payment Details</h4>
-                      </div>
-                      <div className="card-infos-body">
-                        <div className="row row-gap-3">
-                          <div className="col-12">
-                            <span>Cardholder Name</span>
-                            <input type="text" 
-                            id='cardHolder' 
-                            onChange={(e) => handleCardHolderChange(e)} 
-                            value={formikPaymentModal.values.cardHolder} 
-                            onBlur={formikPaymentModal.handleBlur}
-                            />
-                            {formikPaymentModal.touched.cardHolder && formikPaymentModal.errors.cardHolder ? (
-                              <div className='error-security'>{formikPaymentModal.errors.cardHolder}</div>
-                            ) : <div className='error-security'></div>}
+                    <form onSubmit={formikPaymentModal.handleSubmit}>
+                      <div className="p-card-infos">
+                        <div className="card-infos-header mt-5 mb-5 mt-md-4">
+                          <h4>Payment Details</h4>
+                        </div>
+                        <div className="card-infos-body">
+                          <div className="row row-gap-3">
+                            <div className="col-12">
+                              <span>Cardholder Name</span>
+                              <input type="text" 
+                              id='cardHolder' 
+                              onChange={(e) => handleCardHolderChange(e)} 
+                              value={formikPaymentModal.values.cardHolder} 
+                              onBlur={formikPaymentModal.handleBlur}
+                              />
+                              {formikPaymentModal.touched.cardHolder && formikPaymentModal.errors.cardHolder ? (
+                                <div className='error-security'>{formikPaymentModal.errors.cardHolder}</div>
+                              ) : <div className='error-security'></div>}
+                            </div>
+                            <div className="col-12 p-card-no">
+                              <span>Cardholder Number</span>
+                              <input type="text"
+                              id='cardNumber' 
+                              onKeyDown={(e) => handleKeyDown(e)}
+                              onChange={(e) => handleCardNumberChange(e)} 
+                              value={formikPaymentModal.values.cardNumber} 
+                              onBlur={formikPaymentModal.handleBlur}
+                              />
+                              {formikPaymentModal.touched.cardNumber && formikPaymentModal.errors.cardNumber ? (
+                                <div className='error-security'>{formikPaymentModal.errors.cardNumber}</div>
+                              ) : <div className='error-security'></div>}
+                              <img src={masterCard} alt="mc"/>
+                            </div>
+                            <div className="col-8 d-flex flex-column">
+                              <span>Expiry Date</span>
+                              <input type="text" style={{width: "75%"}} placeholder='MM/DD'
+                              id='expDate' 
+                              onChange={(e) => handleExpChange(e)} 
+                              value={formikPaymentModal.values.expDate} 
+                              onBlur={formikPaymentModal.handleBlur}
+                              />
+                              {formikPaymentModal.touched.expDate && formikPaymentModal.errors.expDate ? (
+                                <div className='error-security'>{formikPaymentModal.errors.expDate}</div>
+                              ) : <div className='error-security'></div>}
+                            </div>
+                            <div className="col-4 d-flex flex-column">
+                              <span>CVV</span>
+                              <input type="number"
+                              onChange={(e) => handleCVVChange(e)} 
+                              id='cvv' 
+                              value={formikPaymentModal.values.cvv} 
+                              onBlur={formikPaymentModal.handleBlur}
+                              />
+                              {formikPaymentModal.touched.cvv && formikPaymentModal.errors.cvv ? (
+                                <div className='error-security'>{formikPaymentModal.errors.cvv}</div>
+                              ) : <div className='error-security'></div>}
+                            </div>
                           </div>
-                          <div className="col-12 p-card-no">
-                            <span>Cardholder Number</span>
-                            <input type="text"
-                            id='cardNumber' 
-                            onKeyDown={(e) => handleKeyDown(e)}
-                            onChange={(e) => handleCardNumberChange(e)} 
-                            value={formikPaymentModal.values.cardNumber} 
-                            onBlur={formikPaymentModal.handleBlur}
-                            />
-                            {formikPaymentModal.touched.cardNumber && formikPaymentModal.errors.cardNumber ? (
-                              <div className='error-security'>{formikPaymentModal.errors.cardNumber}</div>
-                            ) : <div className='error-security'></div>}
-                            <img src={masterCard} alt="mc"/>
-                          </div>
-                          <div className="col-8 d-flex flex-column">
-                            <span>Expiry Date</span>
-                            <input type="text" style={{width: "75%"}} placeholder='MM/DD'
-                            id='expDate' 
-                            onChange={(e) => handleExpChange(e)} 
-                            value={formikPaymentModal.values.expDate} 
-                            onBlur={formikPaymentModal.handleBlur}
-                            />
-                            {formikPaymentModal.touched.expDate && formikPaymentModal.errors.expDate ? (
-                              <div className='error-security'>{formikPaymentModal.errors.expDate}</div>
-                            ) : <div className='error-security'></div>}
-                          </div>
-                          <div className="col-4 d-flex flex-column">
-                            <span>CVV</span>
-                            <input type="number"
-                            onChange={(e) => handleCVVChange(e)} 
-                            id='cvv' 
-                            value={formikPaymentModal.values.cvv} 
-                            onBlur={formikPaymentModal.handleBlur}
-                            />
-                            {formikPaymentModal.touched.cvv && formikPaymentModal.errors.cvv ? (
-                              <div className='error-security'>{formikPaymentModal.errors.cvv}</div>
-                            ) : <div className='error-security'></div>}
+                        </div>
+                        <div className="d-flex justify-content-center mt-5">
+                          <button className="p-card-pay-btn" type='submit'>
+                            <span>PAY NOW ${total}</span>
+                          </button>
+                        </div>
+                        <div className="d-flex justify-content-center mt-5 mb-2 pay-card-test-info">
+                          <div>
+                            <i className="bi bi-unlock-fill me-1"/>
+                            <span>This is a test-site don't enter <span className='real-cc'>real credit card</span> informations.</span>
                           </div>
                         </div>
                       </div>
-                      <div className="d-flex justify-content-center mt-5">
-                        <button className="p-card-pay-btn" onClick={handleSubmit}>
-                          <span>PAY NOW ${total}</span>
-                        </button>
-                      </div>
-                      <div className="d-flex justify-content-center mt-5 mb-2 pay-card-test-info">
-                        <div>
-                          <i className="bi bi-unlock-fill me-1"/>
-                          <span>This is a test-site don't enter <span className='real-cc'>real credit card</span> informations.</span>
-                        </div>
-                      </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -574,7 +584,7 @@ export const CheckoutPage = () => {
                         </div>
                       </div>
                       <div className="boxDrawerCheckoutBtn">
-                        <button onClick={handleSubmit}>
+                        <button onClick={handleRightSubmit} type='submit'>
                           <i className="bi bi-credit-card"/>
                           <span>SUBMIT</span>
                         </button>

@@ -155,20 +155,20 @@ export const CurrentOrder = () => {
                                     <div className="order-details-divider"/>
                                     <div className="order-address-infos my-2">
                                       <span>
-                                        {item.address.recipientFirstName + " " + item.address.recipientLastName}
+                                        {item.addressDetails.recipientFirstName + " " + item.addressDetails.recipientLastName}
                                       </span>
                                       <span>
-                                        +{" "+item.address.recipientPhoneNumber.substring(0, 2) + " " + 
-                                        item.address.recipientPhoneNumber.substring(2, 5) + " " +
-                                        item.address.recipientPhoneNumber.substring(5, 8) + " " +
-                                        item.address.recipientPhoneNumber.substring(8, 10) + " "+
-                                        item.address.recipientPhoneNumber.substring(10, 12)}
+                                        +{" "+item.addressDetails.recipientPhoneNumber.substring(0, 2) + " " + 
+                                        item.addressDetails.recipientPhoneNumber.substring(2, 5) + " " +
+                                        item.addressDetails.recipientPhoneNumber.substring(5, 8) + " " +
+                                        item.addressDetails.recipientPhoneNumber.substring(8, 10) + " "+
+                                        item.addressDetails.recipientPhoneNumber.substring(10, 12)}
                                       </span>
                                       <span>
-                                        {item.address.city + " / " + item.address.district}
+                                        {item.addressDetails.city + " / " + item.addressDetails.district}
                                       </span>
                                       <span>
-                                        {item.address.address}
+                                        {item.addressDetails.address}
                                       </span>
                                     </div>
                                   </div>

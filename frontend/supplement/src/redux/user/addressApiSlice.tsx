@@ -5,19 +5,19 @@ export const addressApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         deleteAddress: builder.mutation({
             query: id => ({
-                url: `/address/deleteAddress/${id}`,
+                url: `/addresses/deleteAddress/${id}`,
                 method: 'DELETE',
             }),
         }),
         setAddressDefault: builder.mutation({
             query: id => ({
-                url: `/address/setAddressDefault/${id}`,
+                url: `/addresses/setAddressDefault/${id}`,
                 method: 'PUT',
             }),
         }),
         createAddress: builder.mutation({
             query: ({id, credentials}: {id: number, credentials: sendAddressState}) => ({
-                url: `/address/createAddress/${id}`,
+                url: `/addresses/createAddress/${id}`,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8',
@@ -28,7 +28,7 @@ export const addressApiSlice = apiSlice.injectEndpoints({
         }),
         updateAddress: builder.mutation({
             query: ({id, credentials}: {id: number, credentials: AddressState}) => ({
-                url: `address/updateAddress/${id}`,
+                url: `addresses/updateAddress/${id}`,
                 method: 'PUT',
                 body: {...credentials}
             })

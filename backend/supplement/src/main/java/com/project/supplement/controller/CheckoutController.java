@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/checkout")
+@RequestMapping("/checkouts")
 @RequiredArgsConstructor
 public class CheckoutController {
 

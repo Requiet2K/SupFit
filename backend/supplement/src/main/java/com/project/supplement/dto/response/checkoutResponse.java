@@ -1,6 +1,7 @@
 package com.project.supplement.dto.response;
 
 import com.project.supplement.entity.Address;
+import com.project.supplement.entity.AddressDetails;
 import com.project.supplement.entity.Product;
 import lombok.*;
 
@@ -20,6 +21,6 @@ public class checkoutResponse {
     private LocalDate deliveryDate;
     private Long price;
     private Long quantity;
-    private Address address;
+    private AddressDetails addressDetails;
     private List<checkoutProductResponse> products;
 }

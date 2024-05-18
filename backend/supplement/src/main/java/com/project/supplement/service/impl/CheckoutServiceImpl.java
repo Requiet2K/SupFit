@@ -34,10 +34,22 @@ public class CheckoutServiceImpl implements CheckoutService {
     public void createCheckout(Long userId, List<cartItemsDTO> cartItems, Long price, Long addressId) {
 
         Checkout checkout = new Checkout();
+        Address address = addressRepository.findById(addressId).orElseThrow(AddressNotExistsException::new);
+
+        AddressDetails addressDetails = new AddressDetails(
+                address.getTitle(),
+                address.getRecipientFirstName(),
+                address.getRecipientLastName(),
+                address.getRecipientPhoneNumber(),
+                address.getCountry(),
+                address.getCity(),
+                address.getDistrict(),
+                address.getAddress()
+        );
 
         checkout.setUserId(userId);
         checkout.setPrice(price);
-        checkout.setAddressId(addressId);
+        checkout.setAddressDetails(addressDetails);
         checkout.setCheckoutDate(LocalDate.now());
         checkout.setDeliveryDate(LocalDate.now().plusDays(2));
 
@@ -83,11 +95,7 @@ public class CheckoutServiceImpl implements CheckoutService {
                 checkoutResponse.setCheckoutDate(c.getCheckoutDate());
                 checkoutResponse.setDeliveryDate(c.getDeliveryDate());
                 checkoutResponse.setPrice(c.getPrice());
-
-                Address address = addressRepository.findById(c.getAddressId())
-                        .orElseThrow(AddressNotExistsException::new);
-
-                checkoutResponse.setAddress(address);
+                checkoutResponse.setAddressDetails(c.getAddressDetails());
 
                 List<checkoutProductResponse> productResponses = new ArrayList<>();
                 List<CheckoutProduct> checkoutProducts = c.getCheckoutProducts();
@@ -125,11 +133,7 @@ public class CheckoutServiceImpl implements CheckoutService {
                 checkoutResponse.setCheckoutDate(c.getCheckoutDate());
                 checkoutResponse.setDeliveryDate(c.getDeliveryDate());
                 checkoutResponse.setPrice(c.getPrice());
-
-                Address address = addressRepository.findById(c.getAddressId())
-                        .orElseThrow(AddressNotExistsException::new);
-
-                checkoutResponse.setAddress(address);
+                checkoutResponse.setAddressDetails(c.getAddressDetails());
 
                 List<checkoutProductResponse> productResponses = new ArrayList<>();
                 List<CheckoutProduct> checkoutProducts = c.getCheckoutProducts();

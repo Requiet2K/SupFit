@@ -1,16 +1,26 @@
 import { ProductState } from "./productType";
-import { AddressState } from "./userTypes";
 
 export type CheckoutState = {
     id: number;
     checkoutDate: Date;
     deliveryDate: Date;
     price: number;
-    address: AddressState;
+    addressDetails: AddressDetails;
     products: CheckoutProductState[];
 };
 
 export type CheckoutProductState = {
     product: ProductState;
     quantity: number;
+}
+
+export type AddressDetails = {
+    title: string;
+    recipientFirstName: string;
+    recipientLastName: string;
+    recipientPhoneNumber: string;
+    country: string;
+    city: string;
+    district: string;
+    address: string;
 }
