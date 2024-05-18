@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -28,7 +29,7 @@ public class AddressServiceImpl implements AddressService {
         Address address = addressRepository.findById(addressId).orElseThrow(AddressNotExistsException::new);
         User user = address.getUser();
 
-        List<Address> userAddresses = user.getAddresses();
+        Set<Address> userAddresses = user.getAddresses();
         for (Address userAddress : userAddresses) {
             if (userAddress.isDefault()) {
                 userAddress.setDefault(false);
