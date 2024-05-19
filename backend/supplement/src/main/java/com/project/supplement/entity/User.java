@@ -47,10 +47,10 @@ public class User implements UserDetails {
     @JsonManagedReference(value = "userAddresses")
     private Set<Address> addresses;
 
-    @Column(name = "gender", length = 6)
+    @Column(name = "gender")
     private String gender;
 
-    @Size(min = 10, max = 10)
+    @Size(min = 12, max = 12)
     @Column(name = "phone_number", length = 12)
     private String phoneNumber;
 
