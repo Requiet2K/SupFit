@@ -4,7 +4,7 @@ export const couponApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         findCoupon: builder.query({
             query: code => {
-                return `/coupons/findCoupon/${code}`;
+                return `/coupons/${code}`;
             }
         }),
     })

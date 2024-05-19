@@ -15,7 +15,7 @@ public class CouponController {
 
     private final CouponRepository couponRepository;
 
-    @GetMapping("/findCoupon/{code}")
+    @GetMapping("/{code}")
     public Double findCouponByCode(@PathVariable String code){
         Coupon coupon = couponRepository.findByCode(code)
                 .orElse(new Coupon(code, 0.0));

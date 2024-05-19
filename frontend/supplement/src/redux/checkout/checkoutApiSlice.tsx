@@ -30,6 +30,11 @@ export const checkoutApiSlice = apiSlice.injectEndpoints({
                 return `/checkouts/isProductDelivered?userId=${userId}&productId=${productId}`;
             }
         }),
+        bestSellers: builder.query({
+            query: () => {
+                return "/checkouts/bestSellers";
+            }
+        }),
     })
 })
 
@@ -38,5 +43,6 @@ export const {
     useLazyGetCurrentOrdersQuery,
     useLazyGetPastOrdersQuery,
     useLazyGetTotalOrderOfUserCountQuery,
-    useLazyIsProductDeliveredQuery
+    useLazyIsProductDeliveredQuery,
+    useLazyBestSellersQuery
 } = checkoutApiSlice;

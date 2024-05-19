@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/addresses")
@@ -15,33 +16,23 @@ public class AddressController {
 
     private final AddressService addressService;
 
-    @GetMapping("/getAddresses/{id}")
-    public List<Address> getUserAddresses(@PathVariable Long id){
-        return addressService.getAddresses(id);
+    @PostMapping("/{id}")
+    public void create(@PathVariable Long id, @RequestBody Address newAddress){
+        addressService.create(id, newAddress);
     }
 
-    @GetMapping("/getAddress/{id}")
-    public Address getUserAddress(@PathVariable Long id){
-        return addressService.getAddress(id);
-    }
-
-    @PostMapping(path = "/createAddress/{id}")
-    public void createAddress(@PathVariable Long id, @RequestBody Address newAddress){
-        addressService.createAddress(id, newAddress);
-    }
-
-    @DeleteMapping("/deleteAddress/{id}")
+    @DeleteMapping("/{id}")
     public void deleteAddress(@PathVariable Long id){
-        addressService.deleteAddress(id);
+        addressService.delete(id);
     }
 
-    @PutMapping("/setAddressDefault/{id}")
-    public void setAddressDefault(@PathVariable Long id){
-        addressService.setAddressDefault(id);
+    @PutMapping("/setDefault/{id}")
+    public void setDefault(@PathVariable Long id){
+        addressService.setDefault(id);
     }
 
-    @PutMapping("/updateAddress/{id}")
+    @PutMapping("/{id}")
     public void updateAddress(@PathVariable Long id,@RequestBody Address updatedAddress){
-        addressService.updateAddress(id, updatedAddress);
+        addressService.update(id, updatedAddress);
     }
 }

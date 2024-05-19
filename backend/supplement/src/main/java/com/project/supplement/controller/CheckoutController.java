@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/checkouts")
@@ -39,5 +40,10 @@ public class CheckoutController {
     @GetMapping("/isProductDelivered")
     public boolean isProductDelivered(@RequestParam Long userId, @RequestParam Long productId){
         return checkoutService.isProductDelivered(userId, productId);
+    }
+
+    @GetMapping("/bestSellers")
+    public Set<productResponse> bestSellers(){
+        return checkoutService.bestSellers();
     }
 }

@@ -21,7 +21,7 @@ public class CategoryController {
 
     private final CategoryRepository categoryRepository;
 
-    @GetMapping("/findCategoryIdByName/{categoryName}")
+    @GetMapping("/{categoryName}")
     public Long findCategoryIdByName(@PathVariable String categoryName){
         Category category = categoryRepository.findByName(categoryName)
                 .orElseThrow(InvalidCategoryIdException::new);

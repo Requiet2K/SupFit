@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class UserDTO {
     private String email;
     private Role role;
     @Nullable
-    private List<Address> addresses;
+    private Set<Address> addresses;
     @Nullable
     private LocalDate birthDate;
     @Nullable

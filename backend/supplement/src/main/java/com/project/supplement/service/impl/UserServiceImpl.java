@@ -25,18 +25,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
-    private final ModelMapper modelMapper;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     @Autowired
-    public UserServiceImpl(@Lazy JwtService jwtService, UserRepository userRepository, ModelMapper modelMapper, UserMapper userMapper,
+    public UserServiceImpl(@Lazy JwtService jwtService, UserRepository userRepository, UserMapper userMapper,
                            PasswordEncoder passwordEncoder, ProductRepository productRepository) {
         this.jwtService = jwtService;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
     }

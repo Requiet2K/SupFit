@@ -5,12 +5,12 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         isProductReviewed: builder.query({
             query: ({productId, userId} : {productId: number, userId: number}) => {
-                return `/reviews/isProductReviewed?productId=${productId}&userId=${userId}`;
+                return `/reviews/isReviewed?productId=${productId}&userId=${userId}`;
             }
         }),
         getProductReviews: builder.query({
             query: ({productId, page, size} : {productId: number, page: number, size: number}) => {
-                return `/reviews/getProductReviews?productId=${productId}&page=${page}&size=${size}`;
+                return `/reviews/getReviews?productId=${productId}&page=${page}&size=${size}`;
             }
         }),
         getUserReviews: builder.query({
@@ -20,19 +20,19 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
         }),
         createReview: builder.mutation({
             query: ({review} : {review: ReviewState}) => ({
-                url: `/reviews/createReview`,
+                url: `/reviews`,
                 method: 'POST',          
                 body: review
             })
         }),
         getProductTotalComments: builder.query({
             query: productId => {
-                return `/reviews/getProductTotalComments/${productId}`;
+                return `/reviews/getComments/${productId}`;
             }
         }),
         getProductRating: builder.query({
             query: productId => {
-                return `/reviews/getProductRating/${productId}`;
+                return `/reviews/getRating/${productId}`;
             }
         }),
         getRatingCounts: builder.query({

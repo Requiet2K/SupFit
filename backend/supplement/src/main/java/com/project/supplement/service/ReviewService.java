@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface ReviewService {
-    boolean isProductReviewed(Long productId, Long userId);
-    Page<reviewProductResponse> getProductReviews(Long productId, Pageable pageable);
-    void createReview(reviewResponse reviewResponse);
+    boolean isReviewed(Long productId, Long userId);
+    Page<reviewProductResponse> getReviews(Long productId, Pageable pageable);
+    void create(reviewResponse reviewResponse);
     List<reviewResponse> getUserReviews(Long userId);
-    int getProductTotalComments(Long productId);
-    double getProductRating(Long productId);
+    int getComments(Long productId);
+    double getRating(Long productId);
     Map<Integer, Integer> getRatingCounts(Long productId);
 }

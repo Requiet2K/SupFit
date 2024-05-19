@@ -724,7 +724,11 @@ export const ProductItem = ({product, productPath
                           </div>
                           <div className="productItem-reviews-info">
                             <span>{item.userName}</span>
+                            {differenceInDays == 0 ? 
+                            <span>Today</span>
+                            :
                             <span>{differenceInDays} {differenceInDays > 1 ? "days ago" : "day ago"}</span>
+                            }
                           </div>
                         </div>
                         <div className="productItem-reviews-item-stars mt-2">

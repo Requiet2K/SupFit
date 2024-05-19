@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CheckoutServiceImpl implements CheckoutService {
@@ -176,6 +177,44 @@ public class CheckoutServiceImpl implements CheckoutService {
         }
 
         return false;
+    }
+
+    @Override
+    public Set<productResponse> bestSellers() {
+
+        Set<productResponse> products = new LinkedHashSet<>();
+
+        List<CheckoutProduct> checkouts = checkoutProductRepository.findAll();
+
+        if(checkouts.size() < 5){
+            List<Product> productList = productRepository.findAll();
+            for(int i = 0 ; i < Math.min(5, productList.size()) ; i++){
+                productResponse productResponse = productMapper.toProductResponse(productList.get(i));
+                products.add(productResponse);
+            }
+            return products;
+        }
+
+        Map<Long, Long> productsAndQuantity = new HashMap<>();
+
+        for(CheckoutProduct c : checkouts){
+            Long productId = c.getProduct().getId();
+            Long quantity = c.getQuantity().longValue();
+            productsAndQuantity.put(productId, (productsAndQuantity.getOrDefault(productId, 0L) + quantity));
+        }
+
+        List<Map.Entry<Long, Long>> sortedEntries = productsAndQuantity.entrySet().stream()
+                .sorted(Map.Entry.<Long, Long>comparingByValue().reversed()).limit(5).toList();
+
+        for(Map.Entry<Long, Long> entry : sortedEntries){
+
+            Long productId = entry.getKey();
+            Product product = productRepository.findById(productId).orElseThrow(ProductNotExistsException::new);
+            productResponse productResponse = productMapper.toProductResponse(product);
+            products.add(productResponse);
+        }
+
+        return products;
     }
 
 }

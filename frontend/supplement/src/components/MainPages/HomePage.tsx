@@ -17,8 +17,13 @@ import floating1 from "../../images/floating1.png";
 import floating4 from "../../images/floating4.png";
 import floating5 from "../../images/floating5.png";
 import floatingMain from "../../images/floatingMain.png";
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LoadingContext } from '../../context/LoadingContext';
+import { useLazyBestSellersQuery } from '../../redux/checkout/checkoutApiSlice';
+import { ProductState } from '../../types/productType';
+import { ImageComponent } from '../../utils/imageComponent';
+import { StarsReview } from '../../utils/starsReview';
+import { useLazyGetProductRatingQuery, useLazyGetProductReviewsQuery } from '../../redux/review/reviewApiSlice';
 
 export const HomePage = ({ onCategoryChange }: {onCategoryChange: (e: string) => void}) => {
 
@@ -57,8 +62,38 @@ export const HomePage = ({ onCategoryChange }: {onCategoryChange: (e: string) =>
     onCategoryChange(newCategory); 
   };
 
+  const [bestSellersQuery] = useLazyBestSellersQuery();
+  const [getProductReviewsQuery] = useLazyGetProductReviewsQuery();
+  const [getProductRatingQuery] = useLazyGetProductRatingQuery();
+  const [bestSellers, setBestSellers] = useState<ProductState[]>();
+  const [productDetails, setProductDetails] = useState<Record<number, {rating: number, reviewCount: number}>>({});
+
+  useEffect(() => {
+    const getBestSellers = async () => {
+      try{
+        const data: ProductState[] = await bestSellersQuery({}).unwrap();
+        setBestSellers(data);
+
+        const details: { [key: number]: { rating: number, reviewCount: number } } = {};
+          for (const product of data) {
+            const reviews: any = await getProductReviewsQuery({
+              productId: product.id,
+              page: 0,
+              size: 5
+            });
+            const rating = await getProductRatingQuery(product.id).unwrap();
+            details[product.id] = { rating, reviewCount: reviews.data.totalElements };
+          }
+          setProductDetails(details);
+      }catch(err: any){
+        console.log(err);
+      }
+    }
+    getBestSellers();
+  }, [])
+
   return (
-    <div className="sa" style={{backgroundImage: `url(${homeHeader})`}}>
+    <div className="homePage" style={{backgroundImage: `url(${homeHeader})`}}>
       <div className="homePageHeader">
         <div className='homePageSlider'>
           <ImageSlider images={IMAGES} />
@@ -93,6 +128,38 @@ export const HomePage = ({ onCategoryChange }: {onCategoryChange: (e: string) =>
           </div>
         </div>
       </div>
+      <div className="homePageBestSellers mt-5">
+        <div className="homePageBestSellersTitle">
+          <i className="fa-solid fa-fire-flame-curved"/> 
+          <h1>TOP SELLERS</h1>
+        </div>
+        <div className="container">
+          <div className="row">
+          {bestSellers?.map((item, index) => (
+            <div key={index} className='col-6 col-lg-4 col-xl-2 bestSellerItem' onClick={() => navigate(`/${item.name.toLowerCase().replace(" ","-")}`)}> 
+              <div className="bestSellerImg mb-3">
+                 <ImageComponent src={item.imageUrl} alt={item.name} blurhashImg={item.blurhashImg}/>
+              </div>
+              <div className="bestSellerName mb-1">
+                {item.name.toUpperCase()}
+              </div>
+              <div className="bestSellerTitle mb-2">
+                {item.title.toUpperCase()}
+              </div>
+              <div className="bestSellerStars mb-1 d-flex justify-content-center">
+                <StarsReview rating={productDetails[item.id]?.rating} hoverRate={0} />
+              </div>
+              <div className="bestSellerComments mb-2">
+                {productDetails[item.id]?.reviewCount} Comments
+              </div>
+              <div className="bestSellerPrice">
+                {item.price} USD
+              </div>
+            </div>
+          ))}          
+          </div>
+        </div>
+      </div>
       <div className="homePageSup">
         <div className="container">
           <div className="supAdv pb-5 pb-md-0" style={{backgroundImage: `url(${homeFooter})`}}>
@@ -114,8 +181,6 @@ export const HomePage = ({ onCategoryChange }: {onCategoryChange: (e: string) =>
             </div>
           </div>
         </div>
-      </div>
-      <div className="homePageSup mt-5">
       </div>
     </div>
   )

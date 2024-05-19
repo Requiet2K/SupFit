@@ -2,9 +2,10 @@
     font-family: 'Futura PT', sans-serif;
 }
 
-.sa{
+.homePage{
     height: auto;
     background-attachment: fixed;
+    padding-bottom: 75px;
 }
 
 .homePageSlider{
@@ -217,4 +218,101 @@
 
 .supAdv-right button:hover{
     background: #079251;
+}
+
+.bestSellerItem{
+    display: flex;
+    flex-direction: column;
+}
+
+.bestSellerImg{
+    display: flex;
+    justify-content: center;
+}
+
+.homePageBestSellers{
+    margin-bottom: 150px;
+}
+
+.homePageBestSellers .row{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.bestSellerImg img{
+    width: 175px;
+    height: 175px;
+}
+
+.bestSellerName{
+    text-align: center;
+    font-weight: 600;
+}
+
+.bestSellerTitle{
+    text-align: center;
+    font-weight: 450;
+}
+
+.bestSellerStars .reviewStarList{
+    display: flex;
+    color: #079251;
+}
+
+.bestSellerComments{
+    text-align: center;
+    font-weight: 450;
+}
+
+.bestSellerPrice{
+    text-align: center;
+    font-weight: 500;
+}
+
+.bestSellerItem img{
+    cursor: pointer;
+    transition: transform .3s;
+}
+
+.bestSellerItem img:hover{
+    transform: scale(1.05)
+}
+
+.homePageBestSellersTitle .fa-fire-flame-curved{
+    color: rgb(197, 3, 3);
+    font-size: 40px;
+}
+
+.homePageBestSellersTitle{
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .homePageBestSellersTitle h1{
+        font-size: 50px;
+    }
+
+    .homePageBestSellersTitle .fa-fire-flame-curved{
+        color: rgb(197, 3, 3);
+        font-size: 50px;
+    }
+
+    .bestSellerImg img{
+        width: 225px;
+        height: 225px;
+    }
+
+    .homePageBestSellers .container .row{
+        row-gap: 35px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .homePageBestSellers {
+        margin-bottom: 0;
+    }
 }

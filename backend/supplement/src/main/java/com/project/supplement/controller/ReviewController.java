@@ -19,27 +19,27 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @GetMapping("/isProductReviewed")
+    @GetMapping("/isReviewed")
     public boolean isProductReviewed(@RequestParam Long productId, @RequestParam Long userId){
-        return reviewService.isProductReviewed(productId, userId);
+        return reviewService.isReviewed(productId, userId);
     }
 
-    @GetMapping("/getProductReviews")
+    @GetMapping("/getReviews")
     public Page<reviewProductResponse> getProductReviews(@RequestParam Long productId,
                                                          @RequestParam(defaultValue = "0", required = false) int page,
                                                          @RequestParam(defaultValue = "5", required = false) int size){
         Pageable pageable = PageRequest.of(page, size);
-        return reviewService.getProductReviews(productId, pageable);
+        return reviewService.getReviews(productId, pageable);
     }
 
-    @GetMapping("/getProductTotalComments/{productId}")
+    @GetMapping("/getComments/{productId}")
     public int getProductTotalComments(@PathVariable Long productId){
-        return reviewService.getProductTotalComments(productId);
+        return reviewService.getComments(productId);
     }
 
-    @GetMapping("/getProductRating/{productId}")
-    public double getProductRating(@PathVariable Long productId){
-        return reviewService.getProductRating(productId);
+    @GetMapping("/getRating/{productId}")
+    public double getRating(@PathVariable Long productId){
+        return reviewService.getRating(productId);
     }
 
     @GetMapping("/getRatingCounts/{productId}")
@@ -52,8 +52,8 @@ public class ReviewController {
         return reviewService.getUserReviews(userId);
     }
 
-    @PostMapping("/createReview")
-    public void createReview(@RequestBody reviewResponse reviewResponse){
-        reviewService.createReview(reviewResponse);
+    @PostMapping
+    public void create(@RequestBody reviewResponse reviewResponse){
+        reviewService.create(reviewResponse);
     }
 }

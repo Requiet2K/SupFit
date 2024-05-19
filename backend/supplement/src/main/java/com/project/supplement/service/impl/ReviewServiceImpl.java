@@ -31,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Page<reviewProductResponse> getProductReviews(Long productId, Pageable pageable){
+    public Page<reviewProductResponse> getReviews(Long productId, Pageable pageable){
         Page<Review> reviews = reviewRepository.findByProductId(productId, pageable);
 
         return reviews.map(review -> {
@@ -46,7 +46,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public int getProductTotalComments(Long productId){
+    public int getComments(Long productId){
         List<Review> reviews = reviewRepository.findByProductId(productId);
         int result = 0;
         for(Review r : reviews){
@@ -56,7 +56,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public double getProductRating(Long productId) {
+    public double getRating(Long productId) {
         List<Review> reviews = reviewRepository.findByProductId(productId);
         double rating = 0;
         if(reviews.isEmpty()) return 0;
@@ -94,7 +94,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean isProductReviewed(Long productId, Long userId) {
+    public boolean isReviewed(Long productId, Long userId) {
 
         Product product = productRepository.findById(productId).orElseThrow(ProductNotExistsException::new);
         User user = userRepository.findById(userId).orElseThrow(UserNotExistsException::new);
@@ -105,7 +105,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void createReview(reviewResponse reviewResponse) {
+    public void create(reviewResponse reviewResponse) {
 
         Product product = productRepository.findById(reviewResponse.getProductId()).orElseThrow(ProductNotExistsException::new);
         User user = userRepository.findById(reviewResponse.getUserId()).orElseThrow(UserNotExistsException::new);

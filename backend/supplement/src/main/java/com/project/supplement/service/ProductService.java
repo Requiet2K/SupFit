@@ -6,11 +6,11 @@ import com.project.supplement.dto.response.productResponse;
 import java.util.List;
 
 public interface ProductService {
-    void createProduct(productDTO productRequest);
-    List<productResponse> getProductsByCategory(Long categoryId);
-    void deleteProduct(Long productId);
-    List<String> getAllProductsName();
+    void create(productDTO productRequest);
+    List<productResponse> findByCategoryId(Long categoryId);
+    void delete(Long productId);
+    List<String> getAllNames();
     productResponse findProductByPathName(String pathName);
-    productResponse getProductById(Long productId);
-    List<productResponse> getProductsByInput(String input);
+    productResponse findById(Long productId);
+    List<productResponse> findByInput(String input);
 }

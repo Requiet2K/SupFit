@@ -15,38 +15,38 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/createProduct")
-    public void createAddress(@RequestBody productDTO productRequest){
-        productService.createProduct(productRequest);
+    @PostMapping
+    public void createProduct(@RequestBody productDTO productRequest){
+        productService.create(productRequest);
     }
 
-    @GetMapping("/getProductsByCategory/{categoryId}")
-    public List<productResponse> getProductsByCategoryId(@PathVariable Long categoryId){
-        return productService.getProductsByCategory(categoryId);
+    @GetMapping("/findByCategoryId/{categoryId}")
+    public List<productResponse> findProductsByCategoryId(@PathVariable Long categoryId){
+        return productService.findByCategoryId(categoryId);
     }
 
-    @GetMapping("/getAllProductsName")
+    @GetMapping("/getAllNames")
     public List<String> getAllProductsName(){
-        return productService.getAllProductsName();
+        return productService.getAllNames();
     }
 
-    @GetMapping("/findProductByPathName/{pathName}")
+    @GetMapping("/findByPathName/{pathName}")
     public productResponse findProductByPathName(@PathVariable String pathName){
         return productService.findProductByPathName(pathName);
     }
 
-    @DeleteMapping("/deleteProductById/{productId}")
+    @DeleteMapping("/{productId}")
     public void deleteProductById(@PathVariable Long productId){
-        productService.deleteProduct(productId);
+        productService.delete(productId);
     }
 
-    @GetMapping("/getProductById/{productId}")
-    public productResponse getProductById(@PathVariable Long productId){
-        return productService.getProductById(productId);
+    @GetMapping("/{productId}")
+    public productResponse findProductById(@PathVariable Long productId){
+        return productService.findById(productId);
     }
 
-    @GetMapping("/getProductsByInput/{input}")
-    public List<productResponse> getProductsByInput(@PathVariable String input){
-        return productService.getProductsByInput(input);
+    @GetMapping("/findByInput/{input}")
+    public List<productResponse> findProductByInput(@PathVariable String input){
+        return productService.findByInput(input);
     }
 }

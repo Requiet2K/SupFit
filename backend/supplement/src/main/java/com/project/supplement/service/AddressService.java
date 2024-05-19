@@ -3,13 +3,11 @@ package com.project.supplement.service;
 import com.project.supplement.entity.Address;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AddressService {
-
-    void setAddressDefault(Long addressId);
-    void createAddress(Long userId, Address newAddress);
-    void deleteAddress(Long addressId);
-    List<Address> getAddresses(Long userId);
-    Address getAddress(Long addressId);
-    void updateAddress(Long addressId, Address updatedAddress);
+    void setDefault(Long addressId);
+    void create(Long userId, Address newAddress);
+    void delete(Long addressId);
+    void update(Long addressId, Address updatedAddress);
 }

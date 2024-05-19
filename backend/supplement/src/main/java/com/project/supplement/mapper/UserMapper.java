@@ -3,11 +3,14 @@ package com.project.supplement.mapper;
 import com.project.supplement.dto.request.UserDTO;
 import com.project.supplement.dto.request.cartItemsDTO;
 import com.project.supplement.dto.response.productResponse;
+import com.project.supplement.entity.Address;
 import com.project.supplement.entity.User;
 import org.modelmapper.ModelMapper;
 import com.project.supplement.entity.Flavour;
 import com.project.supplement.entity.NutritionFacts;
 
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 
 public class UserMapper {
@@ -43,9 +46,13 @@ public class UserMapper {
             productResponse.setNutritionFacts(product.getNutritionFacts().stream().collect(Collectors.toMap(NutritionFacts::getNutrientName, NutritionFacts::getAmount)));
             productResponse.setCategoryName(product.getCategory().getName());
             return productResponse;
-        }).collect(Collectors.toList()));
+        }).sorted(Comparator.comparing(productResponse::getId)).collect(Collectors.toList()));
+
+        userDTO.setAddresses(user.getAddresses().stream()
+                .sorted(Comparator.comparing(Address::getId))
+                .map(address -> modelMapper.map(address, Address.class))
+                .collect(Collectors.toCollection(LinkedHashSet::new)));
 
         return userDTO;
-
     }
 }

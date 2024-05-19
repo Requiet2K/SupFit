@@ -25,7 +25,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void setAddressDefault(Long addressId) {
+    public void setDefault(Long addressId) {
         Address address = addressRepository.findById(addressId).orElseThrow(AddressNotExistsException::new);
         User user = address.getUser();
 
@@ -42,9 +42,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void createAddress(Long userId, Address newAddress) {
+    public void create(Long userId, Address newAddress) {
         User user = userRepository.findById(userId).orElseThrow(UserNotExistsException::new);
-        List<Address> userAddresses = addressRepository.findAllByUserId(user.getId());
+        Set<Address> userAddresses = addressRepository.findAllByUserId(user.getId());
         if(userAddresses.isEmpty()){
             newAddress.setDefault(true);
         }
@@ -53,12 +53,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void deleteAddress(Long addressId) {
+    public void delete(Long addressId) {
         Optional<Address> address = addressRepository.findById(addressId);
         if(address.isPresent()){
-            List<Address> userAddresses = addressRepository.findAllByUserId(address.get().getUser().getId());
+            Set<Address> userAddresses = addressRepository.findAllByUserId(address.get().getUser().getId());
             Address removingAddress = address.get();
-            if(!userAddresses.isEmpty()){
+            if(!userAddresses.isEmpty() && address.get().isDefault()){
                 for(Address a : userAddresses){
                     if(!a.equals(removingAddress)){
                         a.setDefault(true);
@@ -67,26 +67,14 @@ public class AddressServiceImpl implements AddressService {
                     }
                 }
             }
+            addressRepository.delete(address.get());
+        }else{
+            throw new AddressNotExistsException();
         }
-        address.ifPresentOrElse(addressRepository::delete,
-                AddressNotExistsException::new
-        );
     }
 
     @Override
-    public List<Address> getAddresses(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(UserNotExistsException::new);
-        return addressRepository.findAllByUserId(userId);
-    }
-
-    @Override
-    public Address getAddress(Long addressId) {
-        return addressRepository.findById(addressId)
-                .orElseThrow(AddressNotExistsException::new);
-    }
-
-    @Override
-    public void updateAddress(Long addressId, Address updatedAddress) {
+    public void update(Long addressId, Address updatedAddress) {
         Optional<Address> currentAddress = addressRepository.findById(addressId);
 
         currentAddress.ifPresentOrElse((address -> {

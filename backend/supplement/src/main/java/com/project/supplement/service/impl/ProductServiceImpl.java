@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public void createProduct(productDTO productRequest) {
+    public void create(productDTO productRequest) {
 
         Category category = categoryRepository.findById(productRequest.getCategoryId())
                 .orElseThrow(InvalidCategoryIdException::new);
@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService{
         productRepository.save(product);
     }
 
-    public List<productResponse> getProductsByCategory(Long categoryId){
+    public List<productResponse> findByCategoryId(Long categoryId){
 
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(InvalidCategoryIdException::new);
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService{
                 .collect(Collectors.toList());
     }
 
-    public List<String> getAllProductsName(){
+    public List<String> getAllNames(){
         List<Product> products = productRepository.findAll();
         return products.stream()
                 .map(Product::getName)
@@ -114,14 +114,14 @@ public class ProductServiceImpl implements ProductService{
                 });
     }
 
-    public void deleteProduct(Long productId){
+    public void delete(Long productId){
         Optional<Product> product = productRepository.findById(productId);
         product.ifPresentOrElse(productRepository::delete,
                 ProductNotExistsException::new
         );
     }
 
-    public productResponse getProductById(Long productId){
+    public productResponse findById(Long productId){
         Optional<Product> product = productRepository.findById(productId);
         if(product.isPresent()){
             return productMapper.toProductResponse(product.get());
@@ -132,7 +132,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<productResponse> getProductsByInput(String input) {
+    public List<productResponse> findByInput(String input) {
         List<Product> products = productRepository.findAll();
         List<productResponse> result = new ArrayList<>();
         for(Product p : products){
