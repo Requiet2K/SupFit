@@ -1,11 +1,12 @@
 # SupFit
-Full-stack e-commerce site with AI chatbot using Spring, JWT, React.js, Redux, TypeScript, MySQL and various technologies..
+Full-stack e-commerce site with AI chatbot using Spring Boot, Spring AI, React.js, Redux, TypeScript, MySQL, JWT and various technologies..
 
 # IN PROGRESS... 
 
 ## Technologies
 
 - Spring Boot
+- Spring AI
 - Spring Security
 - JSON Web Token(JWT)
 - JPA(Hibernate)
