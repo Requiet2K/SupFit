@@ -1,5 +1,7 @@
 package com.project.supplement.service.impl;
 
+import com.project.supplement.exception.custom_exceptions.InvalidIdException;
+import com.project.supplement.exception.custom_exceptions.NotExistsException;
 import com.project.supplement.helper.ImagePngHelper;
 import com.project.supplement.mapper.ProductMapper;
 import com.project.supplement.dto.request.productDTO;
@@ -7,9 +9,6 @@ import com.project.supplement.dto.response.productResponse;
 import com.project.supplement.entity.Category;
 import com.project.supplement.entity.Flavour;
 import com.project.supplement.entity.Product;
-import com.project.supplement.exception.custom_exceptions.InvalidCategoryIdException;
-import com.project.supplement.exception.custom_exceptions.ProductNotExistsException;
-import com.project.supplement.helper.ImageHelper;
 import com.project.supplement.repository.CategoryRepository;
 import com.project.supplement.repository.FlavourRepository;
 import com.project.supplement.repository.ProductRepository;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -42,7 +40,7 @@ public class ProductServiceImpl implements ProductService{
     public void create(productDTO productRequest) {
 
         Category category = categoryRepository.findById(productRequest.getCategoryId())
-                .orElseThrow(InvalidCategoryIdException::new);
+                .orElseThrow(() -> new InvalidIdException("Invalid category id!" + productRequest.getCategoryId()));
 
         List<Flavour> flavours = flavourRepository.findAllById(productRequest.getFlavourIds());
 
@@ -59,7 +57,7 @@ public class ProductServiceImpl implements ProductService{
     public List<productResponse> findByCategoryId(Long categoryId){
 
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(InvalidCategoryIdException::new);
+                .orElseThrow(() -> new InvalidIdException("Invalid category id!" + categoryId));
 
         List<Product> products;
 
@@ -93,7 +91,7 @@ public class ProductServiceImpl implements ProductService{
         }
 
         Product productOptional = productRepository.findByName(output)
-                .orElseThrow(ProductNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("Product not exists!"));
 
         return productMapper.toProductResponse(productOptional);
     }
@@ -114,19 +112,20 @@ public class ProductServiceImpl implements ProductService{
                 });
     }
 
-    public void delete(Long productId){
+    public void delete(Long productId) {
         Optional<Product> product = productRepository.findById(productId);
-        product.ifPresentOrElse(productRepository::delete,
-                ProductNotExistsException::new
-        );
+        product.ifPresentOrElse(productRepository::delete, () -> {
+            throw new NotExistsException("Product not exists! " + productId);
+        });
     }
+
 
     public productResponse findById(Long productId){
         Optional<Product> product = productRepository.findById(productId);
         if(product.isPresent()){
             return productMapper.toProductResponse(product.get());
         }else{
-            throw new ProductNotExistsException();
+            throw new NotExistsException("Product not exists! "+productId);
         }
 
     }

@@ -167,7 +167,7 @@ export const ForgetPassword: React.FC<Props> = ({ onCancel }) => {
         try{
             await newPasswordMut({
               id: userId,
-              newPass: formikForgetNewPass.values.newPassword
+              newPassword: formikForgetNewPass.values.newPassword
             }).unwrap();
             onCancel();
             showSuccessModal("Successfully changed!", "Your new password has been changed.");

@@ -1,5 +1,6 @@
 package com.project.supplement.service.impl;
 
+import com.project.supplement.exception.custom_exceptions.NotExistsException;
 import com.project.supplement.mapper.UserMapper;
 import com.project.supplement.dto.request.UserDTO;
 import com.project.supplement.dto.request.changePasswordDTO;
@@ -7,14 +8,11 @@ import com.project.supplement.dto.request.updateUserDTO;
 import com.project.supplement.entity.Product;
 import com.project.supplement.entity.User;
 import com.project.supplement.exception.custom_exceptions.PasswordIncorrectException;
-import com.project.supplement.exception.custom_exceptions.ProductNotExistsException;
-import com.project.supplement.exception.custom_exceptions.UserNotExistsException;
 import com.project.supplement.repository.ProductRepository;
 import com.project.supplement.repository.UserRepository;
 import com.project.supplement.security.auth.AuthResponse;
 import com.project.supplement.security.config.JwtService;
 import com.project.supplement.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,21 +41,21 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(userMapper::toUserDTO)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!"));
     }
 
 
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!"));
     }
 
     @Override
     public UserDTO getUserById(Long theUserId){
         return userRepository.findById(theUserId)
                 .map(userMapper::toUserDTO)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!"));
     }
 
     @Override
@@ -70,14 +68,14 @@ public class UserServiceImpl implements UserService {
                     userRepository.save(foundUser);
                     return userMapper.toUserDTO(foundUser);
                 })
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!"));
     }
 
     @Override
     public AuthResponse updateUserPassword(Long userId, changePasswordDTO changePasswordRequest){
 
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!"));
 
         if (!passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
             throw new PasswordIncorrectException();
@@ -98,7 +96,7 @@ public class UserServiceImpl implements UserService {
     public AuthResponse updateTokenValidation(Long userId, Long tokenValidation) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!"));
         user.setTokenValidation(tokenValidation);
         userRepository.save(user);
 
@@ -111,28 +109,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long getUserTokenValidation(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!"));
         return user.getTokenValidation();
     }
 
     @Override
     public Long findUserIdByEmail(String email) {
         User user = userRepository.findUserByEmail(email)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!"));
         return user.getId();
     }
 
     @Override
-    public void changeUserPassword(Long userId, String newPasswordRequest) {
+    public void changeUserPassword(Long userId, String newPassword) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
-        // for delete the quotes
-        String convertedPass = newPasswordRequest.substring(1, newPasswordRequest.length() - 1);
+                .orElseThrow(() -> new NotExistsException("User not exists!"));
 
-        String newPassword = passwordEncoder.encode(convertedPass);
-        user.setPassword(newPassword);
-        System.out.println(convertedPass);
+        String newPass = passwordEncoder.encode(newPassword);
+        user.setPassword(newPass);
+        System.out.println(newPassword);
         userRepository.save(user);
     }
 
@@ -141,7 +137,7 @@ public class UserServiceImpl implements UserService {
         userRepository.findById(userId)
                 .ifPresent(user -> {
                     Product product = productRepository.findById(productId)
-                            .orElseThrow(ProductNotExistsException::new);
+                            .orElseThrow(() -> new NotExistsException("Product not exists!"));
                     user.getFavorites().add(product);
                     userRepository.save(user);
                 });
@@ -152,7 +148,7 @@ public class UserServiceImpl implements UserService {
         userRepository.findById(userId)
                 .ifPresent(user -> {
                     Product product = productRepository.findById(productId)
-                            .orElseThrow(ProductNotExistsException::new);
+                            .orElseThrow(() -> new NotExistsException("Product not exists!"));
                     user.getFavorites().remove(product);
                     userRepository.save(user);
                 });

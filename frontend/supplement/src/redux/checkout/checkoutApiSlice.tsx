@@ -5,29 +5,29 @@ export const checkoutApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getCurrentOrders: builder.query({
             query: id => {
-                return `/checkouts/getCurrentOrders/${id}`;
+                return `/checkouts/currentOrders/${id}`;
             }
         }),
         getPastOrders: builder.query({
             query: id => {
-                return `/checkouts/getPastOrders/${id}`;
+                return `/checkouts/pastOrders/${id}`;
             }
         }),
         createCheckout: builder.mutation({
             query: ({userId, products, price, addressId}: {userId: number, products: CartItem[], price: number, addressId: number}) => ({
-                url: `/checkouts/createCheckout/${userId}?price=${price}&addressId=${addressId}`,
+                url: `/checkouts/${userId}?price=${price}&addressId=${addressId}`,
                 method: 'POST',          
                 body: products
             })
         }),
         getTotalOrderOfUserCount: builder.query({
             query: id => {
-                return `/checkouts/getTotalOrderOfUserCount/${id}`;
+                return `/checkouts/totalOrder/${id}`;
             }
         }),
         isProductDelivered: builder.query({
             query: ({userId, productId}: {userId: number, productId: number}) => {
-                return `/checkouts/isProductDelivered?userId=${userId}&productId=${productId}`;
+                return `/checkouts/isDelivered?userId=${userId}&productId=${productId}`;
             }
         }),
         bestSellers: builder.query({

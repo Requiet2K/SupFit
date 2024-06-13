@@ -16,7 +16,7 @@ public class CartController {
 
     private final CartService cartService;
 
-    @GetMapping("/getItems/{userId}")
+    @GetMapping("/{userId}")
     public List<cartItemsDTO> getItems(@PathVariable Long userId) {
         return cartService.getCartItems(userId);
     }

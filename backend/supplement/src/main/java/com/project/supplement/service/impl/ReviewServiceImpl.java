@@ -5,8 +5,7 @@ import com.project.supplement.dto.response.reviewResponse;
 import com.project.supplement.entity.Product;
 import com.project.supplement.entity.Review;
 import com.project.supplement.entity.User;
-import com.project.supplement.exception.custom_exceptions.ProductNotExistsException;
-import com.project.supplement.exception.custom_exceptions.UserNotExistsException;
+import com.project.supplement.exception.custom_exceptions.NotExistsException;
 import com.project.supplement.repository.*;
 import com.project.supplement.service.ReviewService;
 import org.springframework.data.domain.Page;
@@ -96,8 +95,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public boolean isReviewed(Long productId, Long userId) {
 
-        Product product = productRepository.findById(productId).orElseThrow(ProductNotExistsException::new);
-        User user = userRepository.findById(userId).orElseThrow(UserNotExistsException::new);
+        Product product = productRepository.findById(productId).orElseThrow(() -> new NotExistsException("Product not exists! "+productId));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User not exists! "+userId));
 
         Optional<Review> review = reviewRepository.findByProductIdAndUserId(productId, userId);
 
@@ -107,8 +106,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void create(reviewResponse reviewResponse) {
 
-        Product product = productRepository.findById(reviewResponse.getProductId()).orElseThrow(ProductNotExistsException::new);
-        User user = userRepository.findById(reviewResponse.getUserId()).orElseThrow(UserNotExistsException::new);
+        Product product = productRepository.findById(reviewResponse.getProductId()).orElseThrow(() -> new NotExistsException("Product not exists!"));
+        User user = userRepository.findById(reviewResponse.getUserId()).orElseThrow(() -> new NotExistsException("User not exists!"));
 
         Review review = new Review();
         review.setUser(user);
@@ -122,7 +121,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     public List<reviewResponse> getUserReviews(Long userId){
 
-        User user = userRepository.findById(userId).orElseThrow(UserNotExistsException::new);
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User not exists! "+userId));
         List<Review> reviews = reviewRepository.findAllByUserId(userId);
 
         List<reviewResponse> reviewReturn = new ArrayList<>();

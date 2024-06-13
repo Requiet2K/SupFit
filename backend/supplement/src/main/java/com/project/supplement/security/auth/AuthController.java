@@ -1,16 +1,12 @@
 package com.project.supplement.security.auth;
 
 import com.project.supplement.entity.User;
-import com.project.supplement.exception.custom_exceptions.UserAlreadyExistsException;
-import com.project.supplement.exception.custom_exceptions.UserNotExistsException;
+import com.project.supplement.exception.custom_exceptions.AlreadyExistsException;
 import com.project.supplement.repository.UserRepository;
 import com.project.supplement.security.config.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +30,7 @@ public class AuthController {
     ){
         Optional<User> user = userRepository.findByEmail(request.getEmail());
         if (user.isPresent()) {
-            throw new UserAlreadyExistsException();
+            throw new AlreadyExistsException("User already exists!");
         }
         return ResponseEntity.ok(authService.register(request));
     }

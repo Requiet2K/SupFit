@@ -35,7 +35,7 @@ public class CheckoutServiceImpl implements CheckoutService {
     public void createCheckout(Long userId, List<cartItemsDTO> cartItems, Long price, Long addressId) {
 
         Checkout checkout = new Checkout();
-        Address address = addressRepository.findById(addressId).orElseThrow(AddressNotExistsException::new);
+        Address address = addressRepository.findById(addressId).orElseThrow(() -> new NotExistsException("Address not exists!" + addressId));
 
         AddressDetails addressDetails = new AddressDetails(
                 address.getTitle(),
@@ -59,7 +59,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         for(cartItemsDTO c : cartItems){
 
             Product product = productRepository.findById(c.getProduct().getId())
-                    .orElseThrow(ProductNotExistsException::new);
+                    .orElseThrow(() -> new NotExistsException("Product not exists!" + c.getProduct().getId()));
 
             if(product.getQuantity() - c.getQuantity() < 0){
                 throw new StockOutException();
@@ -209,7 +209,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         for(Map.Entry<Long, Long> entry : sortedEntries){
 
             Long productId = entry.getKey();
-            Product product = productRepository.findById(productId).orElseThrow(ProductNotExistsException::new);
+            Product product = productRepository.findById(productId).orElseThrow(() -> new NotExistsException("Product not exists!" + productId));
             productResponse productResponse = productMapper.toProductResponse(product);
             products.add(productResponse);
         }

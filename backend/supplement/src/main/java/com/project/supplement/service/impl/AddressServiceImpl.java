@@ -2,14 +2,12 @@ package com.project.supplement.service.impl;
 
 import com.project.supplement.entity.Address;
 import com.project.supplement.entity.User;
-import com.project.supplement.exception.custom_exceptions.AddressNotExistsException;
-import com.project.supplement.exception.custom_exceptions.UserNotExistsException;
+import com.project.supplement.exception.custom_exceptions.NotExistsException;
 import com.project.supplement.repository.AddressRepository;
 import com.project.supplement.repository.UserRepository;
 import com.project.supplement.service.AddressService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -26,7 +24,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void setDefault(Long addressId) {
-        Address address = addressRepository.findById(addressId).orElseThrow(AddressNotExistsException::new);
+        Address address = addressRepository.findById(addressId).orElseThrow(() -> new NotExistsException("Address not exists!" + addressId));
         User user = address.getUser();
 
         Set<Address> userAddresses = user.getAddresses();
@@ -43,7 +41,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void create(Long userId, Address newAddress) {
-        User user = userRepository.findById(userId).orElseThrow(UserNotExistsException::new);
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User not exists!" + userId));
         Set<Address> userAddresses = addressRepository.findAllByUserId(user.getId());
         if(userAddresses.isEmpty()){
             newAddress.setDefault(true);
@@ -69,7 +67,7 @@ public class AddressServiceImpl implements AddressService {
             }
             addressRepository.delete(address.get());
         }else{
-            throw new AddressNotExistsException();
+            throw new NotExistsException("Address not exists!" + addressId);
         }
     }
 
@@ -77,7 +75,7 @@ public class AddressServiceImpl implements AddressService {
     public void update(Long addressId, Address updatedAddress) {
         Optional<Address> currentAddress = addressRepository.findById(addressId);
 
-        currentAddress.ifPresentOrElse((address -> {
+        currentAddress.ifPresentOrElse(address -> {
             address.setTitle(updatedAddress.getTitle());
             address.setRecipientFirstName(updatedAddress.getRecipientFirstName());
             address.setRecipientLastName(updatedAddress.getRecipientLastName());
@@ -87,8 +85,11 @@ public class AddressServiceImpl implements AddressService {
             address.setDistrict(updatedAddress.getDistrict());
             address.setAddress(updatedAddress.getAddress());
             addressRepository.save(address);
-        }),AddressNotExistsException::new);
+        }, () -> {
+            throw new NotExistsException("Address not exists! " + addressId);
+        });
     }
+
 
 
 }

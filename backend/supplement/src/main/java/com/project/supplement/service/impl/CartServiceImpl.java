@@ -3,7 +3,8 @@ package com.project.supplement.service.impl;
 import com.project.supplement.dto.request.cartItemsDTO;
 import com.project.supplement.dto.response.productResponse;
 import com.project.supplement.entity.*;
-import com.project.supplement.exception.custom_exceptions.*;
+import com.project.supplement.exception.custom_exceptions.InvalidIdException;
+import com.project.supplement.exception.custom_exceptions.NotExistsException;
 import com.project.supplement.mapper.ProductMapper;
 import com.project.supplement.repository.*;
 import com.project.supplement.service.CartService;
@@ -12,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -21,15 +20,13 @@ public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final CartItemRepository cartItemRepository;
-    private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductMapper productMapper;
 
     public CartServiceImpl(CartRepository cartRepository, CartItemRepository cartItemRepository,
-                           ProductRepository productRepository, UserRepository userRepository, ProductMapper productMapper, CategoryRepository categoryRepository) {
+                           UserRepository userRepository, ProductMapper productMapper, CategoryRepository categoryRepository) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
-        this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.productMapper = productMapper;
         this.categoryRepository = categoryRepository;
@@ -38,7 +35,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void increaseCartItem(Long userId, productResponse productResponse, int quantity) {
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!" + userId));
 
         Cart cart = user.getCart();
 
@@ -62,7 +59,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void decreaseCartItem(Long userId, productResponse productResponse, int quantity) {
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!" + userId));
 
         Cart cart = user.getCart();
 
@@ -87,7 +84,7 @@ public class CartServiceImpl implements CartService {
     public List<cartItemsDTO> getCartItems(Long userId) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!" + userId));
 
         Cart cart = user.getCart();
 
@@ -114,7 +111,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addToCart(Long userId, productResponse productResponse, int quantity) {
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!" + userId));
 
         Cart cart = user.getCart();
 
@@ -143,7 +140,7 @@ public class CartServiceImpl implements CartService {
         if (!foundInCart) {
             CartItem newCartItem = new CartItem();
             Category category = categoryRepository.findByName(productResponse.getCategoryName())
-                    .orElseThrow(InvalidCategoryIdException::new);
+                    .orElseThrow(() -> new InvalidIdException("Invalid category!" + productResponse.getCategoryName()));
             Product product = productMapper.toProductEntity(productResponse, category);
             newCartItem.setProduct(product);
             if(quantity < product.getQuantity()){
@@ -163,7 +160,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public void removeFromCart(Long userId, productResponse productResponse) {
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!" + userId));
 
         Cart cart = user.getCart();
 
@@ -185,7 +182,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public void clearCart(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!" + userId));
 
         Cart cart = user.getCart();
         cart.getItems().clear();
@@ -197,7 +194,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void handleUpdateQuantity(Long userId, productResponse productResponse, int quantity) {
         User user = userRepository.findById(userId)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new NotExistsException("User not exists!" + userId));
 
         Cart cart = user.getCart();
 

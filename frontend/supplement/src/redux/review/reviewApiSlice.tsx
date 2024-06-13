@@ -10,12 +10,12 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
         }),
         getProductReviews: builder.query({
             query: ({productId, page, size} : {productId: number, page: number, size: number}) => {
-                return `/reviews/getReviews?productId=${productId}&page=${page}&size=${size}`;
+                return `/reviews?productId=${productId}&page=${page}&size=${size}`;
             }
         }),
         getUserReviews: builder.query({
             query: userId => {
-                return `/reviews/getUserReviews/${userId}`;
+                return `/reviews/userReviews/${userId}`;
             }
         }),
         createReview: builder.mutation({
@@ -27,17 +27,17 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
         }),
         getProductTotalComments: builder.query({
             query: productId => {
-                return `/reviews/getComments/${productId}`;
+                return `/reviews/comments/${productId}`;
             }
         }),
         getProductRating: builder.query({
             query: productId => {
-                return `/reviews/getRating/${productId}`;
+                return `/reviews/rating/${productId}`;
             }
         }),
         getRatingCounts: builder.query({
             query: productId => {
-                return `/reviews/getRatingCounts/${productId}`;
+                return `/reviews/ratingCounts/${productId}`;
             }
         }),
     })

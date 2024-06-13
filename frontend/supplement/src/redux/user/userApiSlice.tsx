@@ -5,14 +5,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         updateUser: builder.mutation({
             query: ({ id, credentials }: { id: number, credentials: updateUserState }) => ({
-                url: `/user/updateUser/${id}`,
+                url: `/user/save/${id}`,
                 method: 'PUT',
                 body: {...credentials}                
             })
         }),
         updatePassword: builder.mutation({
             query: ({ id, credentials }: { id: number, credentials: changePasswordState }) => ({
-                url: `/user/updatePassword/${id}`,
+                url: `/user/changePass/${id}`,
                 method: 'PUT',
                 body: {...credentials}
             })
@@ -29,7 +29,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         }),
         updateTokenValidation: builder.mutation({
             query: ({ id, credentials }: { id: number, credentials: number }) => ({
-                url: `/user/updateTokenValidation/${id}`,
+                url: `/user/changeTokenValidation/${id}`,
                 method: 'PUT',
                 body: JSON.stringify(credentials), 
                 headers: {
@@ -43,21 +43,21 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }
         }),
         changeUserPassword: builder.mutation({
-            query: ({ id, newPass } : { id: number, newPass: string }) => ({
-                url: `user/changeUserPassword/${id}`,
+            query: ({ id, newPassword } : { id: number, newPassword: string }) => ({
+                url: `user/forgetPass/${id}`,
                 method: 'PUT',
-                body: {newPass}
+                body: newPassword
             })
         }),
         addFavoriteProduct: builder.mutation({
             query: ({ id, credentials }: { id: number, credentials: number }) => ({
-                url: `/user/addFavoriteProduct/${id}?productId=${credentials}`,
+                url: `/user/addFavs/${id}?productId=${credentials}`,
                 method: 'PUT',
             })
         }),
         removeFavoriteProduct: builder.mutation({
             query: ({ id, credentials }: { id: number, credentials: number }) => ({
-                url: `/user/removeFavoriteProduct/${id}?productId=${credentials}`,
+                url: `/user/removeFavs/${id}?productId=${credentials}`,
                 method: 'PUT',
             })
         }),

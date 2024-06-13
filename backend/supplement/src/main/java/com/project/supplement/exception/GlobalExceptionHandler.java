@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleAlreadyExists(UserAlreadyExistsException exc) {
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleAlreadyExists(AlreadyExistsException exc) {
         ErrorResponse errorResponse = new ErrorResponse();
 
         errorResponse.setStatus(HttpStatus.CONFLICT.value());
@@ -19,8 +19,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(UserNotExistsException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotExists(UserNotExistsException exc) {
+    @ExceptionHandler(NotExistsException.class)
+    public ResponseEntity<ErrorResponse> handleNotExists(NotExistsException exc) {
         ErrorResponse errorResponse = new ErrorResponse();
 
         errorResponse.setStatus(HttpStatus.CONFLICT.value());
@@ -30,85 +30,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(PasswordIncorrectException.class)
-    public ResponseEntity<ErrorResponse> handlePasswordIncorrect(PasswordIncorrectException exc) {
-        ErrorResponse errorResponse = new ErrorResponse();
-
-        errorResponse.setStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setMessage(exc.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(AddressNotExistsException.class)
-    public ResponseEntity<ErrorResponse> handleAddressNotExists(AddressNotExistsException exc) {
-        ErrorResponse errorResponse = new ErrorResponse();
-
-        errorResponse.setStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setMessage(exc.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(InvalidCategoryIdException.class)
-    public ResponseEntity<ErrorResponse> handleAddressNotExists(InvalidCategoryIdException exc) {
-        ErrorResponse errorResponse = new ErrorResponse();
-
-        errorResponse.setStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setMessage(exc.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(ProductNotExistsException.class)
-    public ResponseEntity<ErrorResponse> handleAddressNotExists(ProductNotExistsException exc) {
-        ErrorResponse errorResponse = new ErrorResponse();
-
-        errorResponse.setStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setMessage(exc.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(InvalidFlavourIdException.class)
-    public ResponseEntity<ErrorResponse> InvalidFlavourIdException(InvalidFlavourIdException exc) {
-        ErrorResponse errorResponse = new ErrorResponse();
-
-        errorResponse.setStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setMessage(exc.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(CartNotExistsException.class)
-    public ResponseEntity<ErrorResponse> CartNotExistsException(CartNotExistsException exc) {
-        ErrorResponse errorResponse = new ErrorResponse();
-
-        errorResponse.setStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setMessage(exc.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(CartItemNotExistsException.class)
-    public ResponseEntity<ErrorResponse> CartItemNotExistsException(CartItemNotExistsException exc) {
-        ErrorResponse errorResponse = new ErrorResponse();
-
-        errorResponse.setStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setMessage(exc.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(CheckoutNotExistsException.class)
-    public ResponseEntity<ErrorResponse> CheckoutNotExistsException(CheckoutNotExistsException exc) {
+    @ExceptionHandler(InvalidIdException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidId(InvalidIdException exc) {
         ErrorResponse errorResponse = new ErrorResponse();
 
         errorResponse.setStatus(HttpStatus.CONFLICT.value());
@@ -120,6 +43,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(StockOutException.class)
     public ResponseEntity<ErrorResponse> StockOutException(StockOutException exc) {
+        ErrorResponse errorResponse = new ErrorResponse();
+
+        errorResponse.setStatus(HttpStatus.CONFLICT.value());
+        errorResponse.setMessage(exc.getMessage());
+        errorResponse.setTimeStamp(System.currentTimeMillis());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(PasswordIncorrectException.class)
+    public ResponseEntity<ErrorResponse> PasswordIncorrectException(PasswordIncorrectException exc) {
         ErrorResponse errorResponse = new ErrorResponse();
 
         errorResponse.setStatus(HttpStatus.CONFLICT.value());

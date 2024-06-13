@@ -17,27 +17,27 @@ public class CheckoutController {
 
     private final CheckoutService checkoutService;
 
-    @PostMapping("/createCheckout/{userId}")
+    @PostMapping("/{userId}")
     public void createCheckout(@PathVariable Long userId, @RequestBody List<cartItemsDTO> products, @RequestParam Long price, @RequestParam Long addressId){
         checkoutService.createCheckout(userId, products, price, addressId);
     }
 
-    @GetMapping("/getCurrentOrders/{userId}")
+    @GetMapping("/currentOrders/{userId}")
     public List<checkoutResponse> getCurrentOrders(@PathVariable Long userId){
         return checkoutService.getCurrentOrders(userId);
     }
 
-    @GetMapping("/getPastOrders/{userId}")
+    @GetMapping("/pastOrders/{userId}")
     public List<checkoutResponse> getPastOrders(@PathVariable Long userId){
         return checkoutService.getPastOrders(userId);
     }
 
-    @GetMapping("/getTotalOrderOfUserCount/{userId}")
+    @GetMapping("/totalOrder/{userId}")
     public int getTotalOrderOfUserCount(@PathVariable Long userId){
         return checkoutService.getTotalOrderOfUserCount(userId);
     }
 
-    @GetMapping("/isProductDelivered")
+    @GetMapping("/isDelivered")
     public boolean isProductDelivered(@RequestParam Long userId, @RequestParam Long productId){
         return checkoutService.isProductDelivered(userId, productId);
     }

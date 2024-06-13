@@ -9,7 +9,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         }),
         getAllProductsName: builder.query({
             query: () => {
-                return `/products/getAllNames`;
+                return `/products/allNames`;
             }
         }),
         findProductByPathName: builder.query({

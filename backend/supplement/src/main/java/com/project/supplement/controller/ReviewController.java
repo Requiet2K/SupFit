@@ -24,7 +24,7 @@ public class ReviewController {
         return reviewService.isReviewed(productId, userId);
     }
 
-    @GetMapping("/getReviews")
+    @GetMapping
     public Page<reviewProductResponse> getProductReviews(@RequestParam Long productId,
                                                          @RequestParam(defaultValue = "0", required = false) int page,
                                                          @RequestParam(defaultValue = "5", required = false) int size){
@@ -32,22 +32,22 @@ public class ReviewController {
         return reviewService.getReviews(productId, pageable);
     }
 
-    @GetMapping("/getComments/{productId}")
+    @GetMapping("/comments/{productId}")
     public int getProductTotalComments(@PathVariable Long productId){
         return reviewService.getComments(productId);
     }
 
-    @GetMapping("/getRating/{productId}")
+    @GetMapping("/rating/{productId}")
     public double getRating(@PathVariable Long productId){
         return reviewService.getRating(productId);
     }
 
-    @GetMapping("/getRatingCounts/{productId}")
+    @GetMapping("/ratingCounts/{productId}")
     public Map<Integer, Integer> getRatingCounts(@PathVariable Long productId){
         return reviewService.getRatingCounts(productId);
     }
 
-    @GetMapping("/getUserReviews/{userId}")
+    @GetMapping("/userReviews/{userId}")
     public List<reviewResponse> getUserReviews(@PathVariable Long userId){
         return reviewService.getUserReviews(userId);
     }

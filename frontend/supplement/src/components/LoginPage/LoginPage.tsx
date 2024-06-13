@@ -184,7 +184,7 @@ export const LoginPage: React.FC<{signBoolean?: boolean}> = (props) => {
                 {formikSignIn.touched.signPassword && formikSignIn.errors.signPassword ? (
                     <div className='errors'>{formikSignIn.errors.signPassword}</div>
                 ) : null}
-                <button className='fpass' onClick={() => setForgotPassword(true)}>Forget Your Password?</button>
+                <button className='fpass' onClick={() => setForgotPassword(true)} type='button'>Forget Your Password?</button>
                 <button className={`loginB signButton ${((!formikSignIn.dirty) || Object.keys(formikSignIn.errors).length > 0) ? 'buttonDisable' : ""} ${isLoadingSignIn ? 'buttonSubmitting' : ''}`} disabled={(!formikSignIn.dirty) || Object.keys(formikSignIn.errors).length > 0 || isLoadingSignIn} type='submit'>
                     {isLoadingSignIn ? <ClockLoader color="#ffffff" size={18}/> : <>Login</> }
                 </button>

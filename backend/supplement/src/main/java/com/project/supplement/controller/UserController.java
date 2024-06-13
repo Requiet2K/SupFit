@@ -25,18 +25,22 @@ public class UserController {
     public UserDTO getUserId(@PathVariable Long id){
         return userService.getUserById(id);
     }
+    @GetMapping("/findUserIdByEmail/{email}")
+    public Long getUserIdByEmail(@PathVariable String email){
+        return userService.findUserIdByEmail(email);
+    }
 
-    @PutMapping("/updateUser/{id}")
+    @PutMapping("/save/{id}")
     public UserDTO updateUser(@PathVariable Long id,@RequestBody updateUserDTO updatedUserRequest){
         return userService.updateUser(id, updatedUserRequest);
     }
 
-    @PutMapping("/updatePassword/{id}")
+    @PutMapping("/changePass/{id}")
     public ResponseEntity<AuthResponse> updateUserPassword(@PathVariable Long id, @RequestBody changePasswordDTO changePasswordRequest){
         return ResponseEntity.ok(userService.updateUserPassword(id, changePasswordRequest));
     }
 
-    @PutMapping("/updateTokenValidation/{id}")
+    @PutMapping("/changeTokenValidation/{id}")
     public ResponseEntity<AuthResponse> updateTokenValidation(@PathVariable Long id, @RequestBody Long tokenValidation){
         return ResponseEntity.ok(userService.updateTokenValidation(id, tokenValidation));
     }
@@ -46,22 +50,17 @@ public class UserController {
         return userService.getUserTokenValidation(id);
     }
 
-    @GetMapping("/findUserIdByEmail/{email}")
-    public Long getUserIdByEmail(@PathVariable String email){
-        return userService.findUserIdByEmail(email);
-    }
-
-    @PutMapping("/changeUserPassword/{id}")
+    @PutMapping("/forgetPass/{id}")
     public void changeUserPassword(@PathVariable Long id, @RequestBody String newPassword){
         userService.changeUserPassword(id,newPassword);
     }
 
-    @PutMapping("/addFavoriteProduct/{userId}")
+    @PutMapping("/addFavs/{userId}")
     public void addFavoriteProduct(@PathVariable Long userId, @RequestParam Long productId){
         userService.addFavoriteProduct(userId, productId);
     }
 
-    @PutMapping("/removeFavoriteProduct/{userId}")
+    @PutMapping("/removeFavs/{userId}")
     public void removeFavoriteProduct(@PathVariable Long userId, @RequestParam Long productId){
         userService.removeFavoriteProduct(userId, productId);
     }
