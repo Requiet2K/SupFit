@@ -4,29 +4,28 @@ import com.project.supplement.entity.Category;
 import com.project.supplement.exception.custom_exceptions.InvalidIdException;
 import com.project.supplement.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryRepository categoryRepository;
 
     @GetMapping("/{categoryName}")
-    public Long findCategoryIdByName(@PathVariable String categoryName){
+    public ResponseEntity<Long> findCategoryIdByName(@PathVariable String categoryName) {
         Category category = categoryRepository.findByName(categoryName)
                 .orElseThrow(() -> new InvalidIdException("Invalid category!"));
-        return category.getId();
+        return ResponseEntity.ok(category.getId());
     }
 
     @GetMapping
-    public List<Category> findAll(){
-        return categoryRepository.findAll();
+    public ResponseEntity<List<Category>> findAll() {
+        List<Category> categories = categoryRepository.findAll();
+        return ResponseEntity.ok(categories);
     }
 }

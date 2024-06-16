@@ -20,7 +20,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         getLoggedUser: builder.query({
             query: token => {
                 const userEmail = jwtDecode(token).sub;
-                return `/user/${userEmail}`;
+                return `/api/v1/users/${userEmail}`;
             },  
         }),
     })

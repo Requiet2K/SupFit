@@ -4,27 +4,27 @@ export const productApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getProductsByCategory: builder.query({
             query: id => {
-                return `/products/findByCategoryId/${id}`;
+                return `/api/v1/products/findByCategoryId/${id}`;
             }
         }),
         getAllProductsName: builder.query({
             query: () => {
-                return `/products/allNames`;
+                return `/api/v1/products/allNames`;
             }
         }),
         findProductByPathName: builder.query({
             query: name => {
-                return `/products/findByPathName/${name}`;
+                return `/api/v1/products/findByPathName/${name}`;
             }
         }),
         getProductById: builder.query({
             query: id => {
-                return `/products/${id}`;
+                return `/api/v1/products/${id}`;
             }
         }),
         getProductsByInput: builder.query({
             query: name => {
-                return `/products/findByInput/${name}`
+                return `/api/v1/products/findByInput/${name}`
             }
         })
     })

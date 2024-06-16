@@ -23,6 +23,8 @@ import { SnackbarProvider } from 'notistack';
 import { CheckoutPage } from './components/MainPages/CheckoutPage'
 import { LoadingContext } from './context/LoadingContext'
 import LoadingScreen from './utils/LoadingScreen'
+import { Chatbox } from './components/Chatbot/Chatbox'
+import { ErrorPage } from './components/MainPages/ErrorPage'
 
 function App() {
 
@@ -111,6 +113,7 @@ function App() {
         <div className='d-flex flex-column min-vh-100'>
           {isLoadingScreen && <LoadingScreen />}
             <Navbar category={category} onCategoryChange={handleCategoryChange} categoryStateLocal={category}/>
+            <Chatbox />
             <div className='flex-grow-1 contentItems'>
             <Routes>
               <Route path='/' element={<HomePage onCategoryChange={handleCategoryChange}/>} />
@@ -142,6 +145,7 @@ function App() {
                 <Route path="/reviews" element={<Reviews />} />
                 <Route path="/faqs" element={<Faqs handleContactModal={handleContactModal}/>} />
                 <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="*" element={<ErrorPage />} />
               </Route>
             </Routes>
             </div>

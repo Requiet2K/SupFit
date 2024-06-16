@@ -75,6 +75,7 @@ export const ProductItem = ({product, productPath
       const isFavorite = user.favorites.some((favProduct) => favProduct.id === product.id);
       setFavoriteProduct(isFavorite);
     }
+    document.body.style.overflowY = "visible";
   }, [user, product, favoriteProduct]);
   
   const [addFavorites] = useAddFavoriteProductMutation();

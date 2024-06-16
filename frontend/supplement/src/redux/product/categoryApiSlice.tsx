@@ -4,7 +4,7 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         findCategoryIdByName: builder.query({
             query: name => {
-                return `/categories/${name}`;
+                return `/api/v1/categories/${name}`;
             }
         }),
     })

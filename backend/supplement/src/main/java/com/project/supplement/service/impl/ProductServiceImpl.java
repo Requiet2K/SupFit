@@ -127,7 +127,6 @@ public class ProductServiceImpl implements ProductService{
         }else{
             throw new NotExistsException("Product not exists! "+productId);
         }
-
     }
 
     @Override
@@ -142,4 +141,14 @@ public class ProductServiceImpl implements ProductService{
         }
         return result;
     }
+
+    @Override
+    public void reStock() {
+        List<Product> products = productRepository.findAll();
+        products.forEach(product -> {
+            product.setQuantity(100);
+            productRepository.save(product);
+        });
+    }
+
 }

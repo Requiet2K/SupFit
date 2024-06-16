@@ -206,7 +206,7 @@
 
 @media only screen and (max-width: 992px) {
     .addressNotEmpty{
-        height: 1350px;
+        height: auto q;
     }
     .addressEmpty{
         height: 500px;

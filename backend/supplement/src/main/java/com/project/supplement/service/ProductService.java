@@ -13,4 +13,5 @@ public interface ProductService {
     productResponse findProductByPathName(String pathName);
     productResponse findById(Long productId);
     List<productResponse> findByInput(String input);
+    void reStock();
 }
