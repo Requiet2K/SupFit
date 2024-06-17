@@ -8,6 +8,7 @@ import com.project.supplement.entity.User;
 import com.project.supplement.exception.custom_exceptions.NotExistsException;
 import com.project.supplement.repository.*;
 import com.project.supplement.service.ReviewService;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -104,6 +105,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @CacheEvict(value = { "products", "product" }, allEntries = true)
     public void create(reviewResponse reviewResponse) {
 
         Product product = productRepository.findById(reviewResponse.getProductId()).orElseThrow(() -> new NotExistsException("Product not exists!"));

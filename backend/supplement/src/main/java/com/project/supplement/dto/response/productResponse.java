@@ -2,6 +2,7 @@ package com.project.supplement.dto.response;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class productResponse {
+public class productResponse implements Serializable {
     private Long id;
     private String name;
     private String title;

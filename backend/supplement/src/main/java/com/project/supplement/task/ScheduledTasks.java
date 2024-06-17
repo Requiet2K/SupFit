@@ -4,6 +4,7 @@ import com.project.supplement.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,6 @@ public class ScheduledTasks {
     @Scheduled(cron = "0 0 0 * * ?") // runs every midnight
     public void reStock(){
         productService.reStock();
-        log.info("Products successfully re-stocked!");
+        log.info("Products successfully re-stocked and product(s) caches cleared!");
     }
-
 }

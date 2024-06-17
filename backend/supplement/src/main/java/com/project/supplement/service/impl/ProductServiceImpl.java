@@ -14,6 +14,9 @@ import com.project.supplement.repository.FlavourRepository;
 import com.project.supplement.repository.ProductRepository;
 import com.project.supplement.service.ProductService;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -37,6 +41,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    @CacheEvict(value = { "products", "product" }, allEntries = true)
     public void create(productDTO productRequest) {
 
         Category category = categoryRepository.findById(productRequest.getCategoryId())
@@ -54,6 +59,7 @@ public class ProductServiceImpl implements ProductService{
         productRepository.save(product);
     }
 
+    @Cacheable(value = "products", key = "#categoryId")
     public List<productResponse> findByCategoryId(Long categoryId){
 
         Category category = categoryRepository.findById(categoryId)
@@ -79,6 +85,7 @@ public class ProductServiceImpl implements ProductService{
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "product", key = "#pathName")
     public productResponse findProductByPathName(String pathName){
         String[] parts = pathName.split("-");
         String output = "";
@@ -112,16 +119,18 @@ public class ProductServiceImpl implements ProductService{
                 });
     }
 
+    @CacheEvict(value = { "products", "product" }, allEntries = true)
     public void delete(Long productId) {
         Optional<Product> product = productRepository.findById(productId);
+
         product.ifPresentOrElse(productRepository::delete, () -> {
             throw new NotExistsException("Product not exists! " + productId);
         });
     }
 
-
     public productResponse findById(Long productId){
         Optional<Product> product = productRepository.findById(productId);
+
         if(product.isPresent()){
             return productMapper.toProductResponse(product.get());
         }else{
@@ -143,6 +152,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    @CacheEvict(value = { "product", "products" }, allEntries = true)
     public void reStock() {
         List<Product> products = productRepository.findAll();
         products.forEach(product -> {

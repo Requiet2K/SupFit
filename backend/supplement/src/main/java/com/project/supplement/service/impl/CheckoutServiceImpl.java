@@ -9,6 +9,7 @@ import com.project.supplement.exception.custom_exceptions.*;
 import com.project.supplement.mapper.ProductMapper;
 import com.project.supplement.repository.*;
 import com.project.supplement.service.CheckoutService;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,6 +33,7 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
+    @CacheEvict(value = { "products", "product" }, allEntries = true)
     public void createCheckout(Long userId, List<cartItemsDTO> cartItems, Long price, Long addressId) {
 
         Checkout checkout = new Checkout();
