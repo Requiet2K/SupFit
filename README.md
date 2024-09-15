@@ -40,6 +40,7 @@ Users can find answers to frequently asked questions (FAQs) and ask any remainin
 - **Other:**
   - EMailJS (for email service integration)
   - External API for Turkish city/district data
+  - BlurHash (Placeholder images)
 
 ## **Features**
 - **AI Chatbot Integration**: Improve customer interaction with an AI-powered chatbot for friendly and fast support.
@@ -49,7 +50,8 @@ Users can find answers to frequently asked questions (FAQs) and ask any remainin
 - **Secure Authentication**: User login and registration secured with JSON Web Tokens (JWT).
 - **Email Notifications**: Integrated with EMailJS for sending transactional emails for the purpose of forgotten password service.
 - **External API Integration**: Uses an external API for dynamic city and related district data within Turkey.
-
+- **BlurHash**: While products are loading, BlurHash images are shown as placeholders. BlurHash string is automatically generating at product service when product is created.
+  
 ## **Installation**
 
 ### 1. **Clone the repository:**
@@ -78,3 +80,81 @@ Users can find answers to frequently asked questions (FAQs) and ask any remainin
 - Access the app via http://localhost:3000.
 - Register an account, browse products, chat with the AI bot, and enjoy the seamless e-commerce experience.
 - Before starting, you should add some mock data for the products.
+- **You can use the JSON format below to create products after starting the project at http://localhost:8080/products using the POST method.**
+  ```
+  {
+  "name": "productName",
+    "title": "productTitle",
+    "imageUrl": "productImageCDNurl",
+    "flavourIds": [intValue, intValue, ...],  // flavor ids come from flavor table                    
+    "ingredients": ["ing1", "ing2", ...],
+    "price": bigIntPrice,
+    "weight": intWeightAsGrams,
+    "servingAmount": intValue,
+    "quantity": intValue,
+    "description": "productDesc",
+    "usageDescription": "productUsageDesc",
+    "nutritionFacts": {
+      "Energy": doubleValue,
+      "Protein": doubleValue,
+      "Carbohydrates":doubleValue,
+      "Fat": doubleValue,
+      "Sodium": doubleValue,
+      "Potassium": doubleValue,
+      "Calcium": doubleValue,
+      "Iron": doubleValue
+    },
+    "categoryId": intValue from category table
+  }
+
+  // JSON format below for creating accessory products
+
+  {
+    "name": "...",
+    "title": "...",
+    "imageUrl": "...",
+    "flavourIds": [],  // set empty
+    "ingredients": [],  // set empty
+    "price": ...,
+    "weight": ...,
+    "servingAmount": ...,
+    "quantity": ...,
+    "description": "...",
+    "usageDescription": "...",
+    "nutritionFacts": {},  // set empty
+    "categoryId": 5
+  }
+  ```
+- For database configuration, create a database named 'supplement', then run the following scripts:
+  ```
+  INSERT INTO `supplement`.`category` (`category_image`, `name`) VALUES ('yourCategoryImageUrl', 'protein');
+  INSERT INTO `supplement`.`category` (`category_image`, `name`) VALUES ('yourCategoryImageUrl', 'nutrition');
+  INSERT INTO `supplement`.`category` (`category_image`, `name`) VALUES ('yourCategoryImageUrl', 'snack');
+  INSERT INTO `supplement`.`category` (`category_image`, `name`) VALUES ('yourCategoryImageUrl', 'vitamin');
+  INSERT INTO `supplement`.`category` (`category_image`, `name`) VALUES ('yourCategoryImageUrl', 'accessory');
+  INSERT INTO `supplement`.`category` (`category_image`, `name`) VALUES ('yourCategoryImageUrl', 'all');
+  INSERT INTO `supplement`.`category` (`category_image`, `name`) VALUES ('yourCategoryImageUrl', 'packets');
+  INSERT INTO `supplement`.`category` (`category_image`, `name`) VALUES ('yourCategoryImageUrl', 'onsale');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#b2b2b2', 'unflavored');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#D61F33', 'watermelon');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#F2D00F', 'lemonade');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#E6BC79', 'biscuit');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#B64300', 'caramel');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#56321D', 'chocolate');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#F1D018', 'banana');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#BA9051', 'coconut');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#CC1E5F', 'raspberry');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#D61F33', 'strawberry');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#E96F44', 'peach');
+  INSERT INTO `supplement`.`flavour` (`color`, `name`) VALUES ('#78B747', 'apple');
+  INSERT INTO `supplement`.`coupon` (`code`, `discount`) VALUES ('50OFF', '50');
+  INSERT INTO `supplement`.`coupon` (`code`, `discount`) VALUES ('requiet2k', '20');
+  INSERT INTO `supplement`.`coupon` (`code`, `discount`) VALUES ('supmate', '75');
+  INSERT INTO `supplement`.`coupon` (`code`, `discount`) VALUES ('20OFF', '20');
+  INSERT INTO `supplement`.`coupon` (`code`, `discount`) VALUES ('supfit', '40');
+  ```
+-- To enable caching in this project, you should use Redis. I was using Redis from Docker with the following script:
+  ```
+  docker run --name supredis -p 6379:6379 --restart always -d redis
+  ```
+  **If you don't want to use this command, just ensure that your Redis instance is running on port 6379. Otherwise, go to the application.properties file and change the spring.data.redis.port.
