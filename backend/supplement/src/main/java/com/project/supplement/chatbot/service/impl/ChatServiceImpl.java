@@ -42,14 +42,13 @@ public class ChatServiceImpl implements ChatService {
         promptManagementService.addMessage(chatId, userMessage);
         Prompt prompt = new Prompt(List.of(systemMessage, userMessage));
 
-        logger.info("Sending prompt to Ollama: {}", prompt); // Log the prompt
+        logger.info("Sending prompt to Ollama: {}", prompt);
 
         return chatClient.stream(prompt)
                 .map(chatResponse -> {
-                    // Extract and clean the content
                     return (chatResponse.getResult() != null &&
                             chatResponse.getResult().getOutput() != null)
-                            ? chatResponse.getResult().getOutput().getContent() // Remove newlines
+                            ? chatResponse.getResult().getOutput().getContent()
                             : "";
                 })
                 .collectList()
@@ -57,14 +56,12 @@ public class ChatServiceImpl implements ChatService {
                     String fullContent = String.join("", contentList);
                     Generation finalGeneration = new Generation(fullContent);
 
-                    // Extract metadata directly from the Generation
                     ChatGenerationMetadata generationMetadata = finalGeneration.getMetadata();
 
-                    // Create the desired output structure
                     Map<String, Object> outputMap = new HashMap<>();
                     outputMap.put("output", finalGeneration.getOutput().getContent());
 
-                    return outputMap; // Return the map containing both output and metadata
+                    return outputMap;
                 });
     }
 }
