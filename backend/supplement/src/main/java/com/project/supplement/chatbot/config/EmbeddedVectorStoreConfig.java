@@ -13,8 +13,6 @@ public class EmbeddedVectorStoreConfig {
 
     @Bean
     VectorStore vectorStore(OllamaEmbeddingModel embeddingModel) {
-        // It's like you using H2 database for your application when making some demo
-        // VectorStore is also the same case
         return new SimpleVectorStore(embeddingModel);
     }
 }
